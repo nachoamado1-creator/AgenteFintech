@@ -1,0 +1,310 @@
+{
+  "ejemplo": true,
+  "corrida": "2026-11-16",
+  "generado": "2026-11-16T11:00:00Z",
+  "totales": {
+    "noticias": 142,
+    "fuentes": 14,
+    "fuentes_fallidas": []
+  },
+  "celdas": [
+    {
+      "tema": "pagos_instantaneos",
+      "region": "AR",
+      "adopcion": 3,
+      "origen": "dato_duro",
+      "urls": [
+        "https://ejemplo.org/pagos_instantaneos-AR"
+      ]
+    },
+    {
+      "tema": "pagos_instantaneos",
+      "region": "LATAM",
+      "adopcion": 3,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/pagos_instantaneos-LATAM"
+      ]
+    },
+    {
+      "tema": "pagos_instantaneos",
+      "region": "GLOBAL",
+      "adopcion": 2,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/pagos_instantaneos-GLOBAL"
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "region": "AR",
+      "adopcion": 0,
+      "origen": "dato_duro",
+      "urls": [
+        "https://ejemplo.org/open_finance-AR"
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "region": "LATAM",
+      "adopcion": 2,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/open_finance-LATAM"
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "region": "GLOBAL",
+      "adopcion": 3,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/open_finance-GLOBAL"
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "region": "AR",
+      "adopcion": 2,
+      "origen": "dato_duro",
+      "urls": [
+        "https://ejemplo.org/stablecoins-AR"
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "region": "LATAM",
+      "adopcion": 1,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/stablecoins-LATAM"
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "region": "GLOBAL",
+      "adopcion": 1,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/stablecoins-GLOBAL"
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "region": "AR",
+      "adopcion": 1,
+      "origen": "dato_duro",
+      "urls": [
+        "https://ejemplo.org/ia_aplicada-AR"
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "region": "LATAM",
+      "adopcion": 2,
+      "origen": "estimado",
+      "urls": [
+        "https://ejemplo.org/ia_aplicada-LATAM"
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "region": "GLOBAL",
+      "adopcion": null,
+      "origen": "sin_datos",
+      "urls": []
+    }
+  ],
+  "temas": [
+    {
+      "tema": "pagos_instantaneos",
+      "brecha_regional": 0,
+      "brecha_global": 1,
+      "estado_regional": "pareja",
+      "estado_global": "adelantada",
+      "resumen": "Resumen de ejemplo del tema pagos_instantaneos.",
+      "horizonte_ar": "mediano",
+      "proveedores": "Proveedor A, Proveedor B",
+      "inversion": "Inversión de ejemplo",
+      "indicadores": [
+        "Indicador 1",
+        "Indicador 2"
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "brecha_regional": -2,
+      "brecha_global": -3,
+      "estado_regional": "atrasada",
+      "estado_global": "atrasada",
+      "resumen": "Resumen de ejemplo del tema open_finance.",
+      "horizonte_ar": "mediano",
+      "proveedores": "Proveedor A, Proveedor B",
+      "inversion": "Inversión de ejemplo",
+      "indicadores": [
+        "Indicador 1",
+        "Indicador 2"
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "brecha_regional": 1,
+      "brecha_global": 1,
+      "estado_regional": "adelantada",
+      "estado_global": "adelantada",
+      "resumen": "Resumen de ejemplo del tema stablecoins.",
+      "horizonte_ar": "mediano",
+      "proveedores": "Proveedor A, Proveedor B",
+      "inversion": "Inversión de ejemplo",
+      "indicadores": [
+        "Indicador 1",
+        "Indicador 2"
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "brecha_regional": -1,
+      "brecha_global": null,
+      "estado_regional": "atrasada",
+      "estado_global": null,
+      "resumen": "Resumen de ejemplo del tema ia_aplicada.",
+      "horizonte_ar": "mediano",
+      "proveedores": "Proveedor A, Proveedor B",
+      "inversion": "Inversión de ejemplo",
+      "indicadores": [
+        "Indicador 1",
+        "Indicador 2"
+      ]
+    }
+  ],
+  "tendencias": [
+    {
+      "tema": "pagos_instantaneos",
+      "nombre": "Tendencia corta de pagos_instantaneos",
+      "horizonte_ar": "corto",
+      "capacidad": "ambas",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/pagos_instantaneos-1",
+          "fuente": "iProUP",
+          "fecha": "2026-11-02",
+          "cita": "cita de ejemplo"
+        }
+      ]
+    },
+    {
+      "tema": "pagos_instantaneos",
+      "nombre": "Tendencia larga de pagos_instantaneos",
+      "horizonte_ar": "largo",
+      "capacidad": "grande",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/pagos_instantaneos-2",
+          "fuente": "BIS",
+          "fecha": "2026-10-20"
+        }
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "nombre": "Tendencia corta de open_finance",
+      "horizonte_ar": "corto",
+      "capacidad": "ambas",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/open_finance-1",
+          "fuente": "iProUP",
+          "fecha": "2026-11-02",
+          "cita": "cita de ejemplo"
+        }
+      ]
+    },
+    {
+      "tema": "open_finance",
+      "nombre": "Tendencia larga de open_finance",
+      "horizonte_ar": "largo",
+      "capacidad": "grande",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/open_finance-2",
+          "fuente": "BIS",
+          "fecha": "2026-10-20"
+        }
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "nombre": "Tendencia corta de stablecoins",
+      "horizonte_ar": "corto",
+      "capacidad": "ambas",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/stablecoins-1",
+          "fuente": "iProUP",
+          "fecha": "2026-11-02",
+          "cita": "cita de ejemplo"
+        }
+      ]
+    },
+    {
+      "tema": "stablecoins",
+      "nombre": "Tendencia larga de stablecoins",
+      "horizonte_ar": "largo",
+      "capacidad": "grande",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/stablecoins-2",
+          "fuente": "BIS",
+          "fecha": "2026-10-20"
+        }
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "nombre": "Tendencia corta de ia_aplicada",
+      "horizonte_ar": "corto",
+      "capacidad": "ambas",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/ia_aplicada-1",
+          "fuente": "iProUP",
+          "fecha": "2026-11-02",
+          "cita": "cita de ejemplo"
+        }
+      ]
+    },
+    {
+      "tema": "ia_aplicada",
+      "nombre": "Tendencia larga de ia_aplicada",
+      "horizonte_ar": "largo",
+      "capacidad": "grande",
+      "resumen": "Ejemplo.",
+      "fuentes": [
+        {
+          "url": "https://ejemplo.org/ia_aplicada-2",
+          "fuente": "BIS",
+          "fecha": "2026-10-20"
+        }
+      ]
+    }
+  ],
+  "referencia": [
+    {
+      "tema": "pagos_instantaneos",
+      "region": "AR",
+      "valor": "63%",
+      "que_mide": "Pagos instantáneos sobre pagos sin efectivo",
+      "anio": 2023,
+      "nivel": 3,
+      "justificacion": "Más del 50%",
+      "url": "https://www.bis.org/statistics/payment_stats/commentary2503.pdf"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://radar-fintech/contract/radar.schema.json",
+  "title": "Corrida del Radar Fintech",
+  "type": "object",
+  "required": ["corrida", "generado", "totales", "celdas", "temas", "tendencias", "referencia"],
+  "additionalProperties": false,
+  "properties": {
+    "ejemplo": { "type": "boolean" },
+    "corrida": { "type": "string", "format": "date" },
+    "generado": { "type": "string", "format": "date-time" },
+    "totales": {
+      "type": "object",
+      "required": ["noticias", "fuentes", "fuentes_fallidas"],
+      "additionalProperties": false,
+      "properties": {
+        "noticias": { "type": "integer", "minimum": 0 },
+        "fuentes": { "type": "integer", "minimum": 0 },
+        "fuentes_fallidas": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "celdas": { "type": "array", "items": { "$ref": "#/$defs/celda" } },
+    "temas": { "type": "array", "items": { "$ref": "#/$defs/tema" } },
+    "tendencias": { "type": "array", "items": { "$ref": "#/$defs/tendencia" } },
+    "referencia": { "type": "array", "items": { "$ref": "#/$defs/referencia" } }
+  },
+  "$defs": {
+    "temaId": { "type": "string", "enum": ["pagos_instantaneos", "open_finance", "stablecoins", "ia_aplicada"] },
+    "regionCelda": { "type": "string", "enum": ["AR", "LATAM", "GLOBAL"] },
+    "adopcion": { "type": ["integer", "null"], "minimum": 0, "maximum": 3 },
+    "horizonte": { "type": "string", "enum": ["corto", "mediano", "largo"] },
+    "estado": { "type": ["string", "null"], "enum": ["atrasada", "pareja", "adelantada", null] },
+    "brecha": { "type": ["integer", "null"], "minimum": -3, "maximum": 3 },
+    "url": { "type": "string", "pattern": "^https?://" },
+    "fuente": {
+      "type": "object",
+      "required": ["url", "fuente", "fecha"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "$ref": "#/$defs/url" },
+        "fuente": { "type": "string", "minLength": 1 },
+        "fecha": { "type": "string", "format": "date" },
+        "cita": { "type": "string" }
+      }
+    },
+    "celda": {
+      "type": "object",
+      "required": ["tema", "region", "adopcion", "origen", "urls"],
+      "additionalProperties": false,
+      "properties": {
+        "tema": { "$ref": "#/$defs/temaId" },
+        "region": { "$ref": "#/$defs/regionCelda" },
+        "adopcion": { "$ref": "#/$defs/adopcion" },
+        "origen": { "type": "string", "enum": ["dato_duro", "estimado", "sin_datos"] },
+        "urls": { "type": "array", "items": { "$ref": "#/$defs/url" } }
+      }
+    },
+    "tema": {
+      "type": "object",
+      "required": ["tema", "brecha_regional", "brecha_global", "estado_regional", "estado_global", "resumen", "horizonte_ar", "proveedores", "inversion", "indicadores"],
+      "additionalProperties": false,
+      "properties": {
+        "tema": { "$ref": "#/$defs/temaId" },
+        "brecha_regional": { "$ref": "#/$defs/brecha" },
+        "brecha_global": { "$ref": "#/$defs/brecha" },
+        "estado_regional": { "$ref": "#/$defs/estado" },
+        "estado_global": { "$ref": "#/$defs/estado" },
+        "resumen": { "type": "string" },
+        "horizonte_ar": { "$ref": "#/$defs/horizonte" },
+        "proveedores": { "type": "string" },
+        "inversion": { "type": "string" },
+        "indicadores": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "tendencia": {
+      "type": "object",
+      "required": ["tema", "nombre", "horizonte_ar", "capacidad", "resumen", "fuentes"],
+      "additionalProperties": false,
+      "properties": {
+        "tema": { "$ref": "#/$defs/temaId" },
+        "nombre": { "type": "string", "minLength": 1 },
+        "horizonte_ar": { "$ref": "#/$defs/horizonte" },
+        "capacidad": { "type": "string", "enum": ["grande", "chica", "ambas"] },
+        "resumen": { "type": "string" },
+        "fuentes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fuente" } }
+      }
+    },
+    "referencia": {
+      "type": "object",
+      "required": ["tema", "region", "valor", "que_mide", "anio", "nivel", "justificacion", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "tema": { "$ref": "#/$defs/temaId" },
+        "region": { "type": "string", "enum": ["AR", "BR", "MX", "US", "EU"] },
+        "valor": { "type": "string" },
+        "que_mide": { "type": "string" },
+        "anio": { "type": "integer" },
+        "nivel": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "justificacion": { "type": "string" },
+        "url": { "$ref": "#/$defs/url" }
+      }
+    }
+  }
+}
