@@ -45,6 +45,11 @@ describe('contrato Corrida', () => {
     expect(validar(datos)).toBe(false);
   });
 
+  it('the dashboard copy of the schema is identical to the contract', () => {
+    const copia = readFileSync(join(aqui, '..', 'dashboard', 'data', 'radar.schema.json'), 'utf8');
+    expect(JSON.parse(copia)).toEqual(leer('radar.schema.json'));
+  });
+
   const snapshot = join(aqui, '..', 'dashboard', 'data', 'ultima-corrida.json');
   it.runIf(existsSync(snapshot))('ultima-corrida.json is valid', () => {
     const validar = validador();
