@@ -1,0 +1,135 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Radar Fintech</title><style>body{font-family:"Helvetica Neue",system-ui,sans-serif;background:#F7F6F3;color:#2F3437;margin:0 auto;padding:32px 16px;max-width:1280px}h2{font-family:Georgia,serif;font-size:28px;color:#111}.subtitle{color:#787774}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}.card{background:#fff;border:1px solid #EAEAEA;border-radius:12px;overflow:hidden}.card-image{padding:12px}.card-body{padding:4px 16px 16px}.card-body h3{color:#111}</style><script>function toggleSelect(){}</script></head><body>
+<style>
+  .rf{font-family:'Helvetica Neue','Geist Sans',system-ui,sans-serif;color:#2F3437}
+  .rf .serif{font-family:'Newsreader','Instrument Serif',Georgia,serif;letter-spacing:-0.02em;line-height:1.1}
+  .rf .mono{font-family:'JetBrains Mono','SF Mono',Consolas,monospace}
+  .rf-win{background:#FBFBFA;border:1px solid #EAEAEA;border-radius:10px;overflow:hidden;font-size:12px}
+  .rf-bar{background:#fff;border-bottom:1px solid #EAEAEA;padding:8px 12px;display:flex;gap:6px;align-items:center}
+  .rf-dot{width:8px;height:8px;border-radius:50%;background:#E3E2DE}
+  .rf-body{padding:16px}
+  .rf-h{font-size:20px;margin:0 0 2px}
+  .rf-sub{color:#787774;font-size:11px;margin-bottom:12px}
+  .rf-card{background:#fff;border:1px solid #EAEAEA;border-radius:8px;padding:12px}
+  .rf-tag{display:inline-block;border-radius:9999px;padding:2px 8px;font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .t-red{background:#FDEBEC;color:#9F2F2D}.t-blue{background:#E1F3FE;color:#1F6C9F}.t-green{background:#EDF3EC;color:#346538}.t-yel{background:#FBF3DB;color:#956400}
+  .rf-tabs{display:flex;gap:16px;border-bottom:1px solid #EAEAEA;margin-bottom:12px}
+  .rf-tabs span{padding:6px 0;color:#787774}.rf-tabs .on{color:#111;border-bottom:2px solid #111}
+  .rf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .rf-kpi b{display:block;font-size:18px;color:#111}
+  .rf-kpi small{color:#787774}
+  .rf-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EAEAEA}
+  .rf-grid{display:grid;grid-template-columns:110px repeat(3,1fr);gap:4px;font-size:11px}
+  .rf-grid .hd{color:#787774;font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+  .rf-cell{border-radius:4px;padding:6px;text-align:center}
+  .c0{background:#FDEBEC;color:#9F2F2D}.c1{background:#FBF3DB;color:#956400}.c2{background:#E1F3FE;color:#1F6C9F}.c3{background:#EDF3EC;color:#346538}
+  .rf-lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+  .rf-lane{border-top:2px solid #111;padding-top:6px}
+  .rf-lane div{background:#fff;border:1px solid #EAEAEA;border-radius:6px;padding:5px;margin-top:4px;font-size:10px}
+  .rf-side{display:grid;grid-template-columns:1.6fr 1fr;gap:10px}
+  .rf-src{font-size:10px;color:#1F6C9F;text-decoration:underline}
+  .rf-bars div{display:flex;align-items:center;gap:6px;margin:4px 0;font-size:10px}
+  .rf-bars i{display:block;height:6px;background:#111;border-radius:2px}
+  .rf-bars span{width:52px;color:#787774}
+  .rf-4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+</style>
+
+<h2>¿Cómo querés que se organice el dashboard?</h2>
+<p class="subtitle">Tres formas de ordenar las mismas tres preguntas (qué pasa hoy, qué viene, dónde están las brechas). Los números son de ejemplo. Hacé click en la que más te guste.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image rf">
+      <div class="rf-win">
+        <div class="rf-bar"><i class="rf-dot"></i><i class="rf-dot"></i><i class="rf-dot"></i></div>
+        <div class="rf-body">
+          <p class="rf-h serif">Radar Fintech · Pagos AR</p>
+          <div class="rf-sub mono">Última corrida: 13 nov 2026 · 142 fuentes</div>
+          <div class="rf-tabs"><span class="on">1. Hoy</span><span>2. Qué viene</span><span>3. Brechas</span></div>
+          <div class="rf-kpis">
+            <div class="rf-card rf-kpi"><b>63%</b><small>pagos sin efectivo que son instantáneos</small></div>
+            <div class="rf-card rf-kpi"><b>70%</b><small>adultos usó billetera (6 meses)</small></div>
+            <div class="rf-card rf-kpi"><b>8,1 M</b><small>personas con crédito fintech</small></div>
+          </div>
+          <div class="rf-card">
+            <div class="rf-row"><span>QR interoperable supera a tarjeta de débito</span><span class="rf-tag t-green">Mayoría</span></div>
+            <div class="rf-row"><span>Billeteras ofrecen dólar cripto (stablecoins)</span><span class="rf-tag t-blue">Temprana</span></div>
+            <div class="rf-row" style="border:0"><span>Scoring de crédito con IA en fintechs grandes</span><span class="rf-tag t-yel">Pilotos</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · Una pestaña por pregunta</h3>
+      <p>Igual a la consigna: "Hoy", "Qué viene" y "Brechas" en pestañas separadas. Es fácil de recorrer en el video, pero el panorama completo nunca está en una sola pantalla.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image rf">
+      <div class="rf-win">
+        <div class="rf-bar"><i class="rf-dot"></i><i class="rf-dot"></i><i class="rf-dot"></i></div>
+        <div class="rf-body">
+          <p class="rf-h serif">¿Dónde está Argentina?</p>
+          <div class="rf-sub mono">Adopción por tema y región · click en una celda para ver fuentes</div>
+          <div class="rf-side">
+            <div>
+              <div class="rf-grid">
+                <span></span><span class="hd">Argentina</span><span class="hd">Brasil/Méx</span><span class="hd">EE.UU./UE</span>
+                <span>Pagos instant.</span><span class="rf-cell c3">Mayoría</span><span class="rf-cell c3">Mayoría</span><span class="rf-cell c2">Temprana</span>
+                <span>Open finance</span><span class="rf-cell c0">Nada</span><span class="rf-cell c2">Temprana</span><span class="rf-cell c3">Mayoría</span>
+                <span>Stablecoins</span><span class="rf-cell c2">Temprana</span><span class="rf-cell c1">Pilotos</span><span class="rf-cell c1">Pilotos</span>
+                <span>IA aplicada</span><span class="rf-cell c1">Pilotos</span><span class="rf-cell c2">Temprana</span><span class="rf-cell c2">Temprana</span>
+              </div>
+              <div class="rf-lanes">
+                <div class="rf-lane"><b>Corto 0-1</b><div>QR + tarjeta de crédito</div><div>Fraude con IA</div></div>
+                <div class="rf-lane"><b>Mediano 1-3</b><div>Open finance BCRA</div><div>Stablecoins en pagos</div></div>
+                <div class="rf-lane"><b>Largo 3-10</b><div>Pagos por agentes IA</div><div>Dinero tokenizado</div></div>
+              </div>
+            </div>
+            <div class="rf-card">
+              <span class="rf-tag t-red">Atrasada</span>
+              <p style="margin:6px 0 4px;font-weight:600">Open finance</p>
+              <p style="margin:0 0 6px;color:#787774;font-size:10px">Brasil lo tiene obligatorio desde 2021; Argentina no tiene norma. Llegaría en el mediano plazo.</p>
+              <div class="rf-src">BCB · Open Finance Brasil</div>
+              <div class="rf-src">BCRA · Comunicación (ejemplo)</div>
+              <div class="rf-src">iProUP · 02/11/2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · Mapa de brechas + línea de tiempo (recomendada)</h3>
+      <p>Arriba un mapa de colores, tema por región: la brecha se ve de un vistazo. Abajo, qué llega en cada horizonte. Click en cualquier celda y se abre el detalle con fuentes al costado. Todo entra en una pantalla.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image rf">
+      <div class="rf-win">
+        <div class="rf-bar"><i class="rf-dot"></i><i class="rf-dot"></i><i class="rf-dot"></i></div>
+        <div class="rf-body">
+          <p class="rf-h serif">Cuatro temas, cuatro fichas</p>
+          <div class="rf-sub mono">Click en una ficha para ver el detalle</div>
+          <div class="rf-4">
+            <div class="rf-card"><b>Pagos instantáneos</b> <span class="rf-tag t-green">Adelantada</span>
+              <div class="rf-bars"><div><span>Argentina</span><i style="width:80%"></i></div><div><span>Brasil</span><i style="width:90%"></i></div><div><span>EE.UU./UE</span><i style="width:45%"></i></div></div></div>
+            <div class="rf-card"><b>Open finance</b> <span class="rf-tag t-red">Atrasada</span>
+              <div class="rf-bars"><div><span>Argentina</span><i style="width:8%"></i></div><div><span>Brasil</span><i style="width:60%"></i></div><div><span>EE.UU./UE</span><i style="width:75%"></i></div></div></div>
+            <div class="rf-card"><b>Stablecoins</b> <span class="rf-tag t-green">Adelantada</span>
+              <div class="rf-bars"><div><span>Argentina</span><i style="width:55%"></i></div><div><span>Brasil</span><i style="width:30%"></i></div><div><span>EE.UU./UE</span><i style="width:25%"></i></div></div></div>
+            <div class="rf-card"><b>IA aplicada</b> <span class="rf-tag t-yel">Pareja</span>
+              <div class="rf-bars"><div><span>Argentina</span><i style="width:30%"></i></div><div><span>Brasil</span><i style="width:40%"></i></div><div><span>EE.UU./UE</span><i style="width:45%"></i></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · Una ficha por tema</h3>
+      <p>Cada tema es una tarjeta con barras Argentina frente a la región y EE.UU./UE, más una etiqueta de adelantada o atrasada. Es muy fácil de leer, pero los horizontes pasan al detalle de cada ficha.</p>
+    </div>
+  </div>
+
+</div>
+</body></html>

@@ -1,0 +1,56 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Radar Fintech</title><style>body{font-family:"Helvetica Neue",system-ui,sans-serif;background:#F7F6F3;color:#2F3437;margin:0 auto;padding:32px 16px;max-width:1280px}h2{font-family:Georgia,serif;font-size:28px;color:#111}.subtitle{color:#787774}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}.card{background:#fff;border:1px solid #EAEAEA;border-radius:12px;overflow:hidden}.card-image{padding:12px}.card-body{padding:4px 16px 16px}.card-body h3{color:#111}</style><script>function toggleSelect(){}</script></head><body>
+<style>
+  .af{font-family:'Helvetica Neue',system-ui,sans-serif}
+  .af .mono{font-family:'JetBrains Mono',Consolas,monospace}
+  .af-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:16px}
+  .af-step{background:#fff;border:1px solid #EAEAEA;border-radius:10px;padding:14px;position:relative;color:#2F3437}
+  .af-step:not(:last-child)::after{content:"\2192";position:absolute;right:-12px;top:22px;color:#787774;font-size:14px}
+  .af-n{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#787774}
+  .af-step h4{margin:4px 0 6px;font-size:14px;color:#111}
+  .af-step p{margin:0;font-size:11.5px;line-height:1.5;color:#2F3437}
+  .af-tool{display:inline-block;margin-top:8px;border-radius:9999px;padding:2px 8px;font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;background:#E1F3FE;color:#1F6C9F}
+  .af-ex{margin-top:22px;background:#FBFBFA;border:1px solid #EAEAEA;border-radius:10px;padding:16px;color:#2F3437}
+  .af-ex h3{margin:0 0 10px;color:#111}
+  .af-row{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid #EAEAEA;font-size:12.5px}
+  .af-row:last-child{border:0}
+  .af-row b{color:#787774;font-weight:500}
+  .af-tag{display:inline-block;border-radius:9999px;padding:1px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .g{background:#EDF3EC;color:#346538}.y{background:#FBF3DB;color:#956400}
+</style>
+
+<div class="af">
+<h2>Cómo funciona el agente, paso por paso</h2>
+<p class="subtitle">Esto es lo que vas a ver armado en tu n8n Cloud: cada caja es un grupo de nodos. Corre solo una vez por semana, o con un botón.</p>
+
+<div class="af-steps">
+  <div class="af-step"><div class="af-n">Paso 1</div><h4>Arranca</h4>
+    <p>Se dispara solo todos los lunes, o a mano con "Execute".</p><span class="af-tool">Disparador</span></div>
+  <div class="af-step"><div class="af-n">Paso 2</div><h4>Junta noticias</h4>
+    <p>Lee los feeds de iProUP, Fintech News, LatamList, Finsiders, a16z, BIS y arXiv. Busca en la web lo que no tiene feed (Cámara Fintech, WEF, Finnovista).</p><span class="af-tool">RSS + búsqueda web</span></div>
+  <div class="af-step"><div class="af-n">Paso 3</div><h4>Filtra</h4>
+    <p>Se queda con lo de los últimos 90 días que hable de los 4 temas, y saca duplicados.</p><span class="af-tool">Filtros</span></div>
+  <div class="af-step"><div class="af-n">Paso 4</div><h4>Lee con IA</h4>
+    <p>El modelo lee cada nota y completa una ficha: tema, país, nivel de adopción, horizonte, quién lo provee, inversión, indicador. Siempre con el link.</p><span class="af-tool">Modelo de lenguaje</span></div>
+  <div class="af-step"><div class="af-n">Paso 5</div><h4>Compara</h4>
+    <p>Junta las fichas por tema y región, las cruza con los datos duros (BCRA, BIS, Pix, Findex) y calcula la brecha: atrasada, pareja o adelantada.</p><span class="af-tool">Cálculo + IA</span></div>
+  <div class="af-step"><div class="af-n">Paso 6</div><h4>Guarda</h4>
+    <p>Guarda todo en una tabla de n8n, con la fecha de la corrida para ver la evolución.</p><span class="af-tool">Tabla de datos</span></div>
+  <div class="af-step"><div class="af-n">Paso 7</div><h4>Publica</h4>
+    <p>El dashboard en Vercel lee esa tabla y muestra el mapa de brechas.</p><span class="af-tool">Dashboard</span></div>
+</div>
+
+<div class="af-ex">
+  <h3>Ejemplo: qué sale del paso 4 para una sola noticia</h3>
+  <div class="af-row"><b>Noticia</b><span>"Brasil habilita pagos Pix sin redirección dentro de apps" · Finsiders Brasil · 04/11/2026</span></div>
+  <div class="af-row"><b>Tema</b><span>Open finance</span></div>
+  <div class="af-row"><b>País / región</b><span>Brasil (región)</span></div>
+  <div class="af-row"><b>Nivel de adopción</b><span><span class="af-tag g">Adopción temprana</span></span></div>
+  <div class="af-row"><b>Horizonte para Argentina</b><span><span class="af-tag y">Mediano · 1 a 3 años</span></span></div>
+  <div class="af-row"><b>Quién lo provee</b><span>Banco Central de Brasil, Belvo, bancos grandes</span></div>
+  <div class="af-row"><b>Inversión / capacidad</b><span>Requiere APIs y certificación; viable para fintechs medianas y grandes</span></div>
+  <div class="af-row"><b>Indicador de impacto</b><span>Cantidad de pagos iniciados por terceros por mes</span></div>
+  <div class="af-row"><b>Fuente</b><span class="mono" style="color:#1F6C9F">finsidersbrasil.com.br/... (link verificable)</span></div>
+</div>
+<p class="subtitle" style="margin-top:12px">La noticia es inventada, solo para mostrar el formato.</p>
+</div>
+</body></html>
