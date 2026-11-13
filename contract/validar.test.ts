@@ -36,6 +36,15 @@ describe('contrato Corrida', () => {
     expect(validar(datos)).toBe(false);
   });
 
+  it('accepts the provisorio flag and rejects a non-boolean one', () => {
+    const validar = validador();
+    const datos = leer('ejemplo-corrida.json');
+    datos.provisorio = true;
+    expect(validar(datos)).toBe(true);
+    datos.provisorio = 'si';
+    expect(validar(datos)).toBe(false);
+  });
+
   const snapshot = join(aqui, '..', 'dashboard', 'data', 'ultima-corrida.json');
   it.runIf(existsSync(snapshot))('ultima-corrida.json is valid', () => {
     const validar = validador();
