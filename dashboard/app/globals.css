@@ -286,7 +286,6 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-auto-flow: dense;
   grid-template-areas:
-    'rot rot rot rot rot rot rot rot rot rot rot rot'
     'ten ten ten ten ten ten ten ten ten ten ten ten'
     'mun mun mun mun mun mun mun det det det det det';
   gap: var(--gap);
@@ -294,7 +293,6 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   margin: 0 auto;
   padding: 20px 16px 16px;
 }
-.rotativas { grid-area: rot; }
 .tendencias { grid-area: ten; }
 .mundo { grid-area: mun; }
 .detalle { grid-area: det; }
@@ -381,71 +379,6 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   font-size: 14px;
   text-align: center;
 }
-
-/* ── Tendencias que van pasando ────────────────────────── */
-.rotativas {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 22px 24px 24px;
-  overflow: hidden;
-}
-.rotativas__cabeza { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.rotativas__cuenta { font-size: 12px; color: var(--texto-3); font-variant-numeric: tabular-nums; }
-.rotativas__item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 108px;
-  animation: entrar-item 280ms var(--ease-out) both;
-  transition: transform 160ms var(--ease-out);
-}
-.rotativas__item:active { transform: scale(0.98); }
-@keyframes entrar-item {
-  from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
-}
-.rotativas__tema {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--violeta-claro);
-}
-.rotativas__nombre {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-.rotativas__accion {
-  margin-top: auto;
-  font-size: 12.5px;
-  color: var(--texto-3);
-  transition: color 200ms ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .rotativas__item:hover .rotativas__accion { color: var(--azul-claro); }
-}
-.rotativas__tiempo {
-  display: block;
-  height: 2px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-.rotativas__tiempo span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--azul), var(--violeta));
-  transform-origin: left center;
-  animation: tiempo 4s linear forwards;
-}
-@keyframes tiempo { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* ── Selector de edición ───────────────────────────────── */
 .selector { display: inline-flex; align-items: center; gap: 12px; }
@@ -770,7 +703,6 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   .bento {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'rot rot'
       'ten ten'
       'mun mun'
       'det det';
@@ -790,7 +722,7 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   .cabecera__aviso { text-align: center; }
   .bento {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'rot' 'ten' 'mun' 'det';
+    grid-template-areas: 'ten' 'mun' 'det';
     padding: 14px 16px 12px;
   }
   .tarjeta { padding: 20px; }
@@ -816,6 +748,4 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  /* La barra de tiempo marca el ritmo del recuadro de tendencias: conserva sus 4 s. */
-  .rotativas__tiempo span { animation-duration: 4s !important; }
 }

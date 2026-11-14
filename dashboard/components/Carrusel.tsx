@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Tendencia } from '@/lib/tipos';
-import { NOMBRE_CAPACIDAD, NOMBRE_TEMA, claveTendencia } from '@/lib/vista';
+import { NOMBRE_TEMA, claveTendencia } from '@/lib/vista';
 
 /** Fila de tendencias deslizable: con flechas, con la rueda o el dedo, y arrastrando con el mouse. */
 export default function Carrusel({
@@ -106,7 +106,6 @@ export default function Carrusel({
               </span>
               <span className="tarjeta-tendencia__nombre">{t.nombre}</span>
               <span className="tarjeta-tendencia__pie">
-                <span className="pildora">{NOMBRE_CAPACIDAD[t.capacidad]}</span>
                 <span className="texto-3">{t.fuentes.length} {t.fuentes.length === 1 ? 'fuente' : 'fuentes'}</span>
               </span>
             </button>

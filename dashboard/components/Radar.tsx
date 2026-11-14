@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Corrida, Estado, Horizonte, TemaId, Tendencia } from '@/lib/tipos';
 import type { Origen } from '@/lib/datos';
 import {
-  HORIZONTES, NOMBRE_CAPACIDAD, NOMBRE_NIVEL, NOMBRE_REGION, NOMBRE_TEMA, NOMBRE_TEMA_CORTO, TEMAS,
+  HORIZONTES, NOMBRE_NIVEL, NOMBRE_REGION, NOMBRE_TEMA, NOMBRE_TEMA_CORTO, TEMAS,
   celdaDe, claveTendencia, dominio, fechaCorta, fechaLarga, tendenciasDe, textoEstado,
 } from '@/lib/vista';
 import MapaRadar from './MapaRadar';
@@ -48,55 +48,6 @@ function Segmentado<T extends string>({
 
 function Etiqueta({ estado, brecha }: { estado: Estado; brecha: number | null }) {
   return <span className={`etiqueta etiqueta--${estado ?? 'nula'}`}>{textoEstado(estado, brecha)}</span>;
-}
-
-/** Recuadro que muestra una tendencia por vez. Avanza cuando termina la barra de tiempo (4 s). */
-function TendenciasRotativas({
-  lista, hz, onAbrir,
-}: {
-  lista: Tendencia[];
-  hz: (typeof HORIZONTES)[number];
-  onAbrir: (t: Tendencia) => void;
-}) {
-  const [i, setI] = useState(0);
-  const [pausa, setPausa] = useState(false);
-  const t = lista.length ? lista[i % lista.length] : null;
-
-  return (
-    <section
-      className="tarjeta rotativas"
-      aria-label={`Tendencias principales, ${hz.etiqueta}`}
-      onMouseEnter={() => setPausa(true)}
-      onMouseLeave={() => setPausa(false)}
-      onFocus={() => setPausa(true)}
-      onBlur={() => setPausa(false)}
-    >
-      <div className="rotativas__cabeza">
-        <span className="rotulo">Tendencias · {hz.etiqueta}</span>
-        {lista.length > 1 && <span className="rotativas__cuenta">{(i % lista.length) + 1} / {lista.length}</span>}
-      </div>
-
-      {t ? (
-        <button type="button" className="rotativas__item" key={claveTendencia(t)} onClick={() => onAbrir(t)}>
-          <span className="rotativas__tema">{NOMBRE_TEMA[t.tema]}</span>
-          <span className="rotativas__nombre">{t.nombre}</span>
-          <span className="rotativas__accion">Ver detalle</span>
-        </button>
-      ) : (
-        <p className="vacio">No hay tendencias en este horizonte.</p>
-      )}
-
-      {t && lista.length > 1 && (
-        <span className="rotativas__tiempo" aria-hidden="true">
-          <span
-            key={i}
-            style={{ animationPlayState: pausa ? 'paused' : 'running' }}
-            onAnimationEnd={() => setI((n) => (n + 1) % lista.length)}
-          />
-        </span>
-      )}
-    </section>
-  );
 }
 
 export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Origen }) {
@@ -206,9 +157,6 @@ export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Or
       </header>
 
       <main className="bento">
-        {/* Tendencias que van pasando */}
-        <TendenciasRotativas key={`${horizonte}-${corrida.corrida}`} lista={lista} hz={hz} onAbrir={abrirTendencia} />
-
         {/* Carrusel de tendencias */}
         <section className="tarjeta tendencias" aria-labelledby="t-tend">
           <div className="tarjeta__cabeza">
@@ -303,7 +251,6 @@ function Detalle({ corrida, sel, onTema }: { corrida: Corrida; sel: Seleccion; o
           <h2 className="detalle__titulo">{t.nombre}</h2>
           <div className="detalle__pildoras">
             <span className="pildora pildora--clara">{hz.largo} · {hz.etiqueta}</span>
-            <span className="pildora">{NOMBRE_CAPACIDAD[t.capacidad]}</span>
           </div>
           <p className="detalle__resumen">{t.resumen}</p>
           <h3 className="detalle__sub">Fuentes ({t.fuentes.length})</h3>

@@ -1,4 +1,4 @@
-import type { Capacidad, Celda, Corrida, Estado, Horizonte, RegionCelda, TemaId, Tendencia } from './tipos';
+import type { Celda, Corrida, Estado, Horizonte, RegionCelda, TemaId, Tendencia } from './tipos';
 
 export const NOMBRE_TEMA: Record<TemaId, string> = {
   pagos_instantaneos: 'Pagos instantáneos',
@@ -30,12 +30,6 @@ export const HORIZONTES: { id: Horizonte; etiqueta: string; largo: string }[] = 
   { id: 'mediano', etiqueta: '1 - 3 años', largo: 'Mediano plazo' },
   { id: 'largo', etiqueta: '3 - 10 años', largo: 'Largo plazo' },
 ];
-
-export const NOMBRE_CAPACIDAD: Record<Capacidad, string> = {
-  grande: 'Empresa grande',
-  chica: 'Empresa chica',
-  ambas: 'Grande o chica',
-};
 
 /** Identifica una tendencia entre ediciones (el índice cambia de una edición a otra). */
 export const claveTendencia = (t: Pick<Tendencia, 'tema' | 'nombre'>) => `${t.tema}|${t.nombre}`;
