@@ -32,3 +32,13 @@ const destino = join(raiz, 'dashboard', 'data', 'ultima-corrida.json');
 mkdirSync(dirname(destino), { recursive: true });
 writeFileSync(destino, JSON.stringify(datos, null, 2));
 console.log(`Guardado ${destino} (corrida ${datos.corrida}, ${datos.totales.noticias} noticias de ${datos.totales.fuentes} fuentes).`);
+
+// Historial de ediciones para el selector del dashboard: una por día, la más nueva primero.
+const archivoEdiciones = join(raiz, 'dashboard', 'data', 'ediciones.json');
+let ediciones = [];
+try { ediciones = JSON.parse(readFileSync(archivoEdiciones, 'utf8')); } catch { /* primera vez */ }
+ediciones = ediciones.filter((e) => e.corrida !== datos.corrida);
+ediciones.push(datos);
+ediciones.sort((a, b) => (a.corrida < b.corrida ? 1 : -1));
+writeFileSync(archivoEdiciones, JSON.stringify(ediciones, null, 2));
+console.log(`Ediciones guardadas: ${ediciones.map((e) => e.corrida).join(', ')}.`);

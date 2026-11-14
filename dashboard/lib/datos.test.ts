@@ -1,7 +1,8 @@
 // @vitest-environment node
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import ejemplo from '../../contract/ejemplo-corrida.json';
-import { obtenerCorrida } from './datos';
+import { obtenerCorrida, obtenerEdiciones, unaPorDia } from './datos';
+import type { Corrida } from './tipos';
 
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
@@ -31,5 +32,32 @@ describe('obtenerCorrida', () => {
   it('returns respaldo when RADAR_API_URL is not set', async () => {
     vi.stubEnv('RADAR_API_URL', '');
     expect((await obtenerCorrida()).origen).toBe('respaldo');
+  });
+});
+
+describe('ediciones', () => {
+  const c = (corrida: string, generado: string) => ({ ...ejemplo, corrida, generado }) as unknown as Corrida;
+
+  it('keeps one edition per day, the latest generated, newest first', () => {
+    const r = unaPorDia([c('2026-11-13', '2026-11-13T10:00:00Z'), c('2026-11-17', '2026-11-17T09:00:00Z'), c('2026-11-13', '2026-11-13T22:00:00Z')]);
+    expect(r.map((x) => x.corrida)).toEqual(['2026-11-17', '2026-11-13']);
+    expect(r[1].generado).toBe('2026-11-13T22:00:00Z');
+  });
+
+  it('adds the live run on top of the saved editions', async () => {
+    vi.stubEnv('RADAR_API_URL', 'https://n8n.test/webhook/radar-fintech');
+    const vivo = { ...ejemplo, corrida: '2099-01-01', generado: '2099-01-01T00:00:00Z' };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => vivo }));
+    const r = await obtenerEdiciones();
+    expect(r.origen).toBe('en_vivo');
+    expect(r.ediciones[0].corrida).toBe('2099-01-01');
+    expect(r.ediciones.length).toBeGreaterThan(1);
+  });
+
+  it('falls back to the saved editions when the agent fails', async () => {
+    vi.stubEnv('RADAR_API_URL', '');
+    const r = await obtenerEdiciones();
+    expect(r.origen).toBe('respaldo');
+    expect(r.ediciones.length).toBeGreaterThan(0);
   });
 });
