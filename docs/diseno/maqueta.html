@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar Fintech · Maqueta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* MAQUETA — datos ficticios. Misma forma que lib/tipos.ts (Corrida). */
+:root{
+  --bg:#FFFFFF; --fg:#111111; --fg-2:rgba(17,17,17,.62); --fg-3:rgba(17,17,17,.42);
+  --line:#D4D4D4; --ink:#232323; --on-ink:#FFFFFF; --gray:#E0E0E0; --mint:#A1FFCB; --on-mint:#111111;
+  --dot:#111111;
+  --sans:'Inter Tight',system-ui,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.25,1,.5,1);
+}
+:root[data-theme="dark"]{
+  --bg:#0E0E0E; --fg:#F2F2F2; --fg-2:rgba(242,242,242,.62); --fg-3:rgba(242,242,242,.42);
+  --line:#2A2A2A; --ink:#F2F2F2; --on-ink:#111111; --gray:#1C1C1C; --mint:#A1FFCB; --on-mint:#111111;
+  --dot:#F2F2F2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:56px}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;transition:background .4s var(--ease),color .4s var(--ease)}
+::selection{background:var(--mint);color:#111}
+button,select{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.rotulo{display:inline-flex;align-items:center;gap:8px}
+.rotulo::before{content:"";width:7px;height:7px;background:currentColor}
+.t2{color:var(--fg-2)} .t3{color:var(--fg-3)}
+
+/* Grilla de líneas finas: el fondo es la línea y las celdas tapan con el color de fondo */
+.grilla{display:grid;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.grilla>*{background:var(--bg)}
+.ink{background:var(--ink)!important;color:var(--on-ink)}
+.ink .t2{color:color-mix(in srgb,var(--on-ink) 62%,transparent)}
+.gris{background:var(--gray)!important}
+.menta{background:var(--mint)!important;color:var(--on-mint)}
+
+/* Barra */
+.barra{position:fixed;inset:0 0 auto 0;height:56px;z-index:10;display:grid;grid-template-columns:56px 1fr auto auto;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.barra>*{background:var(--bg);display:flex;align-items:center}
+.logo{justify-content:center;background:var(--ink)!important}
+.logo svg{width:26px;height:26px;stroke:var(--on-ink)}
+.nav{gap:22px;padding:0 20px;font-size:14px}
+.nav a{opacity:.75;transition:opacity .2s}.nav a:hover{opacity:1}
+.nav .marca{font-weight:600;opacity:1;margin-right:12px}
+.tema-btn{padding:0 18px;gap:8px}
+.interruptor{width:30px;height:16px;border:1.5px solid var(--fg);border-radius:9px;position:relative}
+.interruptor::after{content:"";position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:var(--fg);transition:transform .35s var(--ease)}
+[data-theme="dark"] .interruptor::after{transform:translateX(14px)}
+.edicion{background:var(--ink)!important;color:var(--on-ink);padding:0 20px;gap:14px;min-width:230px;justify-content:space-between;position:relative}
+.edicion select{position:absolute;inset:0;opacity:0;cursor:pointer}
+.edicion b{font-weight:500;font-size:14px}
+
+/* Portada */
+.portada{margin-top:56px;grid-template-columns:repeat(4,1fr);grid-template-rows:minmax(300px,46vh) auto}
+.marca-xl{grid-column:1/3;display:flex;flex-direction:column;justify-content:flex-end;padding:28px}
+.marca-xl h1{font-size:clamp(72px,13vw,210px);line-height:.82;font-weight:500;letter-spacing:-.045em}
+.marca-xl h1 span{display:block}
+.lienzo{grid-column:3/5;grid-row:1/3;position:relative;min-height:420px;overflow:hidden}
+.lienzo canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lienzo .mono{position:absolute;left:20px;bottom:18px;color:var(--fg-2)}
+.lienzo .mono.der{left:auto;right:20px}
+.celda{padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:240px}
+.portada .sub{font-size:clamp(20px,1.8vw,26px);line-height:1.15;font-weight:500;letter-spacing:-.015em}
+.vivo{display:inline-block;width:8px;height:8px;border-radius:50%;background:#16c172;margin-right:8px;box-shadow:0 0 0 0 #16c17288;animation:latido 2s infinite}
+.vivo.respaldo{background:#f5a524;box-shadow:none;animation:none}
+@keyframes latido{70%{box-shadow:0 0 0 8px #16c17200}100%{box-shadow:0 0 0 0 #16c17200}}
+
+/* Segmentado plano */
+.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid currentColor;position:relative}
+.seg button{padding:9px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;transition:color .3s var(--ease);white-space:nowrap}
+.seg .pastilla{position:absolute;top:0;bottom:0;left:0;width:calc(100%/var(--n));transform:translateX(calc(100%*var(--i)));background:currentColor;transition:transform .45s var(--ease)}
+.seg button[aria-checked="true"]{color:var(--bg)}
+
+/* Cifras */
+.cifras{grid-template-columns:repeat(4,1fr)}
+.cifra{padding:22px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+.cifra b{font-size:clamp(56px,7vw,112px);font-weight:500;letter-spacing:-.045em;line-height:.9}
+.cifra span{font-size:14px}
+
+/* Secciones */
+.seccion{grid-template-columns:repeat(12,1fr)}
+.cabeza{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);padding:28px 28px 34px;gap:20px;align-items:end}
+.cabeza h2{grid-column:1/9;font-size:clamp(48px,7.4vw,124px);line-height:.88;font-weight:500;letter-spacing:-.04em;text-transform:uppercase}
+.cabeza .lado{grid-column:9/13;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.cabeza .num{font-family:var(--mono);font-size:12px;color:var(--fg-3)}
+
+.lista{grid-column:1/8;display:flex;flex-direction:column}
+.fila{display:grid;grid-template-columns:64px 1fr auto;gap:18px;padding:22px 28px;border-top:1px solid var(--line);text-align:left;align-items:start;transition:background .3s var(--ease)}
+.fila:first-child{border-top:0}
+.fila:hover{background:var(--gray)}
+.fila[aria-pressed="true"]{background:var(--ink);color:var(--on-ink)}
+.fila[aria-pressed="true"] .t3{color:color-mix(in srgb,var(--on-ink) 50%,transparent)}
+.fila .n{font-family:var(--mono);font-size:12px;padding-top:6px}
+.fila h3{font-size:clamp(22px,2.2vw,32px);font-weight:500;letter-spacing:-.02em;line-height:1.05;hyphens:auto}
+.fila .meta{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+.fila .flecha{font-size:22px;padding-top:4px;transition:transform .3s var(--ease)}
+.fila:hover .flecha{transform:translateX(4px)}
+.vacio{padding:40px 28px;color:var(--fg-2)}
+
+.detalle{grid-column:8/13;padding:28px;position:sticky;top:56px;align-self:start}
+.seccion#tendencias{align-items:stretch}
+.edicion .t2{color:color-mix(in srgb,var(--on-ink) 60%,transparent)}
+.detalle h3{font-size:clamp(28px,2.6vw,40px);font-weight:500;letter-spacing:-.025em;line-height:1}
+.detalle p{font-size:16px;line-height:1.5;color:var(--fg-2);max-width:56ch}
+.pildoras{display:flex;gap:8px;flex-wrap:wrap}
+.pildora{border:1px solid var(--fg);padding:6px 10px}
+.pildora.llena{background:var(--mint);border-color:var(--mint);color:#111}
+.fuentes{list-style:none;border-top:1px solid var(--line)}
+.fuentes li{border-bottom:1px solid var(--line)}
+.fuentes a{display:block;padding:14px 0;transition:padding .3s var(--ease)}
+.fuentes a:hover{padding-left:8px}
+.fuentes .cab{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+.fuentes q{font-size:14px;color:var(--fg-2);line-height:1.45}
+.aparece{animation:aparece .5s var(--ease)}
+@keyframes aparece{from{opacity:0;transform:translateY(8px)}}
+
+/* Mundo */
+.medidor-c{grid-column:1/6;padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:520px}
+.lectura{display:flex;align-items:flex-end;gap:18px}
+.lectura b{font-size:clamp(120px,14vw,220px);line-height:.78;font-weight:500;letter-spacing:-.06em}
+.lectura span{font-size:20px;padding-bottom:10px}
+.medidor{width:100%;max-width:440px}
+.medidor .pista{fill:none;stroke:var(--line);stroke-width:2}
+.medidor .lleno{fill:none;stroke:var(--fg);stroke-width:14;stroke-dasharray:1;transition:stroke-dashoffset .8s var(--ease)}
+.medidor .escala line{stroke:var(--fg-3)}
+.medidor .escala text{fill:var(--fg-3);font-family:var(--mono);font-size:11px}
+.medidor .marca{transition:transform .8s var(--ease)}
+.medidor .marca rect{fill:var(--mint);stroke:var(--fg);stroke-width:1.5}
+.medidor .marca.global rect{fill:var(--bg)}
+.col-der{grid-column:6/13;display:flex;flex-direction:column}
+.region{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;padding:22px 28px;border-bottom:1px solid var(--line);align-items:center}
+.region h4{font-size:24px;font-weight:500;letter-spacing:-.02em}
+.barras{display:flex;gap:4px}
+.barras i{width:28px;height:28px;border:1px solid var(--fg)}
+.barras i.on{background:var(--fg)}
+.region.ar .barras i.on{background:var(--mint)}
+.estado{display:inline-block;padding:6px 10px;border:1px solid var(--fg)}
+.estado.adelantada{background:var(--mint);border-color:var(--mint);color:#111}
+.estado.pareja{background:var(--gray);border-color:var(--gray)}
+.estado.atrasada{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.tema-det{display:grid;grid-template-columns:1fr 1fr;flex:1}
+.tema-det>div{padding:22px 28px}
+.tema-det>div+div{border-left:1px solid var(--line)}
+.tema-det p{font-size:15px;line-height:1.5;color:var(--fg-2);margin-top:10px}
+.indic{list-style:none;margin-top:10px}
+.indic li{font-family:var(--mono);font-size:12px;padding:6px 0 6px 16px;position:relative;line-height:1.4}
+.indic li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--mint);outline:1px solid var(--fg)}
+
+/* Método */
+.metodo .paso{grid-column:span 3;padding:22px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.metodo .paso p{font-size:16px;line-height:1.4}
+
+.aviso{grid-column:1/-1;padding:12px 28px}
+.pie{display:flex;justify-content:space-between;gap:20px;padding:22px 28px;background:var(--ink);color:var(--on-ink)}
+.cinta{position:fixed;right:16px;bottom:16px;z-index:20;background:#FF4D4D;color:#fff;padding:8px 12px}
+
+@media (max-width:900px){
+  .barra{grid-template-columns:56px 1fr auto;height:auto;grid-template-rows:56px 44px}
+  .nav a:not(.marca){display:none}
+  .edicion{grid-column:1/-1;min-width:0}
+  .portada{margin-top:101px;grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .marca-xl{grid-column:1/-1;min-height:240px}
+  .lienzo{grid-column:1/-1;grid-row:auto;min-height:340px}
+  .cifras{grid-template-columns:1fr 1fr}
+  .cabeza h2,.cabeza .lado{grid-column:1/-1}
+  .lista,.detalle,.medidor-c,.col-der{grid-column:1/-1}
+  .detalle{position:static;min-height:0}
+  .metodo .paso{grid-column:span 6}
+  html{scroll-padding-top:101px}
+}
+@media (max-width:560px){
+  .portada .celda{grid-column:1/-1;min-height:0}
+  .cifra{min-height:150px}
+  .region{grid-template-columns:1fr auto}
+  .region .estado-c{grid-column:1/-1}
+  .tema-det{grid-template-columns:1fr}
+  .tema-det>div+div{border-left:0;border-top:1px solid var(--line)}
+  .metodo .paso{grid-column:1/-1;min-height:150px}
+  .fila{grid-template-columns:40px 1fr;padding:18px 16px}
+  .fila .flecha{display:none}
+  .cabeza,.detalle,.medidor-c,.region,.tema-det>div{padding-left:16px;padding-right:16px}
+  .seg button{padding:8px 9px}
+  .medidor-c{min-height:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <a class="logo" href="#inicio" aria-label="Inicio">
+    <svg viewBox="0 0 26 26" fill="none" stroke-width="1.6"><circle cx="13" cy="13" r="11"/><circle cx="13" cy="13" r="6"/><path d="M13 13 L22 6"/></svg>
+  </a>
+  <nav class="nav">
+    <a class="marca" href="#inicio">Radar Fintech</a>
+    <a href="#tendencias">Tendencias</a>
+    <a href="#mundo">Argentina vs. mundo</a>
+    <a href="#metodo">Método</a>
+  </nav>
+  <button class="tema-btn" id="tema" aria-label="Cambiar a modo oscuro"><span class="interruptor"></span></button>
+  <label class="edicion">
+    <span class="mono t2">Edición</span>
+    <b id="edicion-txt"></b>
+    <span aria-hidden="true">↓</span>
+    <select id="edicion" aria-label="Edición semanal"></select>
+  </label>
+</header>
+
+<main id="inicio">
+  <section class="grilla portada">
+    <div class="marca-xl"><h1><span>Radar</span><span>Fintech</span></h1></div>
+    <div class="lienzo" aria-hidden="true">
+      <canvas id="lienzo"></canvas>
+      <span class="mono">Barrido · <span id="barrido-n"></span> señales</span>
+      <span class="mono der">Centro = corto plazo</span>
+    </div>
+    <div class="celda">
+      <span class="mono rotulo">Estado</span>
+      <div>
+        <p class="mono" id="estado-txt"></p>
+        <p class="mono t3" style="margin-top:8px" id="generado-txt"></p>
+      </div>
+    </div>
+    <div class="celda ink">
+      <p class="sub">Pagos y billeteras en Argentina: qué pasa hoy, qué puede venir y dónde están las brechas.</p>
+      <a href="#tendencias" class="mono" style="display:flex;justify-content:space-between">Ver tendencias <span>→</span></a>
+    </div>
+  </section>
+
+  <section class="grilla cifras" aria-label="Totales de la edición">
+    <div class="cifra ink"><b id="c-noticias"></b><span>Noticias leídas esta semana</span></div>
+    <div class="cifra gris"><b id="c-fuentes"></b><span>Fuentes consultadas</span></div>
+    <div class="cifra menta"><b id="c-tendencias"></b><span>Tendencias detectadas</span></div>
+    <div class="cifra"><b>4</b><span>Temas bajo la lupa</span></div>
+  </section>
+
+  <div class="grilla" id="aviso-c" hidden><p class="aviso mono rotulo" id="aviso"></p></div>
+
+  <section class="grilla seccion" id="tendencias">
+    <div class="cabeza">
+      <h2>¿Qué puede venir?</h2>
+      <div class="lado">
+        <span class="num">01 — Tendencias</span>
+        <div class="seg" id="seg-horizonte" role="radiogroup" aria-label="Horizonte temporal"></div>
+        <p class="t2" style="font-size:15px;line-height:1.45" id="horizonte-txt"></p>
+      </div>
+    </div>
+    <div class="lista" id="lista"></div>
+    <aside class="detalle" id="detalle" aria-live="polite"></aside>
+  </section>
+
+  <section class="grilla seccion" id="mundo">
+    <div class="cabeza">
+      <h2>Argentina vs. el mundo</h2>
+      <div class="lado">
+        <span class="num">02 — ¿Qué pasa hoy?</span>
+        <div class="seg" id="seg-tema" role="radiogroup" aria-label="Tema"></div>
+      </div>
+    </div>
+    <div class="medidor-c">
+      <span class="mono rotulo" id="medidor-rotulo"></span>
+      <svg class="medidor" viewBox="0 0 320 196" role="img" id="medidor"></svg>
+      <div class="lectura" aria-live="polite"><b id="lectura-n"></b><span id="lectura-t"></span></div>
+    </div>
+    <div class="col-der">
+      <div id="regiones"></div>
+      <div class="tema-det" id="tema-det"></div>
+    </div>
+  </section>
+
+  <section class="grilla seccion metodo" id="metodo">
+    <div class="cabeza"><h2>Método</h2><div class="lado"><span class="num">03 — Cómo se arma</span></div></div>
+    <div class="paso"><span class="mono">01</span><p>Cada martes 8:00 el agente lee noticias de medios, reguladores y empresas.</p></div>
+    <div class="paso gris"><span class="mono">02</span><p>Agrupa lo que encuentra en cuatro temas y detecta tendencias nuevas.</p></div>
+    <div class="paso ink"><span class="mono">03</span><p>Compara la adopción en Argentina con Brasil, México, EE.UU. y Europa (0 a 3).</p></div>
+    <div class="paso menta"><span class="mono">04</span><p>Publica la edición semanal y guarda una copia por si la próxima falla.</p></div>
+  </section>
+</main>
+
+<footer class="pie mono"><span>Radar Fintech · Trabajo práctico</span><span id="pie-gen"></span></footer>
+<span class="cinta mono">Maqueta · datos ficticios</span>
+
+<script>
+/* ---------- Datos ficticios con la forma de Corrida (lib/tipos.ts) ---------- */
+const TEMAS=['pagos_instantaneos','open_finance','stablecoins','ia_aplicada'];
+const NOMBRE_TEMA={pagos_instantaneos:'Pagos instantáneos',open_finance:'Open finance',stablecoins:'Stablecoins',ia_aplicada:'IA aplicada'};
+const CORTO={pagos_instantaneos:'Pagos',open_finance:'Open fin.',stablecoins:'Stablecoins',ia_aplicada:'IA'};
+const REGION={AR:'Argentina',LATAM:'Brasil / México',GLOBAL:'EE.UU. / UE'};
+const NIVEL=['Nada','Pilotos','Adopción temprana','Mayoría'];
+const HZ=[{id:'corto',etiqueta:'0 - 1 año',largo:'Corto plazo'},{id:'mediano',etiqueta:'1 - 3 años',largo:'Mediano plazo'},{id:'largo',etiqueta:'3 - 10 años',largo:'Largo plazo'}];
+const CAP={grande:'Empresa grande',chica:'Empresa chica',ambas:'Grande o chica'};
+
+const f=(fuente,fecha,cita)=>({url:'#',fuente,fecha,cita});
+const base={
+  corrida:'2026-11-10',generado:'2026-11-10T08:14:00',provisorio:false,
+  totales:{noticias:1284,fuentes:46,fuentes_fallidas:[]},
+  celdas:[
+    ['pagos_instantaneos',2,3,3],['open_finance',1,2,3],['stablecoins',2,1,2],['ia_aplicada',1,2,2]
+  ].flatMap(([tema,ar,la,gl])=>[{tema,region:'AR',adopcion:ar,origen:'dato_duro'},{tema,region:'LATAM',adopcion:la,origen:'dato_duro'},{tema,region:'GLOBAL',adopcion:gl,origen:tema==='ia_aplicada'?'estimado':'dato_duro'}]),
+  temas:[
+    {tema:'pagos_instantaneos',estado_regional:'atrasada',estado_global:'atrasada',brecha_regional:-1,brecha_global:-1,horizonte_ar:'corto',
+     resumen:'Las transferencias con QR interoperable ya son masivas, pero falta un esquema único al estilo Pix con costo cero para comercios.',
+     proveedores:'Billetera Uno, Banco Delta, Red Pagar',inversion:'Alta en bancos grandes; las chicas usan proveedores de terceros.',
+     indicadores:['Comercios que aceptan QR interoperable','Comisión promedio por cobro','Transferencias diarias (millones)']},
+    {tema:'open_finance',estado_regional:'atrasada',estado_global:'atrasada',brecha_regional:-1,brecha_global:-2,horizonte_ar:'mediano',
+     resumen:'Sin regulación obligatoria todavía. Hay acuerdos bilaterales entre bancos y fintechs, pero nada estándar.',
+     proveedores:'Conecta API, Banco Delta',inversion:'Media; depende de que el regulador fije el estándar.',
+     indicadores:['Publicación de la norma del regulador','APIs abiertas activas','Usuarios que comparten datos']},
+    {tema:'stablecoins',estado_regional:'adelantada',estado_global:'pareja',brecha_regional:1,brecha_global:0,horizonte_ar:'corto',
+     resumen:'La inflación empujó el uso de dólares digitales como ahorro. Argentina está entre los países con más uso por habitante.',
+     proveedores:'Cripto Sur, Billetera Uno',inversion:'Baja barrera de entrada; las chicas pueden sumarse rápido.',
+     indicadores:['Volumen mensual en exchanges locales','Pagos con stablecoin en comercios','Cambios en la regulación cambiaria']},
+    {tema:'ia_aplicada',estado_regional:'atrasada',estado_global:'atrasada',brecha_regional:-1,brecha_global:-1,horizonte_ar:'mediano',
+     resumen:'Uso en atención al cliente y detección de fraude, todavía en pilotos fuera de los bancos más grandes.',
+     proveedores:'Banco Delta, Analítica Norte',inversion:'Alta para modelos propios; media usando servicios de terceros.',
+     indicadores:['Bancos con asistentes en producción','Fraude detectado automáticamente','Inversión anunciada en IA']}
+  ],
+  tendencias:[
+    {tema:'pagos_instantaneos',nombre:'QR interoperable con costo cero para comercios chicos',horizonte_ar:'corto',capacidad:'chica',resumen:'Varias billeteras anunciaron que dejarán de cobrar comisión a comercios con baja facturación para ganar cuota frente a los bancos.',fuentes:[f('Diario Económico','2026-11-08','Las billeteras compiten por el comercio de barrio con comisión cero.'),f('Revista Pagos','2026-11-06','El QR ya supera a la tarjeta de débito en compras chicas.')]},
+    {tema:'stablecoins',nombre:'Sueldos pagados en dólares digitales',horizonte_ar:'corto',capacidad:'ambas',resumen:'Empresas de servicios que exportan empiezan a ofrecer parte del sueldo en stablecoins a pedido del empleado.',fuentes:[f('Portal Tech','2026-11-07','Cada vez más empleados piden cobrar una parte en dólares digitales.')]},
+    {tema:'ia_aplicada',nombre:'Asistentes de IA para reclamos bancarios',horizonte_ar:'corto',capacidad:'grande',resumen:'Dos bancos grandes ya resuelven un tercio de los reclamos con asistentes automáticos.',fuentes:[f('Diario Económico','2026-11-05')]},
+    {tema:'pagos_instantaneos',nombre:'Pagos con un toque del celular entre personas',horizonte_ar:'corto',capacidad:'ambas',resumen:'Transferir acercando dos teléfonos, sin escribir alias ni CBU.',fuentes:[f('Revista Pagos','2026-11-04')]},
+    {tema:'open_finance',nombre:'Norma obligatoria de datos abiertos',horizonte_ar:'mediano',capacidad:'grande',resumen:'El regulador puso en consulta un borrador que obligaría a los bancos a compartir datos con permiso del cliente.',fuentes:[f('Boletín Regulatorio','2026-11-03','El borrador fija un plazo de 18 meses para la implementación.')]},
+    {tema:'ia_aplicada',nombre:'Crédito con scoring basado en datos alternativos',horizonte_ar:'mediano',capacidad:'chica',resumen:'Fintechs chicas usan datos de pagos de servicios para dar crédito a quienes no tienen historial bancario.',fuentes:[f('Portal Tech','2026-11-02')]},
+    {tema:'stablecoins',nombre:'Stablecoin en pesos emitida por un banco',horizonte_ar:'mediano',capacidad:'grande',resumen:'Un banco privado evalúa emitir un peso digital para pagos entre empresas.',fuentes:[f('Diario Económico','2026-10-30')]},
+    {tema:'open_finance',nombre:'Un solo lugar para ver todas tus cuentas',horizonte_ar:'largo',capacidad:'ambas',resumen:'Aplicaciones que juntan bancos, billeteras e inversiones en una sola pantalla, cuando exista la norma.',fuentes:[f('Revista Pagos','2026-10-28')]},
+    {tema:'pagos_instantaneos',nombre:'Pagos internacionales instantáneos en la región',horizonte_ar:'largo',capacidad:'grande',resumen:'Conectar los sistemas de pago instantáneo de Argentina, Brasil y Uruguay.',fuentes:[f('Boletín Regulatorio','2026-10-25')]}
+  ]
+};
+// Ediciones anteriores: copias con pequeños cambios (la del 3/11 es provisoria, para ver el aviso)
+const ediciones=[base,
+  {...base,corrida:'2026-11-03',generado:'2026-11-03T08:11:00',provisorio:true,totales:{noticias:1102,fuentes:44,fuentes_fallidas:['Revista Pagos']},tendencias:base.tendencias.slice(1,8)},
+  {...base,corrida:'2026-10-27',generado:'2026-10-27T08:09:00',totales:{noticias:978,fuentes:41,fuentes_fallidas:[]},tendencias:base.tendencias.slice(2,7)}
+];
+const origen='en_vivo';
+
+/* ---------- Estado ---------- */
+const st={ed:0,hz:'corto',tema:'pagos_instantaneos',tend:null};
+const $=id=>document.getElementById(id);
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fecha=s=>new Date(s.slice(0,10)+'T12:00');
+const fCorta=s=>{const d=fecha(s);return `${d.getDate()} ${MES[d.getMonth()]}`};
+const fLarga=s=>{const d=fecha(s);return `${d.getDate()} de ${MESL[d.getMonth()]} de ${d.getFullYear()}`};
+const clave=t=>t.tema+'|'+t.nombre;
+const corr=()=>ediciones[st.ed];
+const textoEstado=e=>e===null?'Sin datos':e==='adelantada'?'Va adelantada':e==='pareja'?'Va pareja':'Va atrasada';
+
+function seg(el,ops,val,on){
+  const i=Math.max(0,ops.findIndex(o=>o.id===val));
+  el.style.setProperty('--n',ops.length);
+  if(!el.dataset.ok){
+    el.innerHTML='<span class="pastilla"></span>'+ops.map(o=>`<button role="radio" data-id="${o.id}">${o.etiqueta}</button>`).join('');
+    el.onclick=e=>{const b=e.target.closest('button');if(b)on(b.dataset.id)};el.dataset.ok=1;
+  }
+  el.style.setProperty('--i',i);
+  el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.id===val));
+}
+
+/* ---------- Render ---------- */
+function render(){
+  const c=corr(), ultima=st.ed===0;
+  $('edicion-txt').textContent=fCorta(c.corrida)+(ultima?' · última':'');
+  $('estado-txt').innerHTML=`<span class="vivo ${ultima&&origen==='en_vivo'?'':'respaldo'}"></span>${!ultima?'Edición anterior':origen==='en_vivo'?'En vivo':'Copia guardada'}`;
+  $('generado-txt').textContent='Edición del '+fLarga(c.corrida);
+  $('pie-gen').textContent='Generado el '+fLarga(c.generado);
+  $('c-noticias').textContent=c.totales.noticias.toLocaleString('es-AR');
+  $('c-fuentes').textContent=c.totales.fuentes;
+  $('c-tendencias').textContent=c.tendencias.length;
+  $('barrido-n').textContent=c.tendencias.length;
+  const av=c.provisorio?'Resúmenes provisorios: la próxima corrida con IA los reemplaza.':(ultima&&origen==='respaldo'?'El agente no respondió; se muestra la última edición guardada.':'');
+  $('aviso-c').hidden=!av;$('aviso').textContent=av;
+  renderTendencias();renderMundo();
+  window.dispatchEvent(new Event('edicion'));
+}
+
+function renderTendencias(){
+  const c=corr(), hz=HZ.find(h=>h.id===st.hz);
+  seg($('seg-horizonte'),HZ,st.hz,v=>{st.hz=v;st.tend=null;renderTendencias()});
+  const lista=c.tendencias.filter(t=>t.horizonte_ar===st.hz);
+  $('horizonte-txt').textContent=`${lista.length} ${lista.length===1?'tendencia':'tendencias'} que podrían llegar a Argentina en ${hz.etiqueta} (${hz.largo.toLowerCase()}).`;
+  if(!st.tend||!lista.some(t=>clave(t)===st.tend)) st.tend=lista[0]?clave(lista[0]):null;
+  $('lista').innerHTML=lista.length?lista.map((t,i)=>`
+    <button class="fila" aria-pressed="${clave(t)===st.tend}" data-k="${clave(t)}">
+      <span class="n">${String(i+1).padStart(2,'0')}</span>
+      <span><h3>${t.nombre}</h3><span class="meta mono t3"><span>${NOMBRE_TEMA[t.tema]}</span><span>${CAP[t.capacidad]}</span></span></span>
+      <span class="flecha" aria-hidden="true">→</span>
+    </button>`).join(''):'<p class="vacio">No hay tendencias en este horizonte.</p>';
+  $('lista').onclick=e=>{const b=e.target.closest('.fila');if(!b)return;st.tend=b.dataset.k;renderTendencias();
+    if(matchMedia('(max-width:900px)').matches)requestAnimationFrame(()=>$('detalle').scrollIntoView({behavior:'smooth'}))};
+  const t=lista.find(x=>clave(x)===st.tend);
+  $('detalle').innerHTML=t?`<div class="aparece" style="display:flex;flex-direction:column;gap:22px">
+    <span class="mono rotulo">Tendencia · ${NOMBRE_TEMA[t.tema]}</span>
+    <h3>${t.nombre}</h3>
+    <div class="pildoras mono"><span class="pildora llena">${hz.largo} · ${hz.etiqueta}</span><span class="pildora">${CAP[t.capacidad]}</span></div>
+    <p>${t.resumen}</p>
+    <div><p class="mono t3" style="margin-bottom:10px">Fuentes (${t.fuentes.length})</p>
+    <ul class="fuentes">${t.fuentes.map(x=>`<li><a href="${x.url}"><span class="cab"><b class="mono">${x.fuente}</b><span class="mono t3">${fCorta(x.fecha)} ↗</span></span>${x.cita?`<q>${x.cita}</q>`:''}</a></li>`).join('')}</ul></div>
+  </div>`:'<p class="t2">Elegí otro horizonte para ver detalles.</p>';
+}
+
+const CX=160,CY=172,R=128;
+const pt=(n,r)=>{const a=Math.PI-(n/3)*Math.PI;return{x:CX+r*Math.cos(a),y:CY-r*Math.sin(a)}};
+const giro=n=>-90+(n/3)*180;
+function renderMundo(){
+  const c=corr(), T=c.temas.find(x=>x.tema===st.tema);
+  seg($('seg-tema'),TEMAS.map(t=>({id:t,etiqueta:CORTO[t]})),st.tema,v=>{st.tema=v;renderMundo()});
+  const celda=r=>c.celdas.find(x=>x.tema===st.tema&&x.region===r);
+  const nivel=r=>celda(r)?.adopcion??null, est=r=>celda(r)?.origen==='estimado';
+  const ar=nivel('AR'),la=nivel('LATAM'),gl=nivel('GLOBAL');
+  $('medidor-rotulo').textContent=NOMBRE_TEMA[st.tema]+' · nivel de adopción';
+  const m=$('medidor');
+  if(!m.dataset.ok){
+    const i=pt(0,R),f2=pt(3,R),arco=`M ${i.x} ${i.y} A ${R} ${R} 0 0 1 ${f2.x} ${f2.y}`;
+    m.innerHTML=`<path d="${arco}" class="pista" pathLength="1"/><path d="${arco}" class="lleno" pathLength="1" id="m-lleno"/>
+    ${[0,1,2,3].map(n=>{const a=pt(n,R-16),b=pt(n,R-26),t=pt(n,R-38);return `<g class="escala"><line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/><text x="${t.x}" y="${t.y+4}" text-anchor="${n===0?'start':n===3?'end':'middle'}">${n}</text></g>`}).join('')}
+    <g class="marca latam" id="m-la" style="transform-origin:${CX}px ${CY}px"><rect x="${CX-6}" y="${CY-R-24}" width="12" height="12"/></g>
+    <g class="marca global" id="m-gl" style="transform-origin:${CX}px ${CY}px"><rect x="${CX-6}" y="${CY-R+30}" width="12" height="12"/></g>`;
+    m.dataset.ok=1;
+  }
+  $('m-lleno').style.strokeDashoffset=1-(ar??0)/3;
+  $('m-la').style.transform=`rotate(${giro(la??0)}deg)`;
+  $('m-gl').style.transform=`rotate(${giro(gl??0)}deg)`;
+  $('lectura-n').textContent=ar??'—';$('lectura-t').textContent=ar===null?'Sin datos':NIVEL[ar];
+  const fila=(r,n,e)=>`<div class="region ${r.toLowerCase()}">
+     <div><h4>${REGION[r]}</h4><span class="mono t3">${r==='AR'?'Arco lleno':r==='LATAM'?'■ Marca exterior':'□ Marca interior'}${est(r)?' · estimado':''}</span></div>
+     <div><div class="barras">${[1,2,3].map(k=>`<i class="${n!==null&&k<=n?'on':''}"></i>`).join('')}</div><span class="mono t3" style="display:block;margin-top:8px">${n===null?'Sin datos':n+' · '+NIVEL[n]}</span></div>
+     <div class="estado-c">${e===undefined?'<span class="mono t3">Base de comparación</span>':`<span class="mono t3" style="display:block;margin-bottom:6px">Argentina</span><span class="estado mono ${e??''}">${textoEstado(e)}</span>`}</div></div>`;
+  $('regiones').innerHTML=fila('AR',ar)+fila('LATAM',la,T.estado_regional)+fila('GLOBAL',gl,T.estado_global);
+  const hz=HZ.find(h=>h.id===T.horizonte_ar);
+  $('tema-det').innerHTML=`<div class="aparece"><span class="mono rotulo">Llega en ${hz.etiqueta}</span><p>${T.resumen}</p>
+     <p><b class="mono" style="color:var(--fg)">Quiénes se mueven</b><br>${T.proveedores}</p><p><b class="mono" style="color:var(--fg)">Inversión</b><br>${T.inversion}</p></div>
+     <div class="aparece"><span class="mono rotulo">Qué mirar</span><ul class="indic">${T.indicadores.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+}
+
+/* ---------- Edición y tema ---------- */
+$('edicion').innerHTML=ediciones.map((c,n)=>`<option value="${n}">${fCorta(c.corrida)}</option>`).join('');
+$('edicion').onchange=e=>{st.ed=+e.target.value;render()};
+$('tema').onclick=()=>{const d=document.documentElement;const osc=d.dataset.theme!=='dark';d.dataset.theme=osc?'dark':'light';
+  $('tema').setAttribute('aria-label',osc?'Cambiar a modo claro':'Cambiar a modo oscuro');try{localStorage.setItem('tema',d.dataset.theme)}catch(e){}};
+try{const g=localStorage.getItem('tema');if(g)document.documentElement.dataset.theme=g}catch(e){}
+
+render();
+
+/* ---------- Lienzo de puntos: radar con barrido ---------- */
+(()=>{
+  const cv=$('lienzo'),cx=cv.getContext('2d');
+  const quieto=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,S=9,ang=0,mx=-1e3,my=-1e3,blips=[];
+  const TAU=Math.PI*2, dif=(a,b)=>((a-b)%TAU+TAU)%TAU;
+  function señales(){
+    const rad=Math.min(W,H)*.44;
+    // una señal por tendencia; corto plazo cerca del centro, largo en el borde
+    blips=corr().tendencias.map((t,i)=>({a:(i*2.399)%TAU,r:{corto:.35,mediano:.62,largo:.88}[t.horizonte_ar]*rad,v:0}));
+  }
+  function medir(){const r=cv.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);S=W<500?7:9;señales()}
+  addEventListener('resize',medir);addEventListener('edicion',señales);medir();
+  cv.parentElement.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+  cv.parentElement.addEventListener('pointerleave',()=>{mx=my=-1e3});
+  function cuadro(){
+    cx.clearRect(0,0,W,H);cx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--dot').trim();
+    const ox=W/2,oy=H/2,rad=Math.min(W,H)*.44;
+    for(const b of blips){if(dif(ang,b.a)<.06)b.v=1;else b.v*=.988}
+    const bp=blips.map(b=>[ox+Math.cos(b.a)*b.r,oy+Math.sin(b.a)*b.r,b.v]);
+    for(let y=S/2;y<H;y+=S)for(let x=S/2;x<W;x+=S){
+      const dx=x-ox,dy=y-oy,dist=Math.hypot(dx,dy);let v;
+      if(dist<rad){
+        v=Math.max(0,1-dif(ang,Math.atan2(dy,dx))/1.6)*.8*(1-dist/rad*.35); // estela del barrido
+        const anillo=dist%(rad/4);
+        if(anillo<S*.6||Math.abs(dist-rad)<S*.6)v=Math.max(v,.32);          // anillos
+        if(Math.abs(dx)<S/2||Math.abs(dy)<S/2)v=Math.max(v,.22);            // cruz
+        v=Math.max(v,.07);
+      }else v=.05+.05*Math.sin(x*.05+y*.03+ang*2);                          // ruido exterior
+      for(const [bx,by,bv] of bp){const bd=Math.hypot(x-bx,y-by);if(bd<24)v=Math.max(v,(bv*.85+.2)*(1-bd/24))}
+      const md=Math.hypot(x-mx,y-my);if(md<90)v=Math.min(1,v+(1-md/90)*.6);  // reacción al mouse
+      if(v>.04){cx.beginPath();cx.arc(x,y,Math.min(S*.48,v*S*.55),0,TAU);cx.fill()}
+    }
+  }
+  function loop(){if(!document.hidden){ang=(ang+.012)%TAU;cuadro()}requestAnimationFrame(loop)}
+  if(quieto){ang=1.2;blips.forEach(b=>b.v=.8);cuadro();new MutationObserver(cuadro).observe(document.documentElement,{attributes:true})}
+  else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
