@@ -7,7 +7,7 @@ import {
   HORIZONTES, NOMBRE_CAPACIDAD, NOMBRE_NIVEL, NOMBRE_REGION, NOMBRE_TEMA, NOMBRE_TEMA_CORTO, TEMAS,
   celdaDe, claveTendencia, dominio, fechaCorta, fechaLarga, tendenciasDe, textoEstado,
 } from '@/lib/vista';
-import Medidor from './Medidor';
+import MapaRadar from './MapaRadar';
 import Carrusel from './Carrusel';
 
 type Seleccion = { tipo: 'tema'; tema: TemaId } | { tipo: 'tendencia'; clave: string };
@@ -233,15 +233,17 @@ export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; ori
           </div>
 
           <div className="mundo__cuerpo">
-            <div className="mundo__medidor">
-              <Medidor ar={ar} latam={nivel('LATAM')} global={nivel('GLOBAL')} />
-              <div className="mundo__lectura" aria-live="polite">
-                <b key={`${tema}-${ar}`}>{ar ?? '—'}</b>
-                <span>{ar === null ? 'Sin datos' : NOMBRE_NIVEL[ar]}</span>
-              </div>
-            </div>
+            <MapaRadar
+              tendencias={corrida.tendencias}
+              horizonte={horizonte}
+              tema={tema}
+              activa={sel.tipo === 'tendencia' ? sel.clave : null}
+              onTema={cambiarTema}
+              onTendencia={abrirTendencia}
+            />
 
-            <ul className="mundo__leyenda">
+            <ul className="mundo__leyenda" aria-label={`Adopción en ${NOMBRE_TEMA[tema]}`}>
+              <li className="mundo__leyenda-titulo">{NOMBRE_TEMA[tema]} · adopción de 0 a 3</li>
               <li>
                 <span className="punto punto--ar" aria-hidden="true" />
                 <span className="mundo__region">{NOMBRE_REGION.AR}{estimado('AR') && <em> · estimado</em>}</span>
@@ -268,7 +270,7 @@ export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; ori
         </section>
 
         {/* Detalle */}
-        <Detalle corrida={corrida} sel={sel} />
+        <Detalle corrida={corrida} sel={sel} onTema={cambiarTema} />
       </main>
 
       <footer className="pie">
@@ -279,13 +281,16 @@ export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; ori
   );
 }
 
-function Detalle({ corrida, sel }: { corrida: Corrida; sel: Seleccion }) {
+function Detalle({ corrida, sel, onTema }: { corrida: Corrida; sel: Seleccion; onTema: (t: TemaId) => void }) {
   if (sel.tipo === 'tendencia') {
     const t = corrida.tendencias.find((x) => claveTendencia(x) === sel.clave);
     if (t) {
       const hz = HORIZONTES.find((h) => h.id === t.horizonte_ar)!;
       return (
         <aside id="detalle" className="tarjeta detalle" aria-live="polite" key={sel.clave}>
+          <button type="button" className="detalle__volver" onClick={() => onTema(t.tema)}>
+            ← Ver el tema {NOMBRE_TEMA[t.tema]}
+          </button>
           <p className="rotulo">Tendencia · {NOMBRE_TEMA[t.tema]}</p>
           <h2 className="detalle__titulo">{t.nombre}</h2>
           <div className="detalle__pildoras">

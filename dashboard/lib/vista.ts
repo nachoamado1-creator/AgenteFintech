@@ -79,6 +79,42 @@ export function fechaCorta(iso: string): string {
     .replace(/ de /g, ' ');
 }
 
+/** Radio medio de cada franja del radar (el centro es hoy; más afuera, más futuro). */
+export const RADIO_HORIZONTE: Record<Horizonte, number> = { corto: 56, mediano: 100, largo: 148 };
+/** Borde exterior de cada franja. */
+export const BORDE_HORIZONTE: Record<Horizonte, number> = { corto: 78, mediano: 124, largo: 172 };
+
+export interface PuntoRadar { tendencia: Tendencia; clave: string; angulo: number; x: number; y: number; tam: number }
+
+/**
+ * Ubica cada tendencia en el radar: un cuadrante por tema (en el orden de TEMAS, girando
+ * como un reloj desde arriba) y una franja por horizonte. Las de un mismo cuadrante y franja
+ * se reparten a lo ancho y se alternan un poco hacia adentro y afuera para no pisarse.
+ */
+export function puntosRadar(tendencias: Tendencia[], cx = 200, cy = 200): PuntoRadar[] {
+  const r2 = (v: number) => Math.round(v * 100) / 100;
+  const puntos: PuntoRadar[] = [];
+  TEMAS.forEach((tema, cuadrante) => {
+    HORIZONTES.forEach(({ id }) => {
+      const grupo = tendencias.filter((t) => t.tema === tema && t.horizonte_ar === id);
+      grupo.forEach((t, k) => {
+        const angulo = r2(cuadrante * 90 + (90 * (k + 1)) / (grupo.length + 1));
+        const radio = RADIO_HORIZONTE[id] + (grupo.length > 1 ? (k % 2 ? 9 : -9) : 0);
+        const rad = (angulo * Math.PI) / 180;
+        puntos.push({
+          tendencia: t,
+          clave: claveTendencia(t),
+          angulo,
+          x: r2(cx + radio * Math.sin(rad)),
+          y: r2(cy - radio * Math.cos(rad)),
+          tam: r2(4.5 + Math.min(t.fuentes.length, 10) * 0.45),
+        });
+      });
+    });
+  });
+  return puntos;
+}
+
 /**
  * Punto sobre el medidor semicircular: nivel 0 a la izquierda, nivel 3 a la derecha.
  * Devuelve coordenadas SVG (el eje y crece hacia abajo).

@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar Fintech · concepto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050a09; --bg2:#0a1311; --linea:rgba(120,255,190,.16); --linea-fuerte:rgba(120,255,190,.34);
+  --verde:#5cffb0; --verde-sombra:#1d5a42;
+  --texto:#e8f5ee; --texto2:rgba(232,245,238,.68); --texto3:rgba(232,245,238,.5);
+  --atras:#ff7a59; --adel:#59d4ff; --pareja:#9fb3aa;
+  --fs:18px; --fs2:15px;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:'Space Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg)}
+body{background:radial-gradient(1200px 800px at 55% 40%,#0c1d18 0,var(--bg) 62%) fixed;color:var(--texto);font-family:var(--sans);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+::selection{background:var(--verde);color:#02130c}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.rotulo{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--texto3)}
+
+.app{display:grid;grid-template-columns:minmax(300px,340px) minmax(0,1fr) minmax(320px,390px);gap:28px;max-width:1720px;margin:0 auto;padding:28px 28px 40px;align-items:start}
+.col-izq{display:flex;flex-direction:column;gap:22px;position:sticky;top:20px}
+h1{font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;letter-spacing:-.03em;font-weight:700}
+h1 span{color:var(--verde)}
+.sub{font-size:1.1rem;font-weight:500;margin-top:10px}
+.bajada{color:var(--texto2);font-size:.95rem;margin-top:8px;max-width:34ch}
+.edicion{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:.74rem;color:var(--texto2);margin-top:14px}
+.edicion b{color:var(--texto);font-weight:500}
+.edicion .on{display:inline-flex;align-items:center;gap:7px}
+.edicion .on::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde);box-shadow:0 0 10px var(--verde)}
+.aviso{font-family:var(--mono);font-size:.72rem;color:var(--atras);margin-top:8px}
+
+/* Horizonte */
+.pildora{position:relative;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--linea-fuerte);border-radius:999px;padding:3px;background:rgba(0,0,0,.35)}
+.pildora__fondo{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/4);border-radius:999px;background:var(--verde);transform:translateX(calc(var(--i)*100%));transition:transform .35s cubic-bezier(.25,1,.5,1)}
+.pildora button{position:relative;z-index:1;padding:8px 2px;font-family:var(--mono);font-size:.7rem;letter-spacing:.02em;color:var(--texto2);border-radius:999px;transition:color .25s;white-space:nowrap}
+.pildora button[aria-checked=true]{color:#02130c;font-weight:700}
+
+/* Lista de temas = lectura de un vistazo */
+.temas{display:flex;flex-direction:column;gap:8px}
+.tema{display:block;width:100%;text-align:left;border:1px solid var(--linea);border-radius:14px;padding:12px 14px;background:rgba(0,0,0,.28);transition:border-color .25s,background .25s,transform .25s cubic-bezier(.25,1,.5,1)}
+.tema:hover{border-color:var(--linea-fuerte);transform:translateX(3px)}
+.tema[aria-pressed=true]{border-color:var(--verde);background:rgba(92,255,176,.07)}
+.tema__nombre{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-weight:700}
+.tema__nombre small{font-family:var(--mono);font-weight:400;font-size:.68rem;color:var(--texto3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-family:var(--mono);font-size:.68rem;padding:3px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.chip i{font-style:normal;color:var(--texto3);margin-right:5px}
+.chip--atrasada{color:var(--atras)}.chip--adelantada{color:var(--adel)}.chip--pareja{color:var(--pareja)}.chip--nula{color:var(--texto3);border-style:dashed}
+
+/* Radar */
+.centro{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.titulo-radar{width:100%;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:6px}
+.titulo-radar h2{font-size:1.5rem;letter-spacing:-.02em}
+.frase{width:100%;font-size:1.05rem;color:var(--texto);border-left:2px solid var(--verde);padding:4px 0 4px 14px;min-height:3.2em}
+.frase b{font-weight:700}
+.radar{width:100%;max-width:820px;aspect-ratio:1;display:block;overflow:visible}
+.radar text{font-family:var(--mono);fill:var(--texto3);font-size:var(--fs2)}
+.radar .anillo{fill:none;stroke:var(--linea);stroke-width:1;transition:stroke .4s,opacity .4s}
+.radar .anillo.sel{stroke:var(--linea-fuerte);stroke-width:1.5}
+.radar .eje{stroke:var(--linea);stroke-width:1}
+.radar .grado{stroke:var(--linea);stroke-width:1}
+.radar .cuadrante{fill:rgba(92,255,176,0);transition:fill .35s;cursor:pointer}
+.radar .cuadrante.sel{fill:rgba(92,255,176,.055)}
+.radar .etq-tema{font-size:var(--fs);fill:var(--texto2);font-family:var(--sans);font-weight:700;cursor:pointer;transition:fill .25s}
+.radar .etq-tema.sel{fill:var(--verde)}
+.radar .etq-tema:hover{fill:var(--texto)}
+.radar .anillo-etq{font-size:var(--fs2);fill:var(--texto3);transition:opacity .4s,fill .4s}
+.radar .anillo-etq.sel{fill:var(--verde)}
+.radar .arco-base{fill:none;stroke:var(--linea-fuerte);stroke-width:2;stroke-linecap:round}
+.radar .arco-brecha{fill:none;stroke-width:5;stroke-linecap:round;opacity:.9}
+.radar .punto{cursor:pointer;transition:opacity .4s}
+.radar .punto .nucleo{fill:var(--verde);stroke:#02130c;stroke-width:2;transition:fill .2s}
+.radar .punto .halo{fill:var(--verde);opacity:.12;transition:opacity .25s}
+.radar .punto:hover .halo,.radar .punto:focus-visible .halo,.radar .punto.activo .halo{opacity:.4}
+.radar .punto.activo .nucleo{fill:#fff}
+.radar .punto.ping .onda{animation:onda 1.4s ease-out}
+.radar .onda{fill:none;stroke:var(--verde);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+@keyframes onda{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}
+.radar .punto:focus-visible{outline:none}
+.radar .punto:focus-visible .halo{opacity:.55;stroke:#fff;stroke-width:2}
+.radar .atenuado{opacity:.14;pointer-events:none}
+.radar .marca-ar{fill:#fff;stroke:#02130c;stroke-width:2}
+.radar .marca-latam{fill:#0a1311;stroke:var(--verde);stroke-width:3}
+.radar .marca-global{fill:var(--verde);stroke:#02130c;stroke-width:2}
+.radar .centro-ar{fill:#fff}
+.radar .centro-onda{fill:none;stroke:#fff;stroke-width:1.5;animation:latido 3s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes latido{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(4)}}
+.leyenda{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:.72rem;color:var(--texto2);justify-content:center}
+.leyenda span{display:inline-flex;align-items:center;gap:8px}
+.leyenda svg{width:18px;height:18px}
+.vacio-hz{font-family:var(--mono);font-size:.78rem;color:var(--texto2);border:1px dashed var(--linea-fuerte);border-radius:12px;padding:10px 16px;text-align:center;width:100%}
+
+/* Detalle */
+.detalle{border:1px solid var(--linea);border-radius:20px;background:rgba(0,0,0,.35);padding:22px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 40px);overflow:auto;position:sticky;top:20px;animation:entra .4s cubic-bezier(.25,1,.5,1)}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.detalle h2{font-size:1.5rem;line-height:1.15;letter-spacing:-.02em}
+.detalle h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--texto3);font-weight:500;margin-top:6px}
+.detalle p{color:var(--texto2);font-size:.95rem}
+.detalle dl{display:grid;gap:10px}
+.detalle dt{font-family:var(--mono);font-size:.7rem;color:var(--texto3);text-transform:uppercase;letter-spacing:.1em}
+.detalle dd{font-size:.92rem;color:var(--texto2)}
+.volver{align-self:flex-start;font-family:var(--mono);font-size:.74rem;color:var(--verde);padding:4px 0}
+.volver:hover{text-decoration:underline}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;border:1px solid var(--linea-fuerte);border-radius:999px;padding:3px 10px;color:var(--texto2);margin:0 6px 6px 0}
+.pill--v{border-color:var(--verde);color:var(--verde)}
+.escala{display:grid;gap:9px}
+.escala__fila{display:grid;grid-template-columns:96px 1fr auto;align-items:center;gap:10px;font-size:.82rem}
+.escala__fila span:first-child{font-family:var(--mono);font-size:.72rem;color:var(--texto2)}
+.escala__barra{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.escala__barra i{height:8px;border-radius:4px;background:rgba(255,255,255,.1)}
+.escala__barra i.on{background:var(--verde);box-shadow:0 0 8px rgba(92,255,176,.45)}
+.escala__fila b{font-weight:500;font-size:.78rem;color:var(--texto);text-align:right;min-width:98px}
+.lista-tend{display:grid;gap:6px;list-style:none;padding:0}
+.lista-tend button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;padding:9px 12px;border:1px solid var(--linea);border-radius:10px;font-size:.88rem;transition:border-color .2s,background .2s}
+.lista-tend button:hover{border-color:var(--verde);background:rgba(92,255,176,.06)}
+.lista-tend small{font-family:var(--mono);font-size:.66rem;color:var(--verde);white-space:nowrap}
+.indic{padding-left:18px;color:var(--texto2);font-size:.9rem;display:grid;gap:4px}
+.fuentes{list-style:none;padding:0;display:grid;gap:8px}
+.fuentes a{display:block;text-decoration:none;border:1px solid var(--linea);border-radius:12px;padding:10px 12px;transition:border-color .2s,background .2s}
+.fuentes a:hover{border-color:var(--verde);background:rgba(92,255,176,.05)}
+.fuentes__cab{display:flex;justify-content:space-between;gap:10px;font-size:.84rem}
+.fuentes__cab time{font-family:var(--mono);font-size:.7rem;color:var(--texto3);white-space:nowrap}
+.fuentes q{display:block;margin-top:5px;font-size:.82rem;color:var(--texto2);quotes:"“" "”"}
+.fuentes--c a{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.76rem}
+
+footer{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:.7rem;color:var(--texto3);border-top:1px solid var(--linea);padding-top:14px}
+
+@media (max-width:1200px){
+  .app{grid-template-columns:minmax(280px,320px) minmax(0,1fr)}
+  .detalle{grid-column:1/-1;position:static;max-height:none}
+  .col-izq{position:static}
+}
+@media (max-width:760px){
+  :root{--fs:30px;--fs2:24px}
+  .app{grid-template-columns:minmax(0,1fr);padding:18px 16px 30px;gap:20px}
+  .col-izq{display:contents}
+  .cab{order:1}.sel-hz{order:2}.centro{order:3}.temas{order:4}.detalle{order:5}
+  .detalle{padding:18px}
+  .radar{max-width:none}
+  .cuerpo-pie{order:6}
+  footer{order:6}
+  .pildora{grid-template-columns:1fr 1fr;border-radius:22px;gap:3px}
+  .pildora__fondo{display:none}
+  .pildora button{font-size:.74rem;padding:10px 0}
+  .pildora button[aria-checked=true]{background:var(--verde)}
+  .escala__fila{grid-template-columns:84px 1fr}
+  .escala__fila b{grid-column:2;text-align:left;margin-top:-4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="col-izq">
+    <header class="cab">
+      <h1>Radar <span>Fintech</span></h1>
+      <p class="sub">Pagos y billeteras en Argentina</p>
+      <p class="bajada">Qué pasa hoy, qué puede venir y dónde están las brechas frente a Brasil, México, EE.UU. y Europa.</p>
+      <div class="edicion" id="edicion"></div>
+      <p class="aviso" id="aviso" hidden>Resúmenes provisorios: la próxima corrida con IA los reemplaza.</p>
+    </header>
+    <div class="sel-hz">
+      <p class="rotulo" style="margin-bottom:8px" id="rot-hz">¿Qué puede venir? · horizonte</p>
+      <div class="pildora" id="pildora" role="radiogroup" aria-labelledby="rot-hz"></div>
+    </div>
+    <div class="temas" id="temas" role="group" aria-label="Temas"></div>
+  </div>
+
+  <main class="centro">
+    <div class="titulo-radar">
+      <h2>Argentina hoy, frente al mundo</h2>
+      <span class="rotulo">Radar · el centro es hoy, cada anillo es más futuro</span>
+    </div>
+    <p class="frase" id="frase" aria-live="polite"></p>
+    <svg class="radar" id="radar" viewBox="0 0 920 920" role="group" aria-label="Radar de tendencias por tema y horizonte"></svg>
+    <p class="vacio-hz" id="vacio" hidden>No hay tendencias en este horizonte.</p>
+    <div class="leyenda" id="leyenda"></div>
+  </main>
+
+  <aside class="detalle" id="detalle" aria-live="polite"></aside>
+
+  <footer id="pie"></footer>
+</div>
+
+<script>
+const CORRIDA = {"corrida":"2026-11-14","generado":"2026-11-14T01:01:43.319Z","totales":{"noticias":75,"fuentes":42,"fuentes_fallidas":["WEF"]},"celdas":[{"tema":"pagos_instantaneos","region":"AR","adopcion":3,"origen":"dato_duro","urls":["https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/informes/Financial-Inclusion-Report-2026-04.pdf","https://www.rosario3.com/ecos365/noticias/adios-a-las-barreras-entre-bancos-y-billeteras-como-funcionara-el-nuevo-sistema-de-transferencias-20261113-0003.html","https://elnacionaldematanza.com.ar/2026/11/13/el-bcra-reconfigura-el-sistema-de-transferencias-y-obliga-a-la-interoperabilidad-total-entre-bancos-y-billeteras/","https://www.iproup.com/finanzas/73088-mercado-pago-lanza-un-fal-gratis-para-pelear-un-negocio-de-us5-000-m"]},{"tema":"pagos_instantaneos","region":"LATAM","adopcion":3,"origen":"dato_duro","urls":["https://www.bcb.gov.br/content/estabilidadefinanceira/pix/relatorio_de_gestao_pix/relatorio_gestao_pix_2026.pdf","https://www.bcb.gov.br/en","https://arxiv.org/abs/2611.08859v1","https://mindconsulting.com.br/2026/07/fintech-brasil-open-finance-pix-drex-2026/"]},{"tema":"pagos_instantaneos","region":"GLOBAL","adopcion":2,"origen":"dato_duro","urls":["https://www.ecb.europa.eu/press/stats/paysec/html/ecb.pis2025h2~23986fb4a6.en.html","https://www.frbservices.org/resources/financial-services/fednow-service-resources/fednow-service-volume-value-statistics/","https://www.iproup.com/finanzas/73049-google-wallet-prueba-funcion-para-pagar-mas-rapido-sin-desbloquear-el-telefono","https://www.bis.org/publications/paper-177-gig-economy-and-digital-payments"]},{"tema":"open_finance","region":"AR","adopcion":1,"origen":"dato_duro","urls":["https://www.boletinoficial.gob.ar/detalleAviso/primera/325767/20250523","https://jfcattorneys.com/en/guides/fintech-regulation-argentina","https://www.iproup.com/finanzas/72734-licencias-bancarias-credito-y-cripto-los-pedidos-fintech-al-bcra","https://frecuenciamoney.com/open-finance-en-argentina-el-plan-2027/"]},{"tema":"open_finance","region":"LATAM","adopcion":3,"origen":"dato_duro","urls":["https://www.letsmoney.com.br/noticias/open-finance-208-milhoes-consentimentos-governanca/","https://www.revistaabogacia.com/el-open-finance-y-la-recuperacion-del-poder-de-los-usuarios-sobre-su-informacion-financiera/","https://mundocoop.com.br/economia-negocios/novas-regras-reforcam-seguranca-e-ampliam-uso-do-open-finance-por-clientes-pessoas-juridicas/","https://www.cfobrew.com/stories/brazils-open-finance-model-helps-fintechs-like-picpay-compete","https://ciberlatam.com/en/news/brazil-tightens-open-finance-rules"]},{"tema":"open_finance","region":"GLOBAL","adopcion":2,"origen":"dato_duro","urls":["https://www.eca.europa.eu/ECAHTMLNews/NEWS-SR-2025-01/en/body.html","https://www.cozen.com/news-resources/publications/2026/section-1033-compliance-date-open-banking-rule-enjoined-and-under-reconsideration","https://arxiv.org/abs/2610.30055v2"]},{"tema":"stablecoins","region":"AR","adopcion":3,"origen":"dato_duro","urls":["https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/","https://estudionunes.com.ar/cripto-en-argentina-lo-que-cambia-desde-el-16-de-octubre-para-exchanges-y-billeteras/","https://www.iproup.com/finanzas/72979-reforma-financiera-lanzan-mercado-paralelo-acciones-y-bonos-cripto","https://achivx.org/regulation/argentina/"]},{"tema":"stablecoins","region":"LATAM","adopcion":3,"origen":"dato_duro","urls":["https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/","https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/","https://finsidersbrasil.com.br/regulamentacao/bc-admite-que-ainda-nao-tem-estrutura-pronta-para-fiscalizar-empresas-de-cripto/","https://latamlist.com/yellow-card-acquires-gomoney/"]},{"tema":"stablecoins","region":"GLOBAL","adopcion":2,"origen":"dato_duro","urls":["https://www.congress.gov/bill/119th-congress/senate-bill/1582","https://eur-lex.europa.eu/eli/reg/2023/1114/oj","https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/","https://www.iproup.com/finanzas/73132-tether-diversifica-su-fortuna-en-13-empresas-y-2-son-argentinas","https://www.iproup.com/finanzas/73142-p"]},{"tema":"ia_aplicada","region":"AR","adopcion":2,"origen":"dato_duro","urls":["https://www.itsitio.com/ar/fintech/fintech-e-ia-en-argentina-hay-fuerte-adopcion-pero-persisten-desafios-internos/","https://www.bloomberglinea.com/economia/argentina-podria-sumar-us5000-millones-a-su-pbi-segun-un-experto-en-ia/","https://www.infobae.com/economia/2026/10/28/argentina-fintech-forum-reunira-a-mas-de-5000-participantes-para-debatir-la-digitalizacion-financiera/"]},{"tema":"ia_aplicada","region":"LATAM","adopcion":3,"origen":"dato_duro","urls":["https://www.infomoney.com.br/?p=3073490","https://ecosistemastartup.com/clara-levanta-us105m-para-su-fintech-con-ia-en-latam/","https://www.ebankingnews.com/2026/10/28/solo-21-de-consumidores-permitiria-compras-con-ia-sin-supervision/","https://brasilinovador.com.br/visor-finance-anuncia-integracao-do-pix-a-chat-de-inteligencia-artificial-via-open-finance/"]},{"tema":"ia_aplicada","region":"GLOBAL","adopcion":3,"origen":"dato_duro","urls":["https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf","https://www.iproup.com/finanzas/73108-la-compra-deja-de-empezar-en-la-tienda-la-ia-ya-entra-en-la-decision-y-el-pago","https://ecosistemastartup.com/agentes-de-ia-64-millones-de-pagos-por-solo-us119-947/","https://yousuariofinal.com/archivos/5779/2026/11/05/"]}],"temas":[{"tema":"pagos_instantaneos","brecha_regional":0,"brecha_global":1,"estado_regional":"pareja","estado_global":"adelantada","resumen":"Argentina se encuentra en un nivel de adopción 3 en pagos instantáneos, a la par de Brasil y México, y adelantada frente a EE.UU. y Europa. Esto se debe al fuerte crecimiento de los pagos con QR, la interoperabilidad total entre bancos y billeteras exigida por el BCRA y el marcado desplazamiento del uso de efectivo.","horizonte_ar":"corto","proveedores":"Mercado Pago, BCRA, DePay, COELSA, Visa, Google Wallet, Pix, Nubank","inversion":"La adopción abarca desde opciones gratuitas o accesibles para PyMEs hasta desarrollos tecnológicos que pueden requerir mayor capacidad financiera según la escala del proveedor.","indicadores":["Variación porcentual interanual de pagos con QR versus extracciones de efectivo","Cantidad y volumen de transferencias interoperables entre bancos y billeteras","Tasa de fraude en transferencias instantáneas"]},{"tema":"open_finance","brecha_regional":-2,"brecha_global":-1,"estado_regional":"atrasada","estado_global":"atrasada","resumen":"Argentina se encuentra en una etapa de adopción temprana (nivel 1) y atrasada frente a Brasil y México (nivel 3), así como frente a EE. UU. y Europa (nivel 2). Mientras que Brasil consolida un ecosistema avanzado con reglas de seguridad estrictas y uso corporativo, Argentina recién avanza hacia un marco regulatorio impulsado por solicitudes de la industria y planes oficiales hacia 2027.","horizonte_ar":"mediano","proveedores":"BCRA, Mercado Pago, Ualá, Prex, Lemon, Personal Pay, Conselho Monetário Nacional, Banco Central do Brasil, PicPay, Nu, Itaú Unibanco, Banco do Brasil, Banco Bradesco, Caixa Econômica Federal, Santander Brasil, Finaya, Crescera, GS1 Brasil, R3 Corda","inversion":"La adopción de esquemas de open finance e infraestructura integrada exige inversiones tecnológicas considerables en APIs seguras y cumplimiento normativo, siendo viable principalmente para grandes entidades o mediante alianzas estratégicas para empresas más chicas.","indicadores":["Cantidad de entidades registradas ante el BCRA que acceden a datos financieros compartidos","Cantidad de licencias bancarias otorgadas a fintech y avance regulatorio de Open Finance en Argentina","Cantidad de entidades financieras conectadas al esquema de Open Finance/Open Data hacia 2027"]},{"tema":"stablecoins","brecha_regional":0,"brecha_global":1,"estado_regional":"pareja","estado_global":"adelantada","resumen":"Argentina se encuentra en un nivel de adopción avanzada (3) al igual que Brasil y México, superando a EE.UU. y Europa (2), impulsada por la alta demanda de stablecoins y un nuevo marco regulatorio de la CNV para los Proveedores de Servicios de Activos Virtuales. Sin embargo, el Banco Central argentino mantiene restricciones para que los bancos tradicionales operen con criptoactivos en el corto plazo.","horizonte_ar":"corto","proveedores":"CNV, Tether, Cámara Argentina Fintech, Banco Central de la República Argentina (BCRA), Comisión Nacional de Valores","inversion":"La adopción exige costos de cumplimiento regulatorio, capital mínimo y sistemas de reporte, además de inversiones tecnológicas, lo que significa que el cumplimiento normativo estricto impacta tanto a grandes exchanges como a empresas y billeteras de menor tamaño.","indicadores":["Cantidad de PSAV registrados y en cumplimiento con el régimen de la CNV","Volumen de operaciones y transacciones realizadas con stablecoins en plataformas locales","Cantidad de negocios y empresas que integran pagos o cobran exportaciones en criptomonedas"]},{"tema":"ia_aplicada","brecha_regional":-1,"brecha_global":-1,"estado_regional":"atrasada","estado_global":"atrasada","resumen":"Argentina se encuentra en una etapa de adopción temprana (nivel 2) con pilotos y debates sobre casos reales de uso, quedando retrasada frente a Brasil y México (nivel 3), que ya integran pagos agénticos y Open Finance con inteligencia artificial. Asimismo, la región se encuentra atrasada frente a EE.UU. y Europa, donde la infraestructura global y los protocolos avanzados de comercio agéntico están más desarrollados.","horizonte_ar":"mediano","proveedores":"BIS, Clara, Pomelo, Conexa, Huawei, MODO, CleverTap, Visor Finance, XGBoost, Bain & Company, Mastercard, Google, Visa, ChainIT, Agent Payments Protocol (AP2), Microsoft, Model Context Protocol (MCP), AWS, Payabli","inversion":"Adoptar el tema exige inversiones significativas en infraestructura, centros de datos, protocolos y rondas de financiamiento, requiriendo capacidad financiera grande aunque existan aplicaciones puntuales para empresas chicas.","indicadores":["Porcentaje de transacciones ejecutadas por agentes de IA respecto al total","Impacto en el PBI atribuible a la adopción de inteligencia artificial","Volumen total y monto promedio por pago ejecutado por agentes de IA"]}],"tendencias":[{"tema":"pagos_instantaneos","nombre":"Crecimiento del QR y interoperabilidad","horizonte_ar":"corto","capacidad":"ambas","resumen":"El BCRA impulsa la interoperabilidad total entre bancos y billeteras, mientras los pagos con QR desplazan fuertemente al efectivo y a las tarjetas.","fuentes":[{"url":"https://www.iproup.com/finanzas/73088-mercado-pago-lanza-un-fal-gratis-para-pelear-un-negocio-de-us5-000-m","fuente":"iProUP","fecha":"2026-11-13","cita":"la empresa de Galperin apunta a masificar el sistema entre las PyMEs y obliga a los bancos a recalibrar sus propuestas"},{"url":"https://elnacionaldematanza.com.ar/2026/11/13/el-bcra-reconfigura-el-sistema-de-transferencias-y-obliga-a-la-interoperabilidad-total-entre-bancos-y-billeteras/","fuente":"elnacionaldematanza.com.ar","fecha":"2026-11-13","cita":"El BCRA reconfigura el sistema de transferencias y obliga a la interoperabilidad total entre bancos y billeteras"},{"url":"https://www.rosario3.com/ecos365/noticias/adios-a-las-barreras-entre-bancos-y-billeteras-como-funcionara-el-nuevo-sistema-de-transferencias-20261113-0003.html","fuente":"rosario3.com","fecha":"2026-11-13","cita":"la nueva normativa no crea un PIX argentino ni habilita automáticamente las transferencias internacionales o un sistema de pagos QR regional"},{"url":"https://www.eldiario.com.ar/2026/11/12/billeteras-virtuales-el-qr-crecio-572-y-el-efectivo-se-achico/","fuente":"eldiario.com.ar","fecha":"2026-11-12","cita":"El efectivo pierde terreno: las extracciones cayeron 33,4% y los pagos con QR subieron 57,2%"},{"url":"https://examedia.com.ar/portada/post/88223358","fuente":"examedia.com.ar","fecha":"2026-11-12","cita":"las extracciones de efectivo cayeron un 33,4% interanual, mientras que las operaciones con códigos QR crecieron un 57,2%"},{"url":"https://examedia.com.ar/portada/post/88223412","fuente":"examedia.com.ar","fecha":"2026-11-12","cita":"Las extracciones de efectivo cayeron 33,4% y los pagos con QR crecieron 57,2% en el primer semestre de 2026"},{"url":"https://www.iproup.com/finanzas/72869-tarjetas-de-credito-caen-compras-cuotas-se-desploman-argentina-noviembre-2026","fuente":"iProUP","fecha":"2026-11-09","cita":"el avance del QR explican por qué el plástico pierde terreno en 2026"},{"url":"https://laopinionline.ar/articulo/las-billeteras-virtuales-ya-mueven-tres-de-cada-cuatro-transferencias-y-el-qr-crece-casi-70-al-ano","fuente":"laopinionline.ar","fecha":"2026-11-07","cita":"Las billeteras virtuales ya mueven tres de cada cuatro transferencias y el QR crece casi 70% al año"},{"url":"https://diarioneuquino.com.ar/los-argentinos-retiran-cada-vez-menos-efectivo-las-transferencias-y-los-pagos-con-qr-desplazan-a-los-billetes/","fuente":"diarioneuquino.com.ar","fecha":"2026-10-31","cita":"el 99,1% de esos pagos se inició mediante códigos QR, lo que equivale a aproximadamente 122,8 millones de operaciones"},{"url":"https://infocronos.com.ar/nota/24666/quienes-somos","fuente":"infocronos.com.ar","fecha":"2026-10-25","cita":"El mecanismo de pagos digitales con códigos QR comenzó a funcionar este lunes plenamente en la Argentina y permite usar cualquier billetera virtual"},{"url":"https://www.rosario3.com/ecos365/noticias/del-mostrador-a-las-empresas-el-avance-del-qr-y-la-nueva-apuesta-por-los-pagos-en-dolares-20261020-0004.html&gsessionid=d1Bjotsef9u8tFQtD_YOzfkCLnWBrXCBlMZ0sUIZL6JjqvZubh85RA","fuente":"rosario3.com","fecha":"2026-10-20","cita":"los pagos con transferencia interoperables mediante QR alcanzaron los 118,3 millones de operaciones, un crecimiento interanual del 65,6%"}]},{"tema":"pagos_instantaneos","nombre":"Competencia y nuevos jugadores","horizonte_ar":"corto","capacidad":"grande","resumen":"Se abre la competencia en transferencias inmediatas y QR fuera de COELSA permitiendo la participación de Visa y otros actores.","fuentes":[{"url":"https://www.iproup.com/finanzas/73080-cambian-las-transferencias-y-pagos-qr-tras-nueva-normativa-del-bcra","fuente":"iProUP","fecha":"2026-11-12","cita":"La nueva norma del Banco Central cambia las reglas de las transferencias inmediatas y abre la competencia entre las principales redes del sistema"}]},{"tema":"pagos_instantaneos","nombre":"Pagos transfronterizos y tecnología","horizonte_ar":"corto","capacidad":"ambas","resumen":"Startup e innovaciones tecnológicas habilitan pagos con QR en pesos en el exterior y optimizan arquitecturas de billeteras regionales.","fuentes":[{"url":"https://www.iproup.com/finanzas/73105-depay-permitira-pagar-en-el-exterior-con-pesos-y-qr-desde-las-apps-bancarias","fuente":"iProUP","fecha":"2026-11-12","cita":"La startup conecta entidades financieras de cinco países y permite realizar compras con QR desde aplicaciones compatibles, sin comprar divisas"},{"url":"https://www.infobae.com/inhouse/2026/10/29/una-billetera-virtual-que-renovo-su-app-para-ganar-velocidad-y-acelerar-su-crecimiento-regional/","fuente":"infobae.com","fecha":"2026-10-29","cita":"una fintech cuenta ahora con una arquitectura preparada para acompañar su crecimiento con mayor agilidad"}]},{"tema":"pagos_instantaneos","nombre":"Seguridad y regulación antifraude","horizonte_ar":"corto","capacidad":"ambas","resumen":"El BCRA incorpora perfiles de riesgo público y amplía normativas antifraude para proteger las transferencias instantáneas.","fuentes":[{"url":"https://ciberlatam.com/en/news/argentina-bcra-updates-payment-provider","fuente":"ciberlatam.com","fecha":"2026-10-13","cita":"Argentina’s central bank expanded anti-fraud rules for financial entities and payment providers, adding a public risk profile for instant transfers."}]},{"tema":"pagos_instantaneos","nombre":"Evolución regional e internacional","horizonte_ar":"largo","capacidad":"ambas","resumen":"Se observan tendencias globales y regionales como el impacto de la economía gig, Pix en Brasil y pruebas de Google Wallet.","fuentes":[{"url":"https://www.bis.org/publications/paper-177-gig-economy-and-digital-payments","fuente":"BIS","fecha":"2026-11-12","cita":"The growth of the “gig” economy could have far-reaching implications for payment systems."},{"url":"https://www.iproup.com/finanzas/73049-google-wallet-prueba-funcion-para-pagar-mas-rapido-sin-desbloquear-el-telefono","fuente":"iProUP","fecha":"2026-11-10","cita":"Versiones de prueba recientes de la aplicación apuntan a un cambio en la forma en que solicita la verificación de identidad antes de una operación"},{"url":"https://www.bcb.gov.br/en","fuente":"bcb.gov.br","fecha":"2026-11-10","cita":"Pix Automatico will be available for salary accounts starting in July 2027."},{"url":"https://arxiv.org/abs/2611.08859v1","fuente":"arXiv","fecha":"2026-11-06","cita":"cumulative transaction counts over 37 days were approximately 8.37% below forecast, while settlement values were 10.83% lower"},{"url":"https://mindconsulting.com.br/2026/07/fintech-brasil-open-finance-pix-drex-2026/","fuente":"mindconsulting.com.br","fecha":"2026-10-21","cita":"O Pix, sistema de pagamentos instantâneos do Banco Central, processou 63 bilhões de transações em 2025, tornando-se o maior sistema de pagamentos instantâneos do mundo em volume."},{"url":"https://www.riotimesonline.com/brazil-fintech-2026-complete-guide/","fuente":"riotimesonline.com","fecha":"2026-10-14","cita":"Pix moved 8.11 billion payments in August and Nubank has 139 million customers"}]},{"tema":"open_finance","nombre":"Regulación y pedidos de Open Finance en Argentina","horizonte_ar":"mediano","capacidad":"ambas","resumen":"Argentina avanza en un marco regulatorio y planes hacia 2027 propiciados por pedidos de la industria fintech al BCRA para compartir información y ampliar el crédito.","fuentes":[{"url":"https://jfcattorneys.com/en/guides/fintech-regulation-argentina","fuente":"jfcattorneys.com","fecha":"2026-11-01","cita":"let individuals and companies share their financial information, with express consent, with entities registered before the BCRA"},{"url":"https://www.iproup.com/finanzas/72734-licencias-bancarias-credito-y-cripto-los-pedidos-fintech-al-bcra","fuente":"iProUP","fecha":"2026-10-29","cita":"Las fintech le piden al Banco Central más licencias bancarias, Open Finance y cripto"},{"url":"https://frecuenciamoney.com/open-finance-en-argentina-el-plan-2027/","fuente":"frecuenciamoney.com","fecha":"2026-10-20","cita":"el organismo lo concibe como una combinación de Open Finance y Open Data"}]},{"tema":"open_finance","nombre":"Evolución y seguridad del Open Finance en Brasil","horizonte_ar":"mediano","capacidad":"ambas","resumen":"Brasil consolida su marco regulatorio ampliando el uso a personas jurídicas, reforzando la seguridad con IA y exigiendo consentimiento específico por socio.","fuentes":[{"url":"https://mundocoop.com.br/economia-negocios/novas-regras-reforcam-seguranca-e-ampliam-uso-do-open-finance-por-clientes-pessoas-juridicas/","fuente":"mundocoop.com.br","fecha":"2026-11-12","cita":"novas regras para os contratos de parceria no Open Finance e mudanças voltadas a facilitar o compartilhamento de dados por clientes pessoas jurídicas"},{"url":"https://www.cfobrew.com/stories/brazils-open-finance-model-helps-fintechs-like-picpay-compete","fuente":"cfobrew.com","fecha":"2026-11-05","cita":"Brazil’s open finance framework has helped fintechs like PicPay and Nu compete against the biggest traditional banks"},{"url":"https://ciberlatam.com/en/news/brazil-tightens-open-finance-rules","fuente":"ciberlatam.com","fecha":"2026-10-28","cita":"Brazil’s central bank is revising open finance rules and speeding up Pix safeguards with AI, standard alerts and bank-to-bank sharing."},{"url":"https://www.riotimesonline.com/brazil-open-finance-partner-consent-rules-22-october-2026/","fuente":"riotimesonline.com","fecha":"2026-10-23","cita":"Brazil's Central Bank and Monetary Council now require specific consent for each partner firm that receives Open Finance data, from 22 October."},{"url":"https://valor.globo.com/financas/noticia/2026/10/23/novas-regras-do-open-finance-sao-avanco-para-seguranca-segundo-associacao.ghtml","fuente":"valor.globo.com","fecha":"2026-10-23","cita":"O Iniciador de Transação de Pagamento (ITP) é uma modalidade de Instituição de Pagamento (IP) criada pelo BC, em 2020, para iniciar pagamentos no âmbito do Open Finance via Pix"}]},{"tema":"open_finance","nombre":"Finanzas embebidas e inversión en fintechs","horizonte_ar":"corto","capacidad":"ambas","resumen":"Se registra crecimiento en la inversión y oferta de servicios financieros embebidos para integrar soluciones en diversos sectores comerciales.","fuentes":[{"url":"https://finsidersbrasil.com.br/giro-noticias/finaya-atrai-crescera-e-gs1-brasil-para-avancar-em-embedded-finance/","fuente":"Finsiders Brasil","fecha":"2026-11-13","cita":"Finaya atrai Crescera e GS1 Brasil para avançar em ‘embedded finance’"}]},{"tema":"open_finance","nombre":"Arquitectura DLT para pagos y fiscalidad","horizonte_ar":"largo","capacidad":"grande","resumen":"Se propone una arquitectura basada en DLT combinada con open banking para automatizar pagos divididos en tiempo real y reducir la brecha fiscal.","fuentes":[{"url":"https://arxiv.org/abs/2610.30055v2","fuente":"arXiv","fecha":"2026-10-21","cita":"MTS-OB, a proof-of-concept application built on R3 Corda, facilitates automated, real-time VAT split payments (VSP) without disrupting current payment infrastructure"}]},{"tema":"stablecoins","nombre":"Regulación y registro de PSAV","horizonte_ar":"corto","capacidad":"ambas","resumen":"La CNV reordena el régimen para Proveedores de Servicios de Activos Virtuales exigiendo capital mínimo, KYC, reportes mensuales y prohibición de mixers.","fuentes":[{"url":"https://estudionunes.com.ar/cripto-en-argentina-lo-que-cambia-desde-el-16-de-octubre-para-exchanges-y-billeteras/","fuente":"estudionunes.com.ar","fecha":"2026-11-13","cita":"La CNV reordenó el régimen de los Proveedores de Servicios de Activos Virtuales (PSAV). Estatuto, capital y reportes pasan a ser parte del negocio."},{"url":"https://achivx.org/regulation/argentina/","fuente":"achivx.org","fecha":"2026-11-05","cita":"the RG 1172 reorganisation approved on 14 October 2026, and the missing stablecoin rule"},{"url":"https://jfcattorneys.com/en/guides/argentina-crypto-license","fuente":"jfcattorneys.com","fecha":"2026-11-01","cita":"A stablecoin payment product may perform exchange and transfer functions."},{"url":"https://economis.com.ar/por-que-los-negocios-en-argentina-integran-procesamiento-de-pagos-con-criptomonedas/","fuente":"economis.com.ar","fecha":"2026-10-27","cita":"La Ley 27.739, sancionada en 2024, incorporó la figura del Proveedor de Servicios de Activos Virtuales (PSAV) y creó un registro a cargo de la Comisión Nacional de Valores (CNV)."},{"url":"https://criptoinforme.com/legal/cnv-argentina-psav-mixers-informe-mensual/","fuente":"criptoinforme.com","fecha":"2026-10-22","cita":"prohíbe a los PSAV ofrecer mixers, refuerza el KYC y exige un informe mensual desde noviembre"},{"url":"https://www.diariobitcoin.com/argentina/argentina-endurece-la-supervision-cripto-con-reportes-mensuales-desde-noviembre/","fuente":"diariobitcoin.com","fecha":"2026-10-19","cita":"La Resolución General 1172/2026 reorganiza las reglas para los PSAV y establece un reporte mensual a partir del 1 de noviembre de 2026"},{"url":"https://estudiolexar.com/regulacion-cripto-argentina/","fuente":"estudiolexar.com","fecha":"2026-10-16","cita":"Quedan fuera quienes intercambian activos virtuales para sí, cualquiera sea el monto, y quienes los reciben o entregan como contraprestación por sus productos o servicios."},{"url":"https://criptoinforme.com/legal/resolucion-1172-cnv-psav-exchanges-argentina/","fuente":"criptoinforme.com","fecha":"2026-10-16","cita":"les exige un reporte mensual desde el 1 de noviembre, les prohíbe ofrecer mezcladores y los obliga a avisar con 30 días si van a cerrar"},{"url":"https://es.beincrypto.com/cnv-argentina-reordena-reglas-plataformas-criptomonedas-psav/","fuente":"es.beincrypto.com","fecha":"2026-10-15","cita":"el Directorio dispuso, a través de la RG N° 1172, un reordenamiento del régimen aplicable a los PSAVs"},{"url":"https://www.criptotendencias.com/regulacion/criptomonedas-en-argentina-reglas/","fuente":"criptotendencias.com","fecha":"2026-10-15","cita":"La Comisión Nacional de Valores (CNV) quedó a cargo de su registro y supervisión"}]},{"tema":"stablecoins","nombre":"Infraestructura global de stablecoins","horizonte_ar":"mediano","capacidad":"grande","resumen":"Las redes globales de tarjetas y proveedores de pagos como Visa, Stripe y Anchorage integran stablecoins para liquidaciones y pagos transfronterizos.","fuentes":[{"url":"https://fintechnews.ch/london/griffin-series-b-cards-stablecoins/87076/","fuente":"Fintech News Global","fecha":"2026-11-13","cita":"Griffin Raises US$20M to Add Card and Stablecoin Services"},{"url":"https://www.iproup.com/finanzas/73142-p","fuente":"iProUP","fecha":"2026-11-13","cita":"Pagos con stablecoins crecen 71% en octubre y superan los 1.000 millones de operaciones"},{"url":"https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/","fuente":"Fintech News Global","fecha":"2026-11-13","cita":"Anchorage Digital is working with Visa to let some of its stablecoins settle on the card network."},{"url":"https://www.iproup.com/finanzas/73036-visa-suma-una-nueva-blockchain-para-stablecoins-y-amplia-su-negocio-cripto","fuente":"iProUP","fecha":"2026-11-10","cita":"Su piloto ya admite nueve redes y alcanza un volumen anualizado de u$s7.000 millones."},{"url":"https://latamlist.com/yellow-card-acquires-gomoney/","fuente":"LatamList","fecha":"2026-11-10","cita":"Yellow Card, a stablecoin payment infrastructure provider, acquired Brazilian virtual asset service provider GoMoney in October 2026"},{"url":"https://jobs.a16z.com/jobs/stripe/8209307--security-engineer-bridge","fuente":"a16z","fecha":"2026-10-19","cita":"Bridge enables faster, cheaper payments and borderless access to dollars via stablecoins"}]},{"tema":"stablecoins","nombre":"Tokenización de activos financieros","horizonte_ar":"mediano","capacidad":"grande","resumen":"El gobierno argentino impulsa la tokenización de acciones y bonos para operar en billeteras cripto, mientras actores globales diversifican inversiones en tecnología.","fuentes":[{"url":"https://www.iproup.com/finanzas/73132-tether-diversifica-su-fortuna-en-13-empresas-y-2-son-argentinas","fuente":"iProUP","fecha":"2026-11-13","cita":"Tether juega fuerte en Wall Street y hay 2 empresas argentinas entre sus inversiones millonarias"},{"url":"https://www.iproup.com/finanzas/72979-reforma-financiera-lanzan-mercado-paralelo-acciones-y-bonos-cripto","fuente":"iProUP","fecha":"2026-11-11","cita":"La tokenización de acciones y obligaciones negociables permitirá el funcionamiento de un mercado de valores paralelo en las billeteras cripto"},{"url":"https://frecuenciamoney.com/argentina-fintech-forum-2026-la-agenda-de-los-activos-virtuales/","fuente":"frecuenciamoney.com","fecha":"2026-11-04","cita":"tokenización y activos virtuales"}]},{"tema":"stablecoins","nombre":"Restricción bancaria y nuevas redes","horizonte_ar":"largo","capacidad":"grande","resumen":"El Banco Central argentino descarta la integración cripto en bancos tradicionales, en sintonía con debates globales sobre la competencia de stablecoins frente a depósitos.","fuentes":[{"url":"https://arxiv.org/abs/2610.41207v1","fuente":"arXiv","fecha":"2026-10-30","cita":"Stablecoin payments routinely need balances that several accounts debit: treasuries, merchant pools, allowances and subscriptions."},{"url":"https://www.bis.org/publications/working-paper-1385-competing-rails-crossborder-payments-banks-fintechs-and-stablecoins","fuente":"BIS","fecha":"2026-10-19","cita":"Cross-border payments remain slow and expensive despite significant improvements in digital financial infrastructure over the past several decades."},{"url":"https://www.crowdfundinsider.com/2026/10/317446-argentinas-central-bank-rules-out-near-term-crypto-integration-into-banking-platforms/","fuente":"crowdfundinsider.com","fecha":"2026-10-15","cita":"That measure barred financial institutions from offering or facilitating client operations with digital assets—including cryptoassets—that had not been authorized"},{"url":"https://www.bis.org/publications/working-paper-1382-are-stablecoins-and-bank-deposits-substitutes","fuente":"BIS","fecha":"2026-10-13","cita":"deposit rate increases predict slower stablecoin growth"},{"url":"https://arxiv.org/abs/2610.03841v2","fuente":"arXiv","fecha":"2026-10-02","cita":"a new algorithmic stablecoin called Dexy consisting of three components: a central bank, a secondary market... and a trusted oracle"}]},{"tema":"stablecoins","nombre":"Regulación cripto en Brasil","horizonte_ar":"mediano","capacidad":"grande","resumen":"El Banco Central de Brasil enfrenta demoras por falta de estructura para fiscalizar empresas cripto, mientras se consolidan adquisiciones de infraestructura de pagos.","fuentes":[{"url":"https://finsidersbrasil.com.br/regulamentacao/bc-admite-que-ainda-nao-tem-estrutura-pronta-para-fiscalizar-empresas-de-cripto/","fuente":"Finsiders Brasil","fecha":"2026-11-12","cita":"BC admite que ainda não tem estrutura pronta para fiscalizar empresas de cripto"}]},{"tema":"ia_aplicada","nombre":"Agentes de IA en análisis macro y banca central","horizonte_ar":"largo","capacidad":"grande","resumen":"Los bancos centrales incorporan agentes de inteligencia artificial para automatizar análisis macroeconométricos complejos.","fuentes":[{"url":"https://www.bis.org/publications/working-paper-1395-marcobis-ai-agentic-econometric-analysis-central-bankers","fuente":"BIS","fecha":"2026-11-12","cita":"MaRCo@BIS: AI-agentic econometric analysis for central bankers"}]},{"tema":"ia_aplicada","nombre":"Pagos y comercio agéntico autónomo","horizonte_ar":"mediano","capacidad":"ambas","resumen":"Los agentes de IA participan en la decisión de compra, iniciación y ejecución de pagos de forma autónoma o con supervisión.","fuentes":[{"url":"https://www.iproup.com/finanzas/73108-la-compra-deja-de-empezar-en-la-tienda-la-ia-ya-entra-en-la-decision-y-el-pago","fuente":"iProUP","fecha":"2026-11-12","cita":"la confianza deja de depender solo de verificar una tarjeta o identidad; también requerirá verificar la intención"},{"url":"https://ecosistemastartup.com/clara-levanta-us105m-para-su-fintech-con-ia-en-latam/","fuente":"ecosistemastartup.com","fecha":"2026-11-12","cita":"agentes de IA que ejecutan transacciones, siempre que cuenten con las autorizaciones correspondientes"},{"url":"https://ecosistemastartup.com/agentes-de-ia-64-millones-de-pagos-por-solo-us119-947/","fuente":"ecosistemastartup.com","fecha":"2026-11-09","cita":"6,4 millones de pagos ejecutados por agentes de IA movieron apenas USD 119.947 en 35 días"},{"url":"https://yousuariofinal.com/archivos/5779/2026/11/05/","fuente":"yousuariofinal.com","fecha":"2026-11-05","cita":"Visa lanzó durante abril el programa Agentic Ready, orientado a preparar a instituciones financieras para probar pagos realizados por agentes"},{"url":"https://www.ebankingnews.com/2026/10/28/solo-21-de-consumidores-permitiria-compras-con-ia-sin-supervision/","fuente":"ebankingnews.com","fecha":"2026-10-28","cita":"En Brasil el interés por comprar a través de agentes de inteligencia artificial ascendió al 72%"},{"url":"https://es-us.noticias.yahoo.com/comprar%C3%ADa-inteligencia-artificial-21-consumidores-192000057.html","fuente":"es-us.noticias.yahoo.com","fecha":"2026-10-28","cita":"Solo el 21 % de los consumidores dejaría que un agente de IA cierre compras sin su aprobación"},{"url":"https://brasilinovador.com.br/visor-finance-anuncia-integracao-do-pix-a-chat-de-inteligencia-artificial-via-open-finance/","fuente":"brasilinovador.com.br","fecha":"2026-10-26","cita":"introdução de pagamentos agênticos por meio de iniciadores de transação no âmbito do Open Finance assinala uma transição de paradigma"},{"url":"https://brasilinovador.com.br/visor-finance-integra-pagamentos-via-pix-a-assistente-de-inteligencia-artificial-por-meio-do-open-finance/","fuente":"brasilinovador.com.br","fecha":"2026-10-23","cita":"primeira aplicação brasileira de gestão de finanças pessoais aberta ao público geral a estruturar essa modalidade de liquidação direta orientada por processamento de linguagem natural"},{"url":"https://anda.cl/comercio-agentico-marcas-ia-pagos/","fuente":"anda.cl","fecha":"2026-10-17","cita":"Comercio agéntico: marcas, IA y nuevos pagos"},{"url":"https://www.latamfintech.co/articles/el-futuro-de-la-adquirencia-en-america-latina-de-la-infraestructura-fragmentada-al-agentic-commerce","fuente":"latamfintech.co","fecha":"2026-10-14","cita":"actores globales como Mastercard y Visa completaron las primeras transacciones agénticas reales en América Latina"},{"url":"https://bancadelmanana.com/articulo/pagos-agenticos-ia-mandatos-controles-2026","fuente":"bancadelmanana.com","fecha":"2026-10-13","cita":"estaba en piloto con socios seleccionados como AWS y Payabli"}]},{"tema":"ia_aplicada","nombre":"Adopción de IA en fintechs e impacto económico","horizonte_ar":"corto","capacidad":"ambas","resumen":"Las empresas argentinas y fintechs debaten casos de uso real y estiman aportes millonarios al PBI local por la adopción de IA.","fuentes":[{"url":"https://www.bloomberglinea.com/economia/argentina-podria-sumar-us5000-millones-a-su-pbi-segun-un-experto-en-ia/","fuente":"Bloomberg Línea","fecha":"2026-11-08","cita":"Argentina podría sumar US$5.000 millones a su PBI, según un experto en IA"},{"url":"https://www.infobae.com/economia/2026/10/28/argentina-fintech-forum-reunira-a-mas-de-5000-participantes-para-debatir-la-digitalizacion-financiera/","fuente":"infobae.com","fecha":"2026-10-28","cita":"Inteligencia Artificial aplicada a servicios financieros: casos reales"}]},{"tema":"ia_aplicada","nombre":"Ciberseguridad, protocolos de autorización y fraude","horizonte_ar":"largo","capacidad":"grande","resumen":"Se desarrollan frameworks de ciberseguridad, protocolos de verificación y controles para prevenir fraudes y fallas en pagos agénticos.","fuentes":[{"url":"https://arxiv.org/abs/2610.27483v1","fuente":"arXiv","fecha":"2026-10-20","cita":"Autonomous Commerce Agent Guard System (ACAGS), a cybersecurity framework combining supervised machine learning, behavioral analytics, agent-specific authorization controls, and explainable AI"},{"url":"https://arxiv.org/abs/2610.22899v1","fuente":"arXiv","fecha":"2026-10-16","cita":"a software agent can produce a valid signature while acting outside its delegated purpose, after its sponsor's authority has changed"},{"url":"https://arxiv.org/abs/2610.21063v1","fuente":"arXiv","fecha":"2026-10-15","cita":"AI agents now pause for approval before they send money, delete files or email outsiders, and that approval is usually treated as a second factor."},{"url":"https://arxiv.org/abs/2610.12948v1","fuente":"arXiv","fecha":"2026-10-09","cita":"AgentValve, a protocol for Sybil-resilient payment authorization in permissionless AI markets"}]},{"tema":"ia_aplicada","nombre":"Sandboxes regulatorios y tokenización","horizonte_ar":"largo","capacidad":"grande","resumen":"Los reguladores exploran el uso de sandboxes para la tokenización y la integración de IA generativa en la regulación financiera.","fuentes":[{"url":"https://www.bis.org/speeches/20261020-transitioning-through-trust-securing-future-payments","fuente":"BIS","fecha":"2026-10-20","cita":"the role of generative AI in the regulation of financial advice"}]}],"referencia":[{"tema":"pagos_instantaneos","region":"AR","valor":"60%","que_mide":"Proporción de los pagos electrónicos hechos con pagos inmediatos (transferencias y pagos con transferencia/QR) (\"seis de cada diez\")","anio":2025,"nivel":3,"justificacion":"Los pagos inmediatos superan el 50% de los pagos electrónicos: corte de Mayoría (3).","url":"https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/informes/Financial-Inclusion-Report-2026-04.pdf"},{"tema":"pagos_instantaneos","region":"BR","valor":"86%","que_mide":"Porcentaje de la población adulta que usó Pix (personas humanas) en diciembre de 2025","anio":2025,"nivel":3,"justificacion":"Más del 50% de los adultos usa el sistema de pagos instantáneos: Mayoría (3).","url":"https://www.bcb.gov.br/content/estabilidadefinanceira/pix/relatorio_de_gestao_pix/relatorio_gestao_pix_2026.pdf"},{"tema":"pagos_instantaneos","region":"EU","valor":"25%","que_mide":"Participación de las transferencias instantáneas en la cantidad total de transferencias procesadas por los sistemas de pago minoristas de la zona euro (2.º semestre)","anio":2025,"nivel":2,"justificacion":"Entre 15% y 50% del total de transferencias: Adopción temprana (2).","url":"https://www.ecb.europa.eu/press/stats/paysec/html/ecb.pis2025h2~23986fb4a6.en.html"},{"tema":"pagos_instantaneos","region":"US","valor":"8.413.402","que_mide":"Cantidad de pagos liquidados por FedNow en todo el año","anio":2025,"nivel":1,"justificacion":"Sistema operativo pero con uso marginal (menos de un pago por adulto por año, muy por debajo del 15%): Pilotos (1).","url":"https://www.frbservices.org/resources/financial-services/fednow-service-resources/fednow-service-volume-value-statistics/"},{"tema":"open_finance","region":"AR","valor":"Marco creado (Decreto 353/2025), sin normas técnicas del BCRA","que_mide":"Estado de la regulación de finanzas abiertas (intercambio de datos con consentimiento)","anio":2025,"nivel":1,"justificacion":"Hay norma que crea el sistema pero no está operativo: Pilotos (1).","url":"https://www.boletinoficial.gob.ar/detalleAviso/primera/325767/20250523"},{"tema":"open_finance","region":"BR","valor":"208,79 millones","que_mide":"Consentimientos activos en Open Finance Brasil al 31/07/2026 (129,78 millones de personas humanas únicas en transmisión)","anio":2026,"nivel":3,"justificacion":"Sistema obligatorio y operativo; 129,78 millones de personas con consentimiento superan el 50% de los adultos: Mayoría (3).","url":"https://www.letsmoney.com.br/noticias/open-finance-208-milhoes-consentimentos-governanca/"},{"tema":"open_finance","region":"MX","valor":"Solo vigente la capa de datos abiertos; datos transaccionales sin reglamentar","que_mide":"Estado de la regulación secundaria del artículo 76 de la Ley Fintech","anio":2026,"nivel":1,"justificacion":"Ley aprobada pero el intercambio de datos de clientes no está operativo: Pilotos (1).","url":"https://www.revistaabogacia.com/el-open-finance-y-la-recuperacion-del-poder-de-los-usuarios-sobre-su-informacion-financiera/"},{"tema":"open_finance","region":"EU","valor":"PSD2 vigente desde 2019; sin datos de uso consolidados","que_mide":"Estado de la regulación de acceso a cuentas (open banking) y disponibilidad de datos de uso en la UE","anio":2025,"nivel":2,"justificacion":"Norma operativa con APIs obligatorias, sin evidencia de uso mayoritario: Adopción temprana (2).","url":"https://www.eca.europa.eu/ECAHTMLNews/NEWS-SR-2025-01/en/body.html"},{"tema":"open_finance","region":"US","valor":"Regla 1033 suspendida judicialmente y en reconsideración","que_mide":"Estado de la regla de derechos sobre datos financieros personales (CFPB sección 1033)","anio":2026,"nivel":1,"justificacion":"Norma dictada pero sin aplicación obligatoria: Pilotos (1).","url":"https://www.cozen.com/news-resources/publications/2026/section-1033-compliance-date-open-banking-rule-enjoined-and-under-reconsideration"},{"tema":"stablecoins","region":"AR","valor":"61,8%","que_mide":"Participación de las stablecoins en el volumen de transacciones cripto (julio 2023 a junio 2024)","anio":2024,"nivel":3,"justificacion":"Las stablecoins superan el 50% del volumen cripto: Mayoría (3).","url":"https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/"},{"tema":"stablecoins","region":"BR","valor":"59,8%","que_mide":"Participación de las stablecoins en el volumen de transacciones cripto (julio 2023 a junio 2024)","anio":2024,"nivel":3,"justificacion":"Las stablecoins superan el 50% del volumen cripto: Mayoría (3).","url":"https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/"},{"tema":"stablecoins","region":"MX","valor":"61%","que_mide":"Participación de las stablecoins en la actividad cripto total (más de USD 47.000 millones sobre USD 77.600 millones; julio 2025 a junio 2026)","anio":2026,"nivel":3,"justificacion":"Las stablecoins superan el 50% de la actividad cripto: Mayoría (3).","url":"https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/"},{"tema":"stablecoins","region":"US","valor":"Ley GENIUS sancionada (julio 2025)","que_mide":"Existencia de un marco federal específico para emisores de stablecoins de pago","anio":2025,"nivel":2,"justificacion":"Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).","url":"https://www.congress.gov/bill/119th-congress/senate-bill/1582"},{"tema":"stablecoins","region":"EU","valor":"MiCA aplicable a stablecoins desde junio 2024","que_mide":"Existencia de un marco específico para emisores de stablecoins (fichas de dinero electrónico y referenciadas a activos)","anio":2024,"nivel":2,"justificacion":"Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).","url":"https://eur-lex.europa.eu/eli/reg/2023/1114/oj"},{"tema":"ia_aplicada","region":"AR","valor":"45% de las empresas de la industria (n=1.027); 79% entre socias de la Cámara (n=112)","que_mide":"Porcentaje de fintech argentinas que usan soluciones de IA, según el informe general de la industria 2025 y según una muestra de socias de la Cámara Argentina Fintech","anio":2025,"nivel":2,"justificacion":"El promedio de la industria (45%) queda entre 15% y 50%: Adopción temprana (2). El 79% sale de una muestra de socias de la Cámara y no representa a toda la industria.","url":"https://www.itsitio.com/ar/fintech/fintech-e-ia-en-argentina-hay-fuerte-adopcion-pero-persisten-desafios-internos/"},{"tema":"ia_aplicada","region":"BR","valor":"82%","que_mide":"Porcentaje de bancos que usan IA generativa en sus operaciones (Pesquisa Febraban de Tecnologia Bancária 2025; 20 bancos con 85% de los activos)","anio":2025,"nivel":3,"justificacion":"Más del 50% de las entidades usa IA en producción: Mayoría (3).","url":"https://www.infomoney.com.br/?p=3073490"},{"tema":"ia_aplicada","region":"EU","valor":"92%","que_mide":"Porcentaje de bancos de la UE que ya despliegan IA (otro 8% en pruebas piloto)","anio":2025,"nivel":3,"justificacion":"Más del 50% de las entidades usa IA en producción: Mayoría (3).","url":"https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf"}]};
+
+/* ---------- nombres (los mismos del dashboard) ---------- */
+const TEMAS = ['pagos_instantaneos','open_finance','stablecoins','ia_aplicada'];
+const NOM_TEMA = {pagos_instantaneos:'Pagos instantáneos',open_finance:'Open finance',stablecoins:'Stablecoins',ia_aplicada:'IA aplicada'};
+const NOM_REGION = {AR:'Argentina',LATAM:'Brasil / México',GLOBAL:'EE.UU. / UE'};
+const NOM_NIVEL = ['Nada','Pilotos','Adopción temprana','Mayoría'];
+const NOM_CAP = {grande:'Empresa grande',chica:'Empresa chica',ambas:'Grande o chica'};
+const HZ = [
+  {id:'todos',etq:'Todos',largo:'Los tres horizontes'},
+  {id:'corto',etq:'0 - 1 año',largo:'Corto plazo'},
+  {id:'mediano',etq:'1 - 3 años',largo:'Mediano plazo'},
+  {id:'largo',etq:'3 - 10 años',largo:'Largo plazo'},
+];
+const HZ_R = {corto:150,mediano:250,largo:340};
+
+/* ---------- utilidades ---------- */
+const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+const aFecha = iso => new Date(iso.length===10 ? iso+'T12:00:00' : iso);
+const fechaLarga = iso => new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'long',year:'numeric'}).format(aFecha(iso));
+const dominio = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch { return u; } };
+const celda = (tema,region) => CORRIDA.celdas.find(c=>c.tema===tema && c.region===region);
+const nivel = (tema,region) => { const c = celda(tema,region); return c && c.adopcion!==null && c.adopcion!==undefined ? c.adopcion : null; };
+const datosTema = t => CORRIDA.temas.find(x=>x.tema===t);
+const textoEstado = (est,br) => {
+  if(!est) return 'Sin datos';
+  const n = {atrasada:'Atrasada',pareja:'Pareja',adelantada:'Adelantada'}[est];
+  return (br===null||br===0||br===undefined) ? n : `${n} ${br>0?'+':'−'}${Math.abs(br)}`;
+};
+const pol = (ang,r,cx=460,cy=460) => { const a = ang*Math.PI/180; return {x:+(cx+r*Math.sin(a)).toFixed(2), y:+(cy-r*Math.cos(a)).toFixed(2)}; };
+const arcoPath = (a0,a1,r) => { const p0=pol(a0,r), p1=pol(a1,r); return `M${p0.x} ${p0.y} A${r} ${r} 0 0 1 ${p1.x} ${p1.y}`; };
+const claveT = t => t.tema+'|'+t.nombre;
+
+/* ---------- estado ---------- */
+const estado = { hz:'todos', tema:TEMAS[0], sel:{tipo:'tema'} };
+
+/* ---------- geometría ---------- */
+const CX=460, CY=460;
+const Q = i => ({a0:i*90, a1:(i+1)*90});
+const ARCO_R = {AR:392, LATAM:412, GLOBAL:372};
+const nivelAng = (i,n) => Q(i).a0 + 10 + (n/3)*70;
+
+/* Los puntos de tendencia: fijos por cuadrante y anillo */
+function construirPuntos(){
+  const out=[];
+  TEMAS.forEach((tema,qi)=>{
+    ['corto','mediano','largo'].forEach(h=>{
+      const lista = CORRIDA.tendencias.filter(t=>t.tema===tema && t.horizonte_ar===h);
+      lista.forEach((t,k)=>{
+        const n=lista.length;
+        const ang = Q(qi).a0 + 90*(k+1)/(n+1);
+        const jit = (k%2?1:-1)*(n>1?12:0);
+        const r = HZ_R[h]+jit;
+        const p = pol(ang,r);
+        const tam = 7 + Math.min(t.fuentes.length,11)*0.8;
+        out.push({t,ang,r,x:p.x,y:p.y,tam,h,qi});
+      });
+    });
+  });
+  return out;
+}
+const PUNTOS = construirPuntos();
+
+/* ---------- radar ---------- */
+function dibujarRadar(){
+  const svg = $('radar');
+  let h = '';
+  // cuadrantes
+  TEMAS.forEach((tema,i)=>{
+    const {a0,a1}=Q(i);
+    const p0=pol(a0,430), p1=pol(a1,430);
+    h += `<path class="cuadrante" data-q="${tema}" d="M${CX} ${CY} L${p0.x} ${p0.y} A430 430 0 0 1 ${p1.x} ${p1.y} Z"/>`;
+  });
+  // anillos
+  Object.entries(HZ_R).forEach(([id,r])=>{
+    h += `<circle class="anillo" data-hz="${id}" cx="${CX}" cy="${CY}" r="${r}" pointer-events="none"/>`;
+  });
+  h += `<circle class="anillo" cx="${CX}" cy="${CY}" r="430" style="stroke-dasharray:2 6" pointer-events="none"/>`;
+  // grados
+  for(let a=0;a<360;a+=5){
+    const largo = a%45===0 ? 14 : (a%15===0 ? 9 : 5);
+    const p0=pol(a,430), p1=pol(a,430-largo);
+    h += `<line class="grado" x1="${p0.x}" y1="${p0.y}" x2="${p1.x}" y2="${p1.y}" pointer-events="none"/>`;
+  }
+  // ejes
+  h += `<line class="eje" x1="${CX}" y1="${CY-430}" x2="${CX}" y2="${CY+430}" pointer-events="none"/><line class="eje" x1="${CX-430}" y1="${CY}" x2="${CX+430}" y2="${CY}" pointer-events="none"/>`;
+  // rotulos de anillo
+  Object.entries(HZ_R).forEach(([id,r])=>{
+    const hz=HZ.find(x=>x.id===id);
+    h += `<text class="anillo-etq" data-hz="${id}" x="${CX+8}" y="${CY-r+22}" pointer-events="none">${hz.etq.toUpperCase()}</text>`;
+  });
+  // arcos de adopcion por cuadrante + brechas
+  TEMAS.forEach((tema,i)=>{
+    h += `<g data-q="${tema}" pointer-events="none">`;
+    [0,1,2,3].forEach(n=>{
+      const pa=pol(nivelAng(i,n),352), pb=pol(nivelAng(i,n),362);
+      h += `<line class="grado" x1="${pa.x}" y1="${pa.y}" x2="${pb.x}" y2="${pb.y}" style="stroke:var(--linea-fuerte)"/>`;
+    });
+    ['GLOBAL','AR','LATAM'].forEach(reg=>{
+      h += `<path class="arco-base" d="${arcoPath(nivelAng(i,0),nivelAng(i,3),ARCO_R[reg])}" style="stroke-width:1;opacity:.5"/>`;
+    });
+    const dt = datosTema(tema);
+    const nAR = nivel(tema,'AR');
+    [['LATAM',dt && dt.estado_regional],['GLOBAL',dt && dt.estado_global]].forEach(([reg,est])=>{
+      const n = nivel(tema,reg);
+      if(nAR===null || n===null) return;
+      const a = nivelAng(i,nAR), b = nivelAng(i,n);
+      if(a===b) return;
+      const [x0,x1] = a<b ? [a,b] : [b,a];
+      const rr = (ARCO_R.AR+ARCO_R[reg])/2;
+      const col = est==='atrasada' ? 'var(--atras)' : est==='adelantada' ? 'var(--adel)' : 'var(--pareja)';
+      h += `<path class="arco-brecha" d="${arcoPath(x0,x1,rr)}" style="stroke:${col}"/>`;
+    });
+    [['GLOBAL','marca-global'],['LATAM','marca-latam'],['AR','marca-ar']].forEach(([reg,cls])=>{
+      const n = nivel(tema,reg);
+      if(n===null) return;
+      const p = pol(nivelAng(i,n),ARCO_R[reg]);
+      const rad = reg==='AR'?10:8;
+      h += `<circle class="${cls}" cx="${p.x}" cy="${p.y}" r="${rad}"/>`;
+    });
+    h += `</g>`;
+  });
+  // etiquetas de tema en las esquinas
+  const esq = [
+    {x:900,y:34,an:'end'},{x:900,y:900,an:'end'},{x:20,y:900,an:'start'},{x:20,y:34,an:'start'},
+  ];
+  TEMAS.forEach((tema,i)=>{
+    const e=esq[i];
+    h += `<text class="etq-tema" data-q="${tema}" x="${e.x}" y="${e.y}" text-anchor="${e.an}" tabindex="0" role="button" aria-label="Ver ${esc(NOM_TEMA[tema])}">${esc(NOM_TEMA[tema]).toUpperCase()}</text>`;
+  });
+  // puntos
+  PUNTOS.forEach(p=>{
+    const k = claveT(p.t);
+    h += `<g class="punto" data-k="${esc(k)}" data-hz="${p.h}" data-q="${p.t.tema}" tabindex="0" role="button" aria-label="${esc(NOM_TEMA[p.t.tema])}, ${esc(p.t.nombre)}, ${HZ.find(x=>x.id===p.h).etq}">
+      <circle class="onda" cx="${p.x}" cy="${p.y}" r="${p.tam}"/>
+      <circle class="halo" cx="${p.x}" cy="${p.y}" r="${p.tam+9}"/>
+      <circle class="nucleo" cx="${p.x}" cy="${p.y}" r="${p.tam}"><title>${esc(p.t.nombre)}</title></circle>
+    </g>`;
+  });
+  // barrido
+  let barr = '';
+  for(let i=0;i<16;i++){
+    const a0 = -i*2.5-2.5, a1=-i*2.5;
+    const p0=pol(a0,430), p1=pol(a1,430);
+    barr += `<path d="M${CX} ${CY} L${p0.x} ${p0.y} A430 430 0 0 1 ${p1.x} ${p1.y} Z" fill="rgb(92,255,176)" fill-opacity="${(0.2*(1-i/16)).toFixed(3)}"/>`;
+  }
+  barr += `<line x1="${CX}" y1="${CY}" x2="${CX}" y2="${CY-430}" stroke="#5cffb0" stroke-width="2" stroke-opacity=".85"/>`;
+  h += `<g id="barrido" pointer-events="none">${barr}</g>`;
+  // centro
+  h += `<circle class="centro-onda" cx="${CX}" cy="${CY}" r="9" pointer-events="none"/><circle class="centro-ar" cx="${CX}" cy="${CY}" r="9" pointer-events="none"/>
+        <text x="${CX}" y="${CY+34}" text-anchor="middle" style="fill:var(--texto);font-size:var(--fs2)" pointer-events="none">ARGENTINA · HOY</text>`;
+  svg.innerHTML = h;
+
+  svg.querySelectorAll('.etq-tema').forEach(el=>{
+    el.addEventListener('click',()=>elegirTema(el.dataset.q));
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();elegirTema(el.dataset.q);} });
+  });
+  svg.querySelectorAll('.cuadrante').forEach(el=>{
+    el.addEventListener('click',()=>elegirTema(el.dataset.q));
+  });
+  svg.querySelectorAll('.punto').forEach(el=>{
+    const abrir = ()=>abrirTendencia(el.dataset.k);
+    el.addEventListener('click',e=>{e.stopPropagation();abrir();});
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();abrir();} });
+  });
+}
+
+function pintarRadar(){
+  const svg = $('radar');
+  svg.querySelectorAll('.cuadrante').forEach(el=>el.classList.toggle('sel',el.dataset.q===estado.tema));
+  svg.querySelectorAll('.etq-tema').forEach(el=>el.classList.toggle('sel',el.dataset.q===estado.tema));
+  svg.querySelectorAll('.anillo[data-hz]').forEach(el=>{
+    el.classList.toggle('sel',estado.hz===el.dataset.hz);
+    el.style.opacity = (estado.hz==='todos'||estado.hz===el.dataset.hz) ? 1 : .3;
+  });
+  svg.querySelectorAll('.anillo-etq').forEach(el=>{
+    el.classList.toggle('sel',estado.hz===el.dataset.hz);
+    el.style.opacity = (estado.hz==='todos'||estado.hz===el.dataset.hz) ? 1 : .25;
+  });
+  const act = estado.sel.tipo==='tendencia' ? estado.sel.k : null;
+  let visibles = 0;
+  svg.querySelectorAll('.punto').forEach(el=>{
+    const ok = estado.hz==='todos' || el.dataset.hz===estado.hz;
+    el.classList.toggle('atenuado',!ok);
+    el.classList.toggle('activo',el.dataset.k===act);
+    if(ok) visibles++;
+  });
+  $('vacio').hidden = visibles>0;
+}
+
+/* ---------- barrido y pings ---------- */
+let sweep = 0, ultimo = null;
+const reducir = window.matchMedia('(prefers-reduced-motion: reduce)');
+function frame(t){
+  if(reducir.matches){ return; }
+  if(ultimo===null) ultimo=t;
+  const dt = Math.min((t-ultimo)/1000,0.1); ultimo=t;
+  const antes = sweep;
+  sweep = (sweep + dt*30) % 360;       // una vuelta cada 12 s
+  const g = $('barrido');
+  if(g) g.setAttribute('transform',`rotate(${sweep.toFixed(2)} ${CX} ${CY})`);
+  document.querySelectorAll('#radar .punto').forEach(el=>{
+    if(el.classList.contains('atenuado')) return;
+    const p = PUNTOS.find(x=>claveT(x.t)===el.dataset.k);
+    const cruzo = antes<=sweep ? (p.ang>antes && p.ang<=sweep) : (p.ang>antes || p.ang<=sweep);
+    if(cruzo){ el.classList.remove('ping'); void el.getBoundingClientRect(); el.classList.add('ping'); }
+  });
+  requestAnimationFrame(frame);
+}
+function arrancar(){
+  ultimo=null;
+  if(!reducir.matches) requestAnimationFrame(frame);
+}
+if(reducir.addEventListener) reducir.addEventListener('change',arrancar);
+
+/* ---------- panel izquierdo ---------- */
+function dibujarIzq(){
+  const c = CORRIDA;
+  $('edicion').innerHTML = `<span class="on"><span>Edición del <b>${esc(fechaLarga(c.corrida))}</b></span></span><span><b>${c.totales.noticias}</b> noticias · <b>${c.totales.fuentes}</b> fuentes · <b>${c.tendencias.length}</b> tendencias</span>`;
+  $('aviso').hidden = !c.provisorio;
+  const p = $('pildora');
+  p.style.setProperty('--i',0);
+  p.innerHTML = `<span class="pildora__fondo" aria-hidden="true"></span>` + HZ.map(h=>`<button type="button" role="radio" aria-checked="${h.id===estado.hz}" data-hz="${h.id}">${h.etq}</button>`).join('');
+  p.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>elegirHz(b.dataset.hz)));
+  $('temas').innerHTML = TEMAS.map(t=>{
+    const d = datosTema(t) || {};
+    return `<button type="button" class="tema" data-t="${t}" aria-pressed="${t===estado.tema}">
+      <span class="tema__nombre">${esc(NOM_TEMA[t])}<small>${d.horizonte_ar ? 'llega en '+HZ.find(h=>h.id===d.horizonte_ar).etq : ''}</small></span>
+      <span class="chips">
+        <span class="chip chip--${d.estado_regional||'nula'}"><i>vs Brasil/México</i>${esc(textoEstado(d.estado_regional,d.brecha_regional))}</span>
+        <span class="chip chip--${d.estado_global||'nula'}"><i>vs EE.UU./UE</i>${esc(textoEstado(d.estado_global,d.brecha_global))}</span>
+      </span></button>`;
+  }).join('');
+  $('temas').querySelectorAll('.tema').forEach(b=>b.addEventListener('click',()=>elegirTema(b.dataset.t)));
+  $('leyenda').innerHTML = `
+    <span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="#5cffb0"/></svg>Tendencia (más grande = más fuentes)</span>
+    <span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="#fff"/></svg>Argentina</span>
+    <span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="5" fill="#0a1311" stroke="#5cffb0" stroke-width="2.5"/></svg>Brasil / México</span>
+    <span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="#5cffb0"/></svg>EE.UU. / UE</span>
+    <span><svg viewBox="0 0 20 20"><rect x="2" y="8" width="16" height="4" rx="2" fill="#ff7a59"/></svg>Atrasada</span>
+    <span><svg viewBox="0 0 20 20"><rect x="2" y="8" width="16" height="4" rx="2" fill="#59d4ff"/></svg>Adelantada</span>`;
+  $('pie').innerHTML = `<span>Radar Fintech · Trabajo práctico · prototipo de concepto</span><span>Generado el ${esc(fechaLarga(c.generado))}</span>`;
+}
+
+function pintarIzq(){
+  const p = $('pildora');
+  p.querySelectorAll('button').forEach((b,i)=>{ const on=b.dataset.hz===estado.hz; b.setAttribute('aria-checked',on); if(on) p.style.setProperty('--i',i); });
+  $('temas').querySelectorAll('.tema').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===estado.tema));
+}
+
+/* ---------- frase de un vistazo ---------- */
+function fraseTema(t){
+  const d = datosTema(t); const nAR = nivel(t,'AR');
+  if(!d || nAR===null) return `${NOM_TEMA[t]}: sin datos de Argentina para comparar.`;
+  const parte = (est,br,reg)=>{
+    if(!est) return `sin datos de ${NOM_REGION[reg]}`;
+    if(est==='pareja') return `<b>a la par</b> de ${NOM_REGION[reg]}`;
+    const n = Math.abs(br);
+    return `<b>${est==='atrasada'?'atrasada':'adelantada'} ${n} ${n===1?'nivel':'niveles'}</b> frente a ${NOM_REGION[reg]}`;
+  };
+  return `<b>${NOM_TEMA[t]}:</b> Argentina está en <b>${NOM_NIVEL[nAR].toLowerCase()}</b> (nivel ${nAR} de 3), ${parte(d.estado_regional,d.brecha_regional,'LATAM')} y ${parte(d.estado_global,d.brecha_global,'GLOBAL')}.`;
+}
+
+/* ---------- detalle ---------- */
+function filaEscala(t,reg){
+  const n = nivel(t,reg); const c = celda(t,reg);
+  const barras = [1,2,3].map(i=>`<i class="${n!==null&&n>=i?'on':''}"></i>`).join('');
+  const txt = n===null ? 'Sin datos' : `${n} · ${NOM_NIVEL[n]}${c.origen==='estimado'?' (est.)':''}`;
+  return `<div class="escala__fila"><span>${esc(NOM_REGION[reg])}</span><div class="escala__barra">${barras}</div><b>${esc(txt)}</b></div>`;
+}
+function detalleTema(){
+  const t = estado.tema, d = datosTema(t); if(!d) return '';
+  const urls = [...new Set([
+    ...CORRIDA.referencia.filter(r=>r.tema===t).map(r=>r.url),
+    ...CORRIDA.celdas.filter(c=>c.tema===t).flatMap(c=>c.urls||[]),
+  ])];
+  const tends = CORRIDA.tendencias.filter(x=>x.tema===t);
+  const porHz = ['corto','mediano','largo'].map(h=>{
+    const l = tends.filter(x=>x.horizonte_ar===h);
+    const hz = HZ.find(x=>x.id===h);
+    return `<h3>${hz.largo} · ${hz.etq}</h3>` + (l.length ? `<ul class="lista-tend">${l.map(x=>`<li><button type="button" data-k="${esc(claveT(x))}"><small>${x.fuentes.length} fuentes</small><span>${esc(x.nombre)}</span></button></li>`).join('')}</ul>` : `<p>No hay tendencias en este horizonte.</p>`);
+  }).join('');
+  return `<p class="rotulo">Tema · llega a Argentina en ${HZ.find(h=>h.id===d.horizonte_ar).etq}</p>
+    <h2>${esc(NOM_TEMA[t])}</h2>
+    <h3>Adopción hoy</h3>
+    <div class="escala">${filaEscala(t,'AR')}${filaEscala(t,'LATAM')}${filaEscala(t,'GLOBAL')}</div>
+    <p>${esc(d.resumen)}</p>
+    <dl><div><dt>Quiénes se mueven</dt><dd>${esc(d.proveedores)}</dd></div><div><dt>Inversión y capacidad</dt><dd>${esc(d.inversion)}</dd></div></dl>
+    <h3>Qué mirar</h3><ul class="indic">${(d.indicadores||[]).map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
+    ${porHz}
+    <h3>Fuentes (${urls.length})</h3>
+    <ul class="fuentes fuentes--c">${urls.slice(0,10).map(u=>`<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><b>${esc(dominio(u))}</b><span aria-hidden="true">↗</span></a></li>`).join('')}</ul>`;
+}
+function detalleTendencia(){
+  const t = CORRIDA.tendencias.find(x=>claveT(x)===estado.sel.k);
+  if(!t) return detalleTema();
+  const hz = HZ.find(h=>h.id===t.horizonte_ar);
+  return `<button type="button" class="volver" id="volver">← Volver a ${esc(NOM_TEMA[t.tema])}</button>
+    <p class="rotulo">Tendencia · ${esc(NOM_TEMA[t.tema])}</p>
+    <h2>${esc(t.nombre)}</h2>
+    <div><span class="pill pill--v">${hz.largo} · ${hz.etq}</span><span class="pill">${esc(NOM_CAP[t.capacidad]||t.capacidad)}</span></div>
+    <p>${esc(t.resumen)}</p>
+    <h3>Fuentes (${t.fuentes.length})</h3>
+    <ul class="fuentes">${t.fuentes.map(f=>`<li><a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer"><span class="fuentes__cab"><b>${esc(f.fuente)}</b><time datetime="${esc(f.fecha)}">${esc(fechaLarga(f.fecha))}</time></span>${f.cita?`<q>${esc(f.cita)}</q>`:''}</a></li>`).join('')}</ul>`;
+}
+function pintarDetalle(){
+  const el = $('detalle');
+  el.style.animation='none'; void el.offsetWidth; el.style.animation='';
+  el.innerHTML = estado.sel.tipo==='tendencia' ? detalleTendencia() : detalleTema();
+  el.scrollTop = 0;
+  el.querySelectorAll('.lista-tend button').forEach(b=>b.addEventListener('click',()=>abrirTendencia(b.dataset.k)));
+  const v = $('volver'); if(v) v.addEventListener('click',()=>{estado.sel={tipo:'tema'};render();});
+}
+
+/* ---------- acciones ---------- */
+function elegirTema(t){ estado.tema=t; estado.sel={tipo:'tema'}; render(); }
+function elegirHz(h){ estado.hz=h; render(); }
+function abrirTendencia(k){
+  const t = CORRIDA.tendencias.find(x=>claveT(x)===k); if(!t) return;
+  estado.tema = t.tema; estado.sel={tipo:'tendencia',k};
+  render();
+  if(window.matchMedia('(max-width:1200px)').matches) $('detalle').scrollIntoView({behavior:reducir.matches?'auto':'smooth',block:'start'});
+}
+function render(){
+  $('frase').innerHTML = fraseTema(estado.tema);
+  pintarIzq(); pintarRadar(); pintarDetalle();
+}
+
+dibujarRadar(); dibujarIzq(); render(); arrancar();
+</script>
+</body>
+</html>
