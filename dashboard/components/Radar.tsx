@@ -99,7 +99,7 @@ function TendenciasRotativas({
   );
 }
 
-export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; origen: Origen }) {
+export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Origen }) {
   const [edicion, setEdicion] = useState(0);
   const [horizonte, setHorizonte] = useState<Horizonte>('corto');
   const [tema, setTema] = useState<TemaId>('pagos_instantaneos');
@@ -108,7 +108,7 @@ export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; ori
   const corrida = ediciones[edicion] ?? ediciones[0];
   const lista = tendenciasDe(corrida, horizonte);
   const hz = HORIZONTES.find((h) => h.id === horizonte)!;
-  const esUltima = edicion === 0;
+  const numeroEdicion = ediciones.length - edicion;
 
   /** En celular el detalle queda abajo: al elegir algo se lleva la vista hasta él. */
   const elegir = (s: Seleccion) => {
@@ -145,61 +145,69 @@ export default function Radar({ ediciones, origen }: { ediciones: Corrida[]; ori
       </div>
       <div className="grano" aria-hidden="true" />
 
-      <header className="barra">
-        <div className="marca">
-          <span className="marca__logo" aria-hidden="true"><span /><span /><span /></span>
-          <span className="marca__nombre">Radar Fintech</span>
-        </div>
-        <span className="barra__texto">Agente de tendencias · edición semanal</span>
-      </header>
+      <header className="cabecera">
+        <p className="cabecera__fuentes">Pagos · Billeteras · Argentina</p>
 
-      <main className="bento">
-        {/* Radar Fintech */}
-        <section className="tarjeta portada">
-          <p className="portada__fecha">
-            <span className={`punto-vivo punto-vivo--${esUltima ? origen : 'respaldo'}`} aria-hidden="true" />
-            Edición del {fechaLarga(corrida.corrida)}
-          </p>
-          <h1 className="portada__titulo">Radar Fintech</h1>
-          <h2 className="portada__subtitulo">Pagos y billeteras en Argentina</h2>
-          <p className="portada__texto">
-            Qué pasa hoy, qué puede venir y dónde están las brechas frente a Brasil, México, EE.UU. y Europa.
-          </p>
-          <div className="portada__pie">
-            <Segmentado opciones={HORIZONTES} valor={horizonte} onCambio={setHorizonte} etiqueta="Horizonte temporal" />
-            <p className="portada__totales">
-              <b>{corrida.totales.noticias}</b> noticias · <b>{corrida.totales.fuentes}</b> fuentes · <b>{corrida.tendencias.length}</b> tendencias
-            </p>
+        <div className="cabecera__marca">
+          <svg className="cabecera__radar" viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="barrido" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stopColor="#6366f1" stopOpacity="0.7" />
+                <stop offset="1" stopColor="#6366f1" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="48" className="radar-aro" />
+            <circle cx="50" cy="50" r="30" className="radar-fino" />
+            <circle cx="50" cy="50" r="14" className="radar-fino" />
+            <path d="M50 2V98M2 50H98" className="radar-fino" />
+            <path className="radar-barrido" d="M50 50 L50 2 A48 48 0 0 1 84 16 Z" fill="url(#barrido)" />
+            <circle cx="66" cy="38" r="5" className="radar-punto" />
+          </svg>
+          <div className="cabecera__texto">
+            <p className="cabecera__kicker">Edición semanal</p>
+            <h1 className="cabecera__titulo">
+              <span>Radar</span> <em>Fintech</em>
+            </h1>
           </div>
-        </section>
+        </div>
 
-        {/* Tendencias que van pasando */}
-        <TendenciasRotativas key={`${horizonte}-${corrida.corrida}`} lista={lista} hz={hz} onAbrir={abrirTendencia} />
+        <p className="cabecera__lema">Pagos y billeteras en Argentina: una mirada desde los negocios</p>
+        <p className="cabecera__bajada">
+          Qué pasa hoy, qué puede venir y dónde están las brechas frente a Brasil, México, EE.UU. y Europa.
+        </p>
 
-        {/* Estado de datos y edición */}
-        <section className="tarjeta estado" aria-label="Estado de los datos">
-          <div className="estado__fila">
-            <span className="estado__origen">
-              <span className={`punto-vivo punto-vivo--${esUltima ? origen : 'respaldo'}`} aria-hidden="true" />
-              {!esUltima ? 'Edición anterior' : origen === 'en_vivo' ? 'En vivo' : 'Copia guardada'}
-            </span>
-            <label className="selector">
-              <span className="sr">Edición semanal</span>
+        <div className="cabecera__barra">
+          <span>Edición N.º {numeroEdicion}</span>
+          <span>{fechaLarga(corrida.corrida)}</span>
+          <label className="selector">
+            <span className="selector__rotulo">Edición</span>
+            <span className="selector__caja">
               <select value={edicion} onChange={(e) => cambiarEdicion(Number(e.target.value))}>
                 {ediciones.map((c, n) => (
-                  <option key={c.corrida} value={n}>{fechaCorta(c.corrida)}</option>
+                  <option key={c.corrida} value={n}>
+                    N.º {ediciones.length - n} — {fechaCorta(c.corrida)}
+                  </option>
                 ))}
               </select>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" /></svg>
-            </label>
-          </div>
-          {esUltima && origen === 'respaldo' && (
-            <p className="estado__nota">El agente no respondió; se muestra la última edición guardada.</p>
-          )}
-          {corrida.provisorio && (
-            <p className="estado__nota estado__nota--aviso">Resúmenes provisorios: la próxima corrida con IA los reemplaza.</p>
-          )}
-        </section>
+            </span>
+          </label>
+        </div>
+
+        <div className="cabecera__controles">
+          <Segmentado opciones={HORIZONTES} valor={horizonte} onCambio={setHorizonte} etiqueta="Horizonte temporal" />
+          <p className="cabecera__totales">
+            <b>{corrida.totales.noticias}</b> noticias · <b>{corrida.totales.fuentes}</b> fuentes · <b>{corrida.tendencias.length}</b> tendencias
+          </p>
+        </div>
+        {corrida.provisorio && (
+          <p className="cabecera__aviso">Resúmenes provisorios: la próxima corrida con IA los reemplaza.</p>
+        )}
+      </header>
+
+      <main className="bento">
+        {/* Tendencias que van pasando */}
+        <TendenciasRotativas key={`${horizonte}-${corrida.corrida}`} lista={lista} hz={hz} onAbrir={abrirTendencia} />
 
         {/* Carrusel de tendencias */}
         <section className="tarjeta tendencias" aria-labelledby="t-tend">
