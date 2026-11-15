@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ideas para el dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090B; --card:rgba(255,255,255,.03); --borde:rgba(255,255,255,.08); --borde-on:rgba(139,92,246,.45);
+  --t1:#fff; --t2:rgba(255,255,255,.62); --t3:rgba(255,255,255,.4);
+  --azul:#3B82F6; --azul2:#2563EB; --violeta:#8B5CF6; --violeta2:#7C3AED; --rosa:#F472B6; --verde:#34D399; --ambar:#FBBF24;
+  --grad:linear-gradient(135deg,var(--azul),var(--violeta));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:Inter,system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
+::selection{background:var(--violeta2);color:#fff}
+.luz{position:fixed;border-radius:50%;filter:blur(110px);opacity:.35;z-index:-1;pointer-events:none}
+.luz.a{width:520px;height:520px;background:var(--azul2);top:-160px;left:-120px}
+.luz.b{width:460px;height:460px;background:var(--violeta2);top:40%;right:-180px}
+.luz.c{width:380px;height:380px;background:var(--azul);bottom:-160px;left:30%}
+.envoltura{max-width:1160px;margin:0 auto;padding:56px 16px 96px}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--azul)}
+h1{font-size:clamp(38px,7vw,76px);font-weight:800;letter-spacing:-.04em;line-height:1;margin:14px 0 18px}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bajada{color:var(--t2);font-size:clamp(16px,2vw,19px);max-width:720px}
+.bajada b{color:var(--t1)}
+h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-.025em;margin:8px 0 10px}
+h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
+p{color:var(--t2)}
+code{font-family:'JetBrains Mono',monospace;font-size:.85em;color:#C4B5FD}
+.tarjeta{background:var(--card);border:1px solid var(--borde);border-radius:24px;backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);transition:all .3s cubic-bezier(.25,1,.5,1)}
+.tarjeta:hover{border-color:var(--borde-on);transform:translateY(-2px)}
+section{margin-top:88px}
+
+.diag{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:40px}
+.diag .tarjeta{padding:28px}
+.pantalla{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.pantalla div{border-radius:8px;border:1px dashed rgba(255,255,255,.18);color:var(--t3);font-size:12px;padding:8px 12px}
+.pantalla .hueco{border-color:rgba(244,114,182,.5);color:var(--rosa);background:rgba(244,114,182,.06);padding:22px 12px;text-align:center}
+.lista-diag{list-style:none;margin-top:14px;display:grid;gap:10px}
+.lista-diag li{display:flex;gap:10px;color:var(--t2);font-size:15px}
+.lista-diag b{color:var(--t1);font-weight:600}
+.punto{flex:none;width:8px;height:8px;border-radius:50%;margin-top:8px;background:var(--grad)}
+
+.matriz-env{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:28px}
+.matriz{padding:24px}
+.matriz svg{width:100%;height:auto;display:block}
+.leyenda-ref{padding:20px;display:grid;gap:4px;align-content:start}
+.ref{display:flex;gap:12px;align-items:baseline;font-size:14px;color:var(--t2);text-decoration:none;padding:6px 8px;border-radius:10px}
+.ref:hover{background:rgba(255,255,255,.04);color:#fff}
+.ref b{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--violeta);width:22px;flex:none}
+
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.filtro{background:rgba(255,255,255,.04);border:1px solid var(--borde);color:var(--t2);font:500 13px Inter,sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .25s}
+.filtro[aria-pressed="true"]{background:#fff;color:#0b0b10;border-color:#fff}
+.ideas{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.idea{padding:26px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:24px}
+.idea.oculta{display:none}
+.num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11px;font-weight:600;padding:4px 9px;border-radius:999px;border:1px solid var(--borde);color:var(--t2);white-space:nowrap}
+.chip.ok{color:var(--verde);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.07)}
+.chip.e1{color:#93C5FD}.chip.e2{color:#C4B5FD}.chip.e3{color:var(--rosa)}
+.inspira{font-size:13px;color:var(--t3)}
+.inspira b{color:var(--t2);font-weight:600}
+.maqueta{background:rgba(0,0,0,.35);border:1px solid var(--borde);border-radius:16px;padding:18px;min-height:150px;overflow:hidden}
+.idea p{font-size:15px}
+.idea p b{color:var(--t1)}
+.porque{font-size:14px;color:var(--t2);border-left:2px solid var(--violeta);padding-left:12px}
+.porque b{color:var(--t1)}
+.idea.top{border-color:rgba(139,92,246,.35);box-shadow:0 0 0 1px rgba(139,92,246,.12),0 20px 60px -30px rgba(124,58,237,.6)}
+.estrella{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.calor{display:grid;grid-template-columns:90px repeat(3,1fr);gap:5px;font-size:11px;color:var(--t3)}
+.calor .c{height:30px;border-radius:7px;display:grid;place-items:center;font-weight:700;color:#fff;font-size:12px}
+.calor .h{text-align:center;align-self:end}
+.calor .f{align-self:center}
+.cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cifra .n{font-size:30px;font-weight:800;letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.05}
+.cifra .d{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.35}
+.cifra .p{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--t2);letter-spacing:.1em;margin-bottom:4px}
+.senal{display:grid;gap:9px}
+.senal-f{display:grid;grid-template-columns:1fr 120px 54px;gap:10px;align-items:center;font-size:12px;color:var(--t2)}
+.barra{height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.barra i{display:block;height:100%;border-radius:99px;background:var(--grad)}
+.tag{font-size:10px;font-weight:700;text-align:right}
+.citas{position:relative;height:120px}
+.cita{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:8px;opacity:0;transition:opacity .8s}
+.cita.on{opacity:1}
+.cita q{font-size:16px;font-weight:600;line-height:1.4;color:#fff}
+.cita span{font-size:11px;color:var(--t3)}
+.diap{aspect-ratio:16/9;max-height:170px;margin:0 auto;border-radius:10px;background:radial-gradient(circle at 30% 20%,rgba(59,130,246,.35),transparent 60%),#050507;border:1px solid var(--borde);display:flex;flex-direction:column;justify-content:center;padding:18px;gap:6px;position:relative}
+.diap .g{font-size:34px;font-weight:800;letter-spacing:-.03em}
+.diap .s{font-size:11px;color:var(--t2)}
+.diap .pag{position:absolute;bottom:10px;right:14px;font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.diap .bar{position:absolute;left:0;bottom:0;height:3px;width:37.5%;background:var(--grad);border-radius:0 3px 3px 0}
+.nov{display:grid;gap:8px}
+.nov-f{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--t2)}
+.nov-b{font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;flex:none;width:76px;text-align:center}
+.pasos{display:flex;gap:8px;align-items:stretch}
+.paso{flex:1;border-radius:10px;border:1px solid var(--borde);padding:10px;font-size:11px;color:var(--t3);transition:all .4s}
+.paso b{display:block;color:#fff;font-size:12px;margin-bottom:4px}
+.paso.on{border-color:var(--borde-on);background:rgba(139,92,246,.1)}
+.empresa{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.emp{border-radius:12px;border:1px solid var(--borde);padding:12px}
+.emp h4{font-size:12px;color:#fff;margin-bottom:8px}
+.emp li{font-size:11px;color:var(--t2);list-style:none;display:flex;gap:6px;margin-bottom:4px}
+.glosa{font-size:14px;color:var(--t2);line-height:1.9}
+.glosa u{text-decoration:none;border-bottom:1px dashed var(--violeta);color:#fff;cursor:help}
+.globo{display:inline-block;margin-top:10px;background:#16161c;border:1px solid var(--borde-on);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--t2);max-width:300px}
+.globo b{color:#fff}
+
+.reco{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px;counter-reset:r}
+.reco .tarjeta{padding:22px;position:relative}
+.reco .tarjeta::before{counter-increment:r;content:counter(r);position:absolute;top:14px;right:20px;font:800 36px Inter,sans-serif;color:rgba(255,255,255,.07)}
+.reco h3{font-size:16px;margin:10px 0 6px}
+.reco p{font-size:13px}
+.flujo{margin-top:16px;padding:22px 26px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:14px;color:var(--t3)}
+.flujo .z{background:rgba(255,255,255,.05);border:1px solid var(--borde);border-radius:10px;padding:8px 12px;color:#fff;font-weight:600;font-size:13px}
+.flujo .z.n{border-color:var(--borde-on);background:rgba(139,92,246,.12)}
+.no{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+.no .tarjeta{padding:20px 22px;display:flex;gap:14px}
+.no .x{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(244,114,182,.1);color:var(--rosa);font-weight:700}
+.no h3{font-size:15px;margin-bottom:4px}
+.no p{font-size:13px}
+footer{margin-top:80px;color:var(--t3);font-size:13px;border-top:1px solid var(--borde);padding-top:20px}
+a{color:#A5B4FC}
+
+@media (max-width:900px){
+  .diag,.matriz-env,.ideas,.no{grid-template-columns:1fr}
+  .reco{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .reco{grid-template-columns:1fr}
+  .cifras{grid-template-columns:1fr}
+  .senal-f{grid-template-columns:1fr 64px 46px}
+  .pasos{flex-direction:column}
+  .empresa{grid-template-columns:1fr}
+  .idea{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="luz a"></div><div class="luz b"></div><div class="luz c"></div>
+<main class="envoltura">
+
+<header>
+  <div class="mono">Radar Fintech · propuestas · 14 nov 2026</div>
+  <h1>Ideas para que el radar <span>tenga más para recorrer</span></h1>
+  <p class="bajada">12 ideas sacadas de portales que hacen cosas parecidas: radares de tecnología, sitios de datos y medios que explican con gráficos. Casi todas usan datos que el agente <b>ya trae</b>, así que no hay que tocar n8n.</p>
+</header>
+
+<section id="diagnostico" style="margin-top:56px">
+  <div class="mono">01 · Cómo está hoy</div>
+  <h2>La pantalla se termina enseguida</h2>
+  <div class="diag">
+    <div class="tarjeta">
+      <h3>Lo que se ve hoy en agente-fintech.vercel.app</h3>
+      <div class="pantalla" aria-label="Esquema de la pantalla actual">
+        <div>Portada: Radar Fintech + edición</div>
+        <div>Píldora de horizonte</div>
+        <div>Carrusel de tendencias</div>
+        <div>Argentina hoy: radar + medidor · Detalle</div>
+        <div class="hueco">Acá se termina. Quedan sin mostrar datos que el agente ya trae.</div>
+      </div>
+    </div>
+    <div class="tarjeta">
+      <h3>Lo que el agente ya manda y no se muestra</h3>
+      <ul class="lista-diag">
+        <li><span class="punto"></span><span><b>17 datos oficiales</b> con cifra, año y link: 60% de pagos inmediatos en Argentina, 86% de adultos usando Pix, 208,79 M de permisos en Open Finance Brasil.</span></li>
+        <li><span class="punto"></span><span><b>12 celdas tema × región</b> con nivel de 0 a 3. Hoy se ve un solo tema por vez.</span></li>
+        <li><span class="punto"></span><span><b>Citas textuales</b> de las noticias. Hoy quedan escondidas dentro del detalle.</span></li>
+        <li><span class="punto"></span><span><b>Más de 40 empresas y organismos</b> nombrados (Mercado Pago, BCRA, Ualá, Pix, Visa…).</span></li>
+        <li><span class="punto"></span><span><b>Cuántas fuentes respaldan cada tendencia</b>: de 11 (QR) a 1 sola. Hoy es un número suelto.</span></li>
+        <li><span class="punto"></span><span><b>2 ediciones guardadas</b>: se pueden comparar para ver qué cambió.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="mapa">
+  <div class="mono">02 · De un vistazo</div>
+  <h2>Cuánto suma cada idea y cuánto cuesta</h2>
+  <p>Arriba a la izquierda están las que más suman con menos trabajo. Tocá un número para ir a la idea.</p>
+  <div class="matriz-env">
+    <div class="tarjeta matriz">
+      <svg viewBox="-24 0 524 370" role="img" aria-label="Gráfico de impacto contra esfuerzo de las 12 ideas">
+        <defs>
+          <linearGradient id="gq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6" stop-opacity=".18"/><stop offset="1" stop-color="#8B5CF6" stop-opacity=".04"/></linearGradient>
+          <linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563EB"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="250" height="170" fill="url(#gq)" rx="12"/>
+        <line x1="250" y1="0" x2="250" y2="340" stroke="rgba(255,255,255,.1)" stroke-dasharray="4 5"/>
+        <line x1="0" y1="170" x2="500" y2="170" stroke="rgba(255,255,255,.1)" stroke-dasharray="4 5"/>
+        <line x1="0" y1="340" x2="500" y2="340" stroke="rgba(255,255,255,.15)"/>
+        <line x1="0" y1="0" x2="0" y2="340" stroke="rgba(255,255,255,.15)"/>
+        <text x="12" y="22" fill="#A5B4FC" font-size="11" font-weight="700" font-family="Inter">HACER PRIMERO</text>
+        <text x="262" y="22" fill="rgba(255,255,255,.35)" font-size="11" font-weight="700" font-family="Inter">SI HAY TIEMPO</text>
+        <text x="12" y="330" fill="rgba(255,255,255,.35)" font-size="11" font-weight="700" font-family="Inter">DETALLES</text>
+        <text x="262" y="330" fill="rgba(255,255,255,.25)" font-size="11" font-weight="700" font-family="Inter">MEJOR NO</text>
+        <text x="250" y="362" fill="rgba(255,255,255,.45)" font-size="12" text-anchor="middle" font-family="Inter">más esfuerzo →</text>
+        <text x="-10" y="170" fill="rgba(255,255,255,.45)" font-size="12" text-anchor="middle" font-family="Inter" transform="rotate(-90 -10 170)">más impacto →</text>
+        <g id="puntos" font-family="Inter" font-weight="700" font-size="13"></g>
+      </svg>
+    </div>
+    <div class="tarjeta leyenda-ref" id="leyenda"></div>
+  </div>
+</section>
+
+<section id="ideas">
+  <div class="mono">03 · Las ideas</div>
+  <h2>Qué agregar, de dónde sale y con qué datos</h2>
+  <p>Cada maqueta usa datos reales de la edición N.º 2 (14 nov 2026).</p>
+  <div class="filtros" role="group" aria-label="Filtrar ideas">
+    <button class="filtro" aria-pressed="true" data-f="todas">Todas</button>
+    <button class="filtro" aria-pressed="false" data-f="e1">Poco trabajo</button>
+    <button class="filtro" aria-pressed="false" data-f="top">Recomendadas</button>
+  </div>
+
+  <div class="ideas">
+
+    <article class="tarjeta idea top" id="i1" data-tags="e1 top">
+      <div><span class="num">01</span> <span class="estrella">· recomendada</span><h3>Mapa de calor: los 4 temas en todas las regiones</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en <b>Our World in Data</b> y el <b>Global Findex</b> del Banco Mundial: grillas de color para comparar países de un vistazo.</div>
+      <div class="maqueta"><div class="calor" id="calor"></div></div>
+      <p>Una grilla de 4 temas × 3 regiones, más oscura cuanto más avanzada está la adopción. Hoy hay que tocar tema por tema para entender todo. Con esto se ve en un segundo que Argentina va primera en pagos y stablecoins y atrás en open finance.</p>
+      <div class="porque"><b>Usa:</b> las 12 celdas que ya manda el agente. Al tocar una celda se abre ese tema en el Detalle.</div>
+    </article>
+
+    <article class="tarjeta idea top" id="i2" data-tags="e1 top">
+      <div><span class="num">02</span> <span class="estrella">· recomendada</span><h3>"Las cifras que importan"</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en <b>Axios</b> ("By the numbers") y <b>Visual Capitalist</b>: un número grande con una línea que lo explica.</div>
+      <div class="maqueta">
+        <div class="cifras">
+          <div class="cifra"><div class="p">AR · 2025</div><div class="n" data-cuenta="60" data-suf="%">60%</div><div class="d">de los pagos electrónicos ya son inmediatos (transferencia o QR)</div></div>
+          <div class="cifra"><div class="p">BR · 2025</div><div class="n" data-cuenta="86" data-suf="%">86%</div><div class="d">de los adultos de Brasil usó Pix en diciembre</div></div>
+          <div class="cifra"><div class="p">BR · 2026</div><div class="n">208,8 M</div><div class="d">permisos activos en Open Finance Brasil. Argentina: solo el decreto</div></div>
+        </div>
+      </div>
+      <p>Una fila de cifras oficiales grandes que se cuentan al aparecer en pantalla, con el país y el año. Les da a los docentes datos duros, no solo textos de la IA, y separa bien lo que es dato de lo que es estimación.</p>
+      <div class="porque"><b>Usa:</b> los 17 datos oficiales (<code>referencia</code>) que hoy no se ven en ningún lado. Cada cifra lleva a su fuente.</div>
+    </article>
+
+    <article class="tarjeta idea top" id="i3" data-tags="top">
+      <div><span class="num">03</span> <span class="estrella">· recomendada</span><h3>Línea del tiempo 2026 → 2036</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e2">Trabajo medio</span></div>
+      <div class="inspira">Inspirado en el <b>Hype Cycle de Gartner</b> y las hojas de ruta de productos: las tendencias ubicadas en el tiempo, no en una lista.</div>
+      <div class="maqueta"><svg id="linea" viewBox="0 0 460 170" style="width:100%;height:auto" role="img" aria-label="Línea del tiempo de tendencias por tema"></svg></div>
+      <p>Un carril por tema y tres tramos (0–1, 1–3 y 3–10 años). Cada tendencia es una burbuja, más grande cuantas más fuentes tiene. Muestra las 19 juntas y deja ver cosas que hoy no se notan: <b>pagos</b> se concentra en el corto plazo e <b>IA</b> en el largo.</p>
+      <div class="porque"><b>Usa:</b> horizonte, tema y cantidad de fuentes de cada tendencia. Complementa la píldora de horizonte, no la reemplaza.</div>
+    </article>
+
+    <article class="tarjeta idea top" id="i4" data-tags="e1 top">
+      <div><span class="num">04</span> <span class="estrella">· recomendada</span><h3>Termómetro de señal: ¿cuánto respaldo tiene cada tendencia?</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en <b>Ground News</b>, que muestra con una barra cuántos medios cubren cada noticia.</div>
+      <div class="maqueta"><div class="senal" id="senal"></div></div>
+      <p>Una barra al lado de cada tendencia: <b>señal fuerte</b> si la nombran muchas fuentes distintas, <b>señal débil</b> si es una sola nota. Es honesto con el usuario (y con los docentes): no todo lo que detecta la IA pesa lo mismo.</p>
+      <div class="porque"><b>Usa:</b> la cantidad de fuentes de cada tendencia. Se puede sumar a las tarjetas del carrusel sin agregar una sección nueva.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i5" data-tags="e1">
+      <div><span class="num">05</span><h3>Muro de titulares: "lo que dicen los medios"</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en las citas destacadas de <b>Morning Brew</b> y <b>The Economist</b>.</div>
+      <div class="maqueta"><div class="citas" id="citas"></div></div>
+      <p>Las citas textuales de las noticias van rotando en letra grande. Le pone voz real al radar y muestra que detrás de cada tendencia hay notas concretas. Al tocar una cita se abre la nota original.</p>
+      <div class="porque"><b>Usa:</b> el campo <code>cita</code> de las fuentes, que hoy solo aparece dentro del Detalle.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i6" data-tags="">
+      <div><span class="num">06</span><h3>Constelación de actores</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e2">Trabajo medio</span></div>
+      <div class="inspira">Inspirado en los <b>market maps de CB Insights</b>: quién juega en cada mercado.</div>
+      <div class="maqueta"><svg id="red" viewBox="0 0 460 190" style="width:100%;height:auto" role="img" aria-label="Red de empresas y organismos por tema"></svg></div>
+      <p>Los 4 temas son estrellas grandes y las empresas u organismos giran alrededor. Los que aparecen en más de un tema (Mercado Pago, BCRA, Visa) quedan en el medio, conectados con varios. Responde una pregunta de negocio: <b>¿quién está en todos lados?</b></p>
+      <div class="porque"><b>Usa:</b> el texto de "Quiénes se mueven" de cada tema, separado por comas. Ojo: a veces la IA escribe el mismo actor con dos nombres (BCRA y Banco Central…), hay que unificarlos.</div>
+    </article>
+
+    <article class="tarjeta idea top" id="i7" data-tags="top">
+      <div><span class="num">07</span> <span class="estrella">· ideal para la defensa</span><h3>Modo presentación</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e2">Trabajo medio</span></div>
+      <div class="inspira">Inspirado en <b>Flourish Story</b> y las keynotes de <b>Apple</b>: una idea por pantalla, grande.</div>
+      <div class="maqueta"><div class="diap"><div class="s mono" style="color:var(--azul)">Pagos instantáneos</div><div class="g">Argentina +1</div><div class="s">frente a EE.UU. y Europa · 60% de los pagos ya son inmediatos</div><div class="pag">3 / 8</div><div class="bar"></div></div></div>
+      <p>Un botón "Presentar" que pasa el dashboard a pantalla completa y muestra la edición como diapositivas: portada, una por tema, las tendencias clave, cierre. Se avanza con las flechas del teclado. <b>Sirve directo para presentar el TP</b> y para el video, sin armar un PowerPoint aparte.</p>
+      <div class="porque"><b>Usa:</b> los mismos datos de la pantalla, en otro formato. Se arma solo con cada edición nueva.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i8" data-tags="">
+      <div><span class="num">08</span><h3>"Qué cambió esta semana"</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e2">Trabajo medio</span></div>
+      <div class="inspira">Inspirado en el <b>Technology Radar de Thoughtworks</b>, que marca cada punto como "nuevo" o "se movió".</div>
+      <div class="maqueta">
+        <div class="nov">
+          <div class="nov-f"><span class="nov-b" style="background:rgba(52,211,153,.12);color:var(--verde)">NUEVA</span>Pagos y comercio agéntico autónomo</div>
+          <div class="nov-f"><span class="nov-b" style="background:rgba(59,130,246,.14);color:#93C5FD">↑ SUBIÓ</span>Crecimiento del QR: más fuentes que la semana pasada</div>
+          <div class="nov-f"><span class="nov-b" style="background:rgba(251,191,36,.12);color:var(--ambar)">↔ SE MOVIÓ</span>Open Finance AR: de largo a mediano plazo</div>
+          <div class="nov-f"><span class="nov-b" style="background:rgba(244,114,182,.1);color:var(--rosa)">SALIÓ</span>Una tendencia de la edición anterior</div>
+        </div>
+      </div>
+      <p>Una franja que compara la edición elegida con la anterior y marca qué entró, qué salió y qué ganó fuerza. Le da sentido a que el agente corra todas las semanas: el radar <b>se mueve</b>. <i>Maqueta ilustrativa: los cambios reales salen de comparar las ediciones.</i></p>
+      <div class="porque"><b>Usa:</b> las ediciones guardadas (ya hay 2). Ojo: en el rediseño se había dejado afuera "comparar dos ediciones". Esto lo trae de vuelta en versión simple.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i9" data-tags="">
+      <div><span class="num">09</span><h3>Recorrido con scroll: "Argentina en 4 pasos"</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e3">Mucho trabajo</span></div>
+      <div class="inspira">Inspirado en <b>The Pudding</b> y los especiales del <b>New York Times</b>: el gráfico queda fijo y cambia a medida que bajás.</div>
+      <div class="maqueta">
+        <div class="pasos" id="pasos">
+          <div class="paso on"><b>1 · Hoy</b>Pagos: Argentina a la par de Brasil</div>
+          <div class="paso"><b>2 · El atraso</b>Open finance: −2 frente a la región</div>
+          <div class="paso"><b>3 · Lo que viene</b>7 tendencias en 0–1 año</div>
+          <div class="paso"><b>4 · Lejos</b>IA y tokenización a 3–10 años</div>
+        </div>
+      </div>
+      <p>Abajo del tablero, una historia: un mismo gráfico se va transformando paso a paso mientras se baja. Es lo más distinto de la lista y genera mucho recorrido, pero es la que más trabajo lleva y la que más se puede romper en celular.</p>
+      <div class="porque"><b>Usa:</b> brechas, tendencias y resúmenes. Conviene solo si sobra tiempo después de las recomendadas.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i10" data-tags="e1">
+      <div><span class="num">10</span><h3>"¿Y para mi empresa?"</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en las herramientas de <b>McKinsey</b> y <b>Stripe</b> que responden "¿esto me aplica?".</div>
+      <div class="maqueta">
+        <div class="empresa">
+          <div class="emp"><h4>Fintech chica / PyME</h4><ul><li>🟢 QR e interoperabilidad</li><li>🟢 Registro de PSAV</li><li>🟢 IA en fintechs</li></ul></div>
+          <div class="emp"><h4>Banco o empresa grande</h4><ul><li>🔵 Competencia y nuevos jugadores</li><li>🔵 Infraestructura de stablecoins</li><li>🔵 Agentes de IA en banca</li></ul></div>
+        </div>
+      </div>
+      <p>Dos columnas que reparten las tendencias según quién puede aprovecharlas. Contesta la pregunta que haría un dueño de negocio. Hay que pensarlo bien porque en el rediseño se sacó el filtro de tipo de empresa: acá es una vista para leer, no un filtro más.</p>
+      <div class="porque"><b>Usa:</b> el campo <code>capacidad</code> (grande, chica o ambas) de cada tendencia.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i11" data-tags="e1">
+      <div><span class="num">11</span><h3>De dónde salió la información</h3></div>
+      <div class="chips"><span class="chip ok">Datos que ya hay</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en las notas de fuentes de <b>Our World in Data</b> y la transparencia de <b>Ground News</b>.</div>
+      <div class="maqueta"><div class="senal" id="medios"></div></div>
+      <p>Un ranking de los medios que más alimentaron la edición y un aviso de los que fallaron (esta semana, WEF). Muestra con honestidad cómo trabaja el agente y sirve de respaldo para la sección de limitaciones del informe.</p>
+      <div class="porque"><b>Usa:</b> el nombre del medio de cada fuente y la lista <code>fuentes_fallidas</code>.</div>
+    </article>
+
+    <article class="tarjeta idea" id="i12" data-tags="e1">
+      <div><span class="num">12</span><h3>Glosario al pasar el mouse</h3></div>
+      <div class="chips"><span class="chip ok">No necesita datos</span><span class="chip e1">Poco trabajo</span></div>
+      <div class="inspira">Inspirado en <b>Investopedia</b> y las vistas previas de <b>Wikipedia</b>.</div>
+      <div class="maqueta">
+        <p class="glosa">La regulación de <u>open finance</u> avanza en Brasil, mientras en Argentina se registran los primeros <u>PSAV</u> y crece el uso de <u>stablecoins</u>.</p>
+        <div class="globo"><b>PSAV:</b> Proveedor de Servicios de Activos Virtuales. Es el registro de la CNV que deben tener los exchanges cripto para operar en Argentina.</div>
+      </div>
+      <p>Las palabras técnicas quedan subrayadas y al pasar el mouse (o tocar en el celular) muestran qué significan. No suma scroll, pero hace que cualquiera entienda la pantalla sin explicación.</p>
+      <div class="porque"><b>Usa:</b> una lista fija de 10 a 15 términos escrita a mano.</div>
+    </article>
+
+  </div>
+</section>
+
+<section id="recomendacion">
+  <div class="mono">04 · Recomendación</div>
+  <h2>Si hay que elegir: 4 ideas que arman un recorrido</h2>
+  <p>Juntas convierten la página en un recorrido de arriba hacia abajo. Cada sección contesta una pregunta y todas usan datos que ya están.</p>
+  <div class="reco">
+    <div class="tarjeta"><span class="chip ok">Ya hay datos</span><h3>Las cifras que importan</h3><p>Abre con datos duros, apenas debajo de la portada.</p></div>
+    <div class="tarjeta"><span class="chip ok">Ya hay datos</span><h3>Mapa de calor</h3><p>Todo el panorama de un vistazo, antes del detalle por tema.</p></div>
+    <div class="tarjeta"><span class="chip ok">Ya hay datos</span><h3>Línea del tiempo</h3><p>Las 19 tendencias ubicadas en el tiempo, después del detalle.</p></div>
+    <div class="tarjeta"><span class="chip ok">Ya hay datos</span><h3>Termómetro de señal</h3><p>Va adentro de las tarjetas del carrusel. No agrega una sección.</p></div>
+  </div>
+  <div class="tarjeta flujo" aria-label="Orden propuesto de la página">
+    <span class="z">Portada</span>→<span class="z n">Cifras que importan</span>→<span class="z">Carrusel + señal</span>→<span class="z n">Mapa de calor</span>→<span class="z">Argentina hoy + Detalle</span>→<span class="z n">Línea del tiempo</span>
+  </div>
+  <p style="margin-top:16px">Si después sobra tiempo, la que más suma para la entrega es el <a href="#i7">modo presentación</a>: se usa directo en la defensa y en el video.</p>
+</section>
+
+<section id="no">
+  <div class="mono">05 · Qué dejamos afuera</div>
+  <h2>Ideas que aparecen en otros portales pero acá no van</h2>
+  <div class="no">
+    <div class="tarjeta"><span class="x">×</span><div><h3>Chat con la IA dentro del dashboard</h3><p>Gasta consultas de la API en cada pregunta, y el proyecto usa la IA lo menos posible (una corrida por semana).</p></div></div>
+    <div class="tarjeta"><span class="x">×</span><div><h3>Cotizaciones o datos en tiempo real</h3><p>El radar es semanal y analiza tendencias, no precios. Además pediría APIs pagas.</p></div></div>
+    <div class="tarjeta"><span class="x">×</span><div><h3>Más fuentes o temas en el agente</h3><p>Pide cambiar n8n y aumenta el consumo. Todas las ideas de esta página funcionan con lo que ya se trae.</p></div></div>
+    <div class="tarjeta"><span class="x">×</span><div><h3>Usuarios, alertas por mail o favoritos</h3><p>Necesita login y una base de datos. Es mucho trabajo para un TP y no suma a lo que se evalúa.</p></div></div>
+  </div>
+</section>
+
+<footer>
+  Propuestas para el dashboard de Radar Fintech. Las maquetas usan datos de la edición N.º 2 (14 nov 2026), salvo "Qué cambió esta semana", que es ilustrativa. Portales de referencia: Thoughtworks Technology Radar, Gartner Hype Cycle, CB Insights, Our World in Data, Banco Mundial (Global Findex), Visual Capitalist, Axios, Morning Brew, The Economist, Ground News, The Pudding, New York Times, Flourish, Investopedia.
+</footer>
+</main>
+
+<script>
+(function(){
+  var TEMAS=[['pagos_instantaneos','Pagos'],['open_finance','Open finance'],['stablecoins','Stablecoins'],['ia_aplicada','IA aplicada']];
+  var CELDAS={pagos_instantaneos:[3,3,2],open_finance:[1,3,2],stablecoins:[3,3,2],ia_aplicada:[2,3,3]};
+  var TEND=[
+    ['pagos_instantaneos','corto',11,'Crecimiento del QR'],['pagos_instantaneos','corto',1,'Competencia'],['pagos_instantaneos','corto',2,'Transfronterizos'],['pagos_instantaneos','corto',1,'Antifraude'],['pagos_instantaneos','largo',2,'Evolución regional'],
+    ['open_finance','mediano',3,'Regulación AR'],['open_finance','mediano',2,'Open Finance BR'],['open_finance','corto',1,'Finanzas embebidas'],['open_finance','largo',1,'DLT y fiscalidad'],
+    ['stablecoins','corto',10,'Registro PSAV'],['stablecoins','mediano',2,'Infraestructura'],['stablecoins','mediano',2,'Tokenización'],['stablecoins','largo',1,'Nuevas redes'],['stablecoins','mediano',2,'Cripto en Brasil'],
+    ['ia_aplicada','largo',3,'Agentes en banca central'],['ia_aplicada','mediano',2,'Comercio agéntico'],['ia_aplicada','corto',2,'IA en fintechs'],['ia_aplicada','largo',2,'Ciberseguridad'],['ia_aplicada','largo',2,'Sandboxes']
+  ];
+  var col={pagos_instantaneos:'#3B82F6',open_finance:'#8B5CF6',stablecoins:'#22D3EE',ia_aplicada:'#F472B6'};
+  var quieto=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function el(tag,attrs,txt){var e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
+
+  // Matriz impacto / esfuerzo: [n, nombre, esfuerzo 0-480, impacto 0-320, recomendada]
+  var IDEAS=[[1,'Mapa de calor',80,250,true],[2,'Cifras que importan',40,290,true],[3,'Línea del tiempo',190,265,true],[4,'Termómetro de señal',120,215,true],[5,'Muro de titulares',70,145,false],[6,'Constelación de actores',330,205,false],[7,'Modo presentación',220,305,true],[8,'Qué cambió esta semana',300,240,false],[9,'Recorrido con scroll',440,250,false],[10,'¿Y para mi empresa?',160,135,false],[11,'De dónde salió la info',110,100,false],[12,'Glosario',40,80,false]];
+  var g=document.getElementById('puntos'),ley=document.getElementById('leyenda');
+  IDEAS.forEach(function(d){
+    var x=d[2]+20,y=340-d[3];
+    var a=el('a',{href:'#i'+d[0]});
+    a.appendChild(el('title',{},d[1]));
+    a.appendChild(el('circle',{cx:x,cy:y,r:15,fill:d[4]?'url(#gp)':'rgba(255,255,255,.06)',stroke:d[4]?'#8B5CF6':'rgba(255,255,255,.25)','stroke-width':1.5}));
+    a.appendChild(el('text',{x:x,y:y+4.5,'text-anchor':'middle',fill:'#fff'},d[0]));
+    g.appendChild(a);
+    var r=document.createElement('a');r.className='ref';r.href='#i'+d[0];
+    r.innerHTML='<b>'+(d[0]<10?'0':'')+d[0]+'</b>'+d[1]+(d[4]?' <span class="estrella">★</span>':'');
+    ley.appendChild(r);
+  });
+
+  // Mapa de calor
+  var tonos=['rgba(255,255,255,.04)','rgba(59,130,246,.28)','rgba(99,102,241,.6)','linear-gradient(135deg,#2563EB,#7C3AED)'];
+  var h='<span></span><span class="h">Argentina</span><span class="h">Brasil / México</span><span class="h">EE.UU. / UE</span>';
+  TEMAS.forEach(function(t){h+='<span class="f">'+t[1]+'</span>';CELDAS[t[0]].forEach(function(v,i){h+='<span class="c" style="background:'+tonos[v]+(i===0?';outline:1px solid rgba(255,255,255,.5);outline-offset:-1px':'')+'" title="'+t[1]+': nivel '+v+'">'+v+'</span>';});});
+  document.getElementById('calor').innerHTML=h;
+
+  // Línea del tiempo
+  var L=document.getElementById('linea'),X={corto:[110,200],mediano:[210,320],largo:[330,450]};
+  ['corto','mediano','largo'].forEach(function(k,i){
+    L.appendChild(el('rect',{x:X[k][0]-4,y:8,width:X[k][1]-X[k][0]+8,height:156,rx:8,fill:'rgba(255,255,255,'+(0.025+i*0.012)+')'}));
+    L.appendChild(el('text',{x:(X[k][0]+X[k][1])/2,y:24,'text-anchor':'middle',fill:'rgba(255,255,255,.5)','font-size':10,'font-family':'Inter','font-weight':600},['0–1 año','1–3 años','3–10 años'][i]));
+  });
+  TEMAS.forEach(function(t,i){
+    var y=50+i*33;
+    L.appendChild(el('text',{x:4,y:y+4,fill:'rgba(255,255,255,.7)','font-size':11,'font-family':'Inter'},t[1]));
+    L.appendChild(el('line',{x1:106,y1:y,x2:454,y2:y,stroke:'rgba(255,255,255,.07)'}));
+    var cnt={corto:0,mediano:0,largo:0};
+    TEND.filter(function(d){return d[0]===t[0];}).forEach(function(d){
+      var n=cnt[d[1]]++,cx=X[d[1]][0]+16+n*25,r=4+Math.sqrt(d[2])*2.4;
+      var c=el('circle',{cx:cx,cy:y,r:r,fill:col[t[0]],'fill-opacity':.5,stroke:col[t[0]]});
+      c.appendChild(el('title',{},d[3]+' · '+d[2]+(d[2]===1?' fuente':' fuentes')));
+      L.appendChild(c);
+    });
+  });
+
+  // Termómetro de señal
+  var S=document.getElementById('senal');
+  [['Crecimiento del QR e interoperabilidad',11],['Regulación y registro de PSAV',10],['Pagos transfronterizos',2],['Competencia y nuevos jugadores',1]].forEach(function(d){
+    var f=d[1]>=5?['FUERTE','var(--verde)']:d[1]>=2?['MEDIA','var(--ambar)']:['DÉBIL','var(--rosa)'];
+    S.insertAdjacentHTML('beforeend','<div class="senal-f"><span>'+d[0]+'</span><span class="barra"><i style="width:'+Math.round(d[1]/11*100)+'%"></i></span><span class="tag" style="color:'+f[1]+'">'+f[0]+'</span></div>');
+  });
+
+  // Medios
+  var M=document.getElementById('medios');
+  [['iProUP',11],['arXiv',8],['BIS',5],['Infobae',2]].forEach(function(d){
+    M.insertAdjacentHTML('beforeend','<div class="senal-f"><span>'+d[0]+'</span><span class="barra"><i style="width:'+Math.round(d[1]/11*100)+'%"></i></span><span class="tag" style="color:var(--t2)">'+d[1]+' notas</span></div>');
+  });
+  M.insertAdjacentHTML('beforeend','<div class="senal-f"><span style="color:var(--rosa)">WEF · no se pudo leer</span><span class="barra"></span><span class="tag" style="color:var(--rosa)">falló</span></div>');
+
+  // Citas
+  var C=document.getElementById('citas');
+  [['El efectivo pierde terreno: las extracciones cayeron 33,4% y los pagos con QR subieron 57,2%','Pagos instantáneos · Crecimiento del QR'],
+   ['El BCRA reconfigura el sistema de transferencias y obliga a la interoperabilidad total entre bancos y billeteras','Pagos instantáneos · Crecimiento del QR'],
+   ['La nueva normativa no crea un PIX argentino ni habilita automáticamente las transferencias internacionales','Pagos instantáneos · Transfronterizos']
+  ].forEach(function(c,i){C.insertAdjacentHTML('beforeend','<div class="cita'+(i===0?' on':'')+'"><q>'+c[0]+'</q><span>'+c[1]+'</span></div>');});
+  var ci=0;
+  if(!quieto)setInterval(function(){var cs=C.children;cs[ci].classList.remove('on');ci=(ci+1)%cs.length;cs[ci].classList.add('on');},4200);
+
+  // Pasos
+  var P=document.getElementById('pasos').children,pi=0;
+  if(!quieto)setInterval(function(){P[pi].classList.remove('on');pi=(pi+1)%P.length;P[pi].classList.add('on');},2200);
+
+  // Constelación
+  var R=document.getElementById('red'),centros={pagos_instantaneos:[60,55],open_finance:[400,55],stablecoins:[60,145],ia_aplicada:[400,145]};
+  var actores=[['Mercado Pago',215,55,['pagos_instantaneos','open_finance']],['BCRA',215,98,['pagos_instantaneos','open_finance','stablecoins']],['Visa',215,140,['pagos_instantaneos','ia_aplicada']],['Nubank',150,80,['pagos_instantaneos','open_finance']],['Pix',140,20,['pagos_instantaneos']],['Ualá',300,20,['open_finance']],['CNV',130,182,['stablecoins']],['Tether',20,185,['stablecoins']],['Mastercard',300,182,['ia_aplicada']]];
+  actores.forEach(function(a){a[3].forEach(function(t){var c=centros[t];R.appendChild(el('line',{x1:a[1],y1:a[2],x2:c[0],y2:c[1],stroke:col[t],'stroke-opacity':.35}));});});
+  TEMAS.forEach(function(t){var c=centros[t[0]];R.appendChild(el('circle',{cx:c[0],cy:c[1],r:24,fill:col[t[0]],'fill-opacity':.2,stroke:col[t[0]]}));R.appendChild(el('text',{x:c[0],y:c[1]+4,'text-anchor':'middle',fill:'#fff','font-size':9,'font-family':'Inter','font-weight':700},t[1].split(' ')[0]));});
+  actores.forEach(function(a){var m=a[3].length>1;R.appendChild(el('circle',{cx:a[1],cy:a[2],r:m?6:4,fill:m?'#fff':'rgba(255,255,255,.5)'}));R.appendChild(el('text',{x:a[1]+9,y:a[2]+4,fill:m?'#fff':'rgba(255,255,255,.55)','font-size':m?10:9,'font-family':'Inter','font-weight':m?700:400},a[0]));});
+
+  // Contadores
+  if(!quieto&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var n=e.target,fin=+n.dataset.cuenta,suf=n.dataset.suf||'',t0=null;io.unobserve(n);
+      function paso(t){t0=t0||t;var p=Math.min(1,(t-t0)/1100);n.textContent=Math.round(fin*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(paso);}
+      requestAnimationFrame(paso);
+    });},{threshold:.6});
+    document.querySelectorAll('[data-cuenta]').forEach(function(n){io.observe(n);});
+  }
+
+  // Filtros
+  var bs=document.querySelectorAll('.filtro');
+  bs.forEach(function(b){b.addEventListener('click',function(){
+    bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+    var f=b.dataset.f;
+    document.querySelectorAll('.idea').forEach(function(i){i.classList.toggle('oculta',f!=='todas'&&i.dataset.tags.split(' ').indexOf(f)<0);});
+  });});
+})();
+</script>
+</body>
+</html>

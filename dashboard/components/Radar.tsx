@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import type { Corrida, Estado, Horizonte, TemaId, Tendencia } from '@/lib/tipos';
 import type { Origen } from '@/lib/datos';
+import type { Portadas } from '@/lib/portadas';
+import Portada from './Portada';
 import {
   HORIZONTES, NOMBRE_NIVEL, NOMBRE_REGION, NOMBRE_TEMA, NOMBRE_TEMA_CORTO, TEMAS,
   celdaDe, claveTendencia, dominio, fechaCorta, fechaLarga, tendenciasDe, textoEstado,
@@ -50,7 +52,7 @@ function Etiqueta({ estado, brecha }: { estado: Estado; brecha: number | null })
   return <span className={`etiqueta etiqueta--${estado ?? 'nula'}`}>{textoEstado(estado, brecha)}</span>;
 }
 
-export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Origen }) {
+export default function Radar({ ediciones, portadas = {} }: { ediciones: Corrida[]; origen?: Origen; portadas?: Portadas }) {
   const [edicion, setEdicion] = useState(0);
   const [horizonte, setHorizonte] = useState<Horizonte>('corto');
   const [tema, setTema] = useState<TemaId>('pagos_instantaneos');
@@ -167,7 +169,7 @@ export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Or
               </h2>
             </div>
           </div>
-          <Carrusel lista={lista} activa={sel.tipo === 'tendencia' ? sel.clave : null} onAbrir={abrirTendencia} />
+          <Carrusel lista={lista} activa={sel.tipo === 'tendencia' ? sel.clave : null} onAbrir={abrirTendencia} portadas={portadas} />
         </section>
 
         {/* Argentina hoy, frente al mundo */}
@@ -226,7 +228,7 @@ export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Or
         </section>
 
         {/* Detalle */}
-        <Detalle corrida={corrida} sel={sel} onTema={cambiarTema} />
+        <Detalle corrida={corrida} sel={sel} onTema={cambiarTema} portadas={portadas} />
       </main>
 
       <footer className="pie">
@@ -237,13 +239,16 @@ export default function Radar({ ediciones }: { ediciones: Corrida[]; origen?: Or
   );
 }
 
-function Detalle({ corrida, sel, onTema }: { corrida: Corrida; sel: Seleccion; onTema: (t: TemaId) => void }) {
+function Detalle({ corrida, sel, onTema, portadas }: { corrida: Corrida; sel: Seleccion; onTema: (t: TemaId) => void; portadas: Portadas }) {
   if (sel.tipo === 'tendencia') {
     const t = corrida.tendencias.find((x) => claveTendencia(x) === sel.clave);
     if (t) {
       const hz = HORIZONTES.find((h) => h.id === t.horizonte_ar)!;
       return (
         <aside id="detalle" className="tarjeta detalle" aria-live="polite" key={sel.clave}>
+          {t.fuentes.some((f) => portadas[f.url]) && (
+            <Portada src={t.fuentes.map((f) => portadas[f.url]).find(Boolean)} clase="detalle__portada" />
+          )}
           <button type="button" className="detalle__volver" onClick={() => onTema(t.tema)}>
             ← Ver el tema {NOMBRE_TEMA[t.tema]}
           </button>
@@ -257,12 +262,15 @@ function Detalle({ corrida, sel, onTema }: { corrida: Corrida; sel: Seleccion; o
           <ul className="fuentes">
             {t.fuentes.map((f) => (
               <li key={f.url}>
-                <a href={f.url} target="_blank" rel="noopener noreferrer">
-                  <span className="fuentes__cabeza">
-                    <b>{f.fuente}</b>
-                    <time dateTime={f.fecha}>{fechaLarga(f.fecha)}</time>
+                <a href={f.url} target="_blank" rel="noopener noreferrer" className={portadas[f.url] ? 'fuentes__con-foto' : undefined}>
+                  {portadas[f.url] && <Portada src={portadas[f.url]} clase="fuentes__foto" />}
+                  <span className="fuentes__texto">
+                    <span className="fuentes__cabeza">
+                      <b>{f.fuente}</b>
+                      <time dateTime={f.fecha}>{fechaLarga(f.fecha)}</time>
+                    </span>
+                    {f.cita && <q>{f.cita}</q>}
                   </span>
-                  {f.cita && <q>{f.cita}</q>}
                 </a>
               </li>
             ))}

@@ -2,15 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Tendencia } from '@/lib/tipos';
+import type { Portadas } from '@/lib/portadas';
+import Portada from './Portada';
 import { NOMBRE_TEMA, claveTendencia } from '@/lib/vista';
 
 /** Fila de tendencias deslizable: con flechas, con la rueda o el dedo, y arrastrando con el mouse. */
 export default function Carrusel({
-  lista, activa, onAbrir,
+  lista, activa, onAbrir, portadas = {},
 }: {
   lista: Tendencia[];
   activa: string | null;
   onAbrir: (t: Tendencia) => void;
+  portadas?: Portadas;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [bordes, setBordes] = useState({ inicio: true, fin: true });
@@ -100,9 +103,12 @@ export default function Carrusel({
               onClick={() => onAbrir(t)}
               style={{ '--d': `${n * 45}ms` } as React.CSSProperties}
             >
-              <span className="tarjeta-tendencia__cabeza">
-                <span className="tarjeta-tendencia__tema">{NOMBRE_TEMA[t.tema]}</span>
-                <span className="tarjeta-tendencia__numero">{String(n + 1).padStart(2, '0')}</span>
+              <span className="tarjeta-tendencia__foto" data-tema={t.tema}>
+                <Portada src={t.fuentes.map((f) => portadas[f.url]).find(Boolean)} clase="tarjeta-tendencia__img" />
+                <span className="tarjeta-tendencia__cabeza">
+                  <span className="tarjeta-tendencia__tema">{NOMBRE_TEMA[t.tema]}</span>
+                  <span className="tarjeta-tendencia__numero">{String(n + 1).padStart(2, '0')}</span>
+                </span>
               </span>
               <span className="tarjeta-tendencia__nombre">{t.nombre}</span>
               <span className="tarjeta-tendencia__pie">

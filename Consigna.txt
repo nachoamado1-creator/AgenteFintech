@@ -1,0 +1,141 @@
+FINTECH
+1. Contexto y objetivo
+En este trabajo práctico cada grupo construye un prototipo funcional que usa IA para monitorear la industria que le fue asignada y detectar dónde hay brechas entre el estado actual y lo que se viene. La idea es aprender haciendo: no alcanza con describir tendencias, hay que construir la herramienta que permite seguirlas.
+
+La herramienta puede pensarse para cualquier empresa de la industria asignada, o enfocarse en una empresa o un segmento particular si el grupo lo prefiere. Las dos opciones son válidas. Lo que se valora en ambos casos es que el grupo formule preguntas específicas de su industria y que esas preguntas guíen el diseño del prototipo, para que monitoree lo que realmente importa en ese sector y no tendencias genéricas que servirían para cualquiera. Por ejemplo: qué tecnologías están cambiando la forma de operar, qué empresas proveen esas tecnologías y cómo vienen evolucionando, qué inversiones harían falta para adoptarlas y con qué capacidad financiera, y cómo se podría medir el impacto de esas decisiones a futuro. Si el grupo elige el enfoque general, conviene que también identifique los factores que cambian de una empresa a otra dentro de la misma industria (tamaño, región, regulación, nivel de digitalización, entre otros) y cómo ajustarían la herramienta según cada uno.
+
+Al terminar, cada grupo debería poder:
+
+Identificar las tendencias tecnológicas relevantes de una industria concreta.
+
+Distinguir lo que es práctica promedio hoy de lo que puede llegar a corto, mediano y largo plazo.
+
+Diseñar un agente de IA que recolecta y procesa información de forma repetible.
+
+Comunicar hallazgos con un dashboard claro, pensado para personas que analizan industrias.
+
+Reflexionar sobre las limitaciones de las herramientas y los pasos siguientes de un prototipo.
+
+2. La consigna
+Cada grupo trabaja sobre la industria que se le asignó y construye (1) un agente de IA que reúne y analiza información sobre ella y (2) un dashboard que muestra los resultados de forma visual e intuitiva.
+
+El dashboard debe responder, como mínimo, estas tres preguntas:
+
+¿Qué está pasando hoy? Las tendencias tecnológicas y de mercado que marcan el promedio de la industria.
+
+¿Qué puede venir? Qué se espera en el corto, mediano y largo plazo.
+
+¿Dónde están las brechas? La distancia entre lo que la industria hace en promedio y lo que podría hacer a medida que esas tendencias maduran.
+
+Se espera un prototipo funcional e interactivo, no un producto terminado. Se valora más un recorte acotado que funcione y esté bien pensado que una herramienta ambiciosa que no se pueda demostrar.
+
+3. Requisitos del prototipo
+El prototipo se construye con herramientas de IA, muchas de ellas gratuitas. No hay un conjunto de herramientas obligatorio: elegir las herramientas y justificar la elección es parte del trabajo.
+
+El agente debe:
+
+Recolectar información de fuentes que el grupo defina y justifique (noticias, reportes, papers, datos abiertos, redes, etc.).
+
+Procesarla con un modelo de lenguaje para extraer tendencias y clasificarlas por horizonte temporal (corto, mediano y largo plazo).
+
+Poder volver a ejecutarse para actualizar los resultados, aunque sea de forma semiautomática.
+
+Dejar claro de dónde sale cada dato, para que se pueda verificar.
+
+El dashboard debe:
+
+Ser visual e intuitivo, pensado para quien analiza la industria y no para quien programa.
+
+Mostrar tendencias, horizontes temporales y brechas respecto del promedio actual de la industria.
+
+Permitir entender el panorama de un vistazo y bajar al detalle cuando haga falta.
+
+Se pueden combinar varias herramientas. Si usan IA para escribir código o generar partes del dashboard, deben comentarlo en el informe (más info a continuación).
+
+4. Entregables
+Cada grupo entrega tres cosas: un informe, un video demostración y el prototipo funcional.
+
+Entregable #1: Informe
+Un documento que explique qué se hizo, con qué herramientas, por qué se diseñó de esa manera, qué desafíos aparecieron y cuáles serían los próximos pasas.
+
+Extensión: Hasta 5 páginas.
+
+Estructura sugerida:
+
+Industria asignada y problema. Qué rama de la industria asignada analizan y qué necesita saber quien la analiza.
+
+Solución. Qué hace el agente y qué muestra el dashboard, con capturas.
+
+Herramientas utilizadas. Cuáles eligieron, para qué sirve cada una y por qué esa y no otra.
+
+Decisiones de diseño. Fuentes de datos, criterios para definir horizontes y brechas, y cómo se pensó el dashboard.
+
+Desafíos. Qué falló o costó más de lo esperado y cómo lo resolvieron.
+
+Limitaciones y próximos pasos. Qué no cubre el prototipo y cómo lo mejorarían.
+
+Entregable #2: Video demostración
+Una video demo de lo construido, explicando cómo funciona. Similar a como si lo presentaran en clase.
+
+Idealmente, el link del video (que puede estar subido a YouTube / Google Drive / etc) debería estar mencionado en el informe (esto es por limitaciones de Campus Virtual). Asegurense de tener los permisos correctos (puede estar público o bien compartido a las cuentas de email de los profesores).
+
+Estructura sugerida:
+
+Presentación del grupo y de la industria asignada.
+
+Recorrido por el agente: qué hace y cómo se ejecuta.
+
+Recorrido por el dashboard: qué se ve y qué se puede concluir.
+
+Cierre con aprendizajes y próximos pasos.
+
+Entregable #3: Prototipo funcional
+Se refiere a la URL para acceder al dashboard en cuestión.
+De igual manera, asegúrense de revisar los permisos, e incluyan esta URL en el informe.
+
+5. Exposición en clase
+Por cuestiones de tiempo, sólo un reducido número de grupos van a llegar a exponer en clase. Es por ello de la importancia de los tres entregables para comprender en profundizar el desarrollo realizado.
+
+6. Criterios de evaluación
+Se evalúa el trabajo completo (prototipo, documento, video y presentación) según estos criterios:
+
+Análisis de la industria. Tendencias bien elegidas, con fuentes verificables, y una distinción clara entre promedio actual y horizontes de corto, mediano y largo plazo.
+
+Identificación de brechas. Que el trabajo muestre dónde la industria está atrasada o adelantada respecto de lo que se viene, con argumentos.
+
+Agente de IA. Que funcione, que sea repetible y que sus decisiones de diseño estén justificadas.
+
+Dashboard. Claridad visual, facilidad de uso y utilidad real para quien analiza la industria.
+
+Uso crítico de la IA. Conciencia de las limitaciones de las herramientas: errores, sesgos, alucinaciones y cómo se controlaron.
+
+Informe y video. Claridad, respeto de los límites de extensión y capacidad de explicar lo construido.
+
+7. Consejos prácticos y errores comunes
+Empiecen de a poco. Construyan un agente que haga una cosa bien sobre un recorte acotado de la industria vale más que uno que intente cubrirlo todo. Iterativo & incremental.
+
+Definan primero qué es una brecha. Decidan con qué criterio comparan el promedio actual con lo que viene antes de elegir herramientas.
+
+Verifiquen lo que dice la IA. Los modelos pueden inventar datos o fuentes. Contrasten las tendencias importantes con fuentes reales y cuenten cómo lo hicieron.
+
+Documenten las fuentes. Cada dato del dashboard debería poder rastrearse a su origen.
+
+Piensen en quien mira el dashboard. Es alguien que analiza industrias: prioricen claridad por encima de la cantidad de gráficos.
+
+Prueben la demo antes de grabar. Un prototipo que falla en vivo es difícil de evaluar. Graben con los datos ya cargados.
+
+Cuiden los límites. El informe, el video y la presentación tienen topes de extensión.
+
+8. Preguntas frecuentes
+¿Hay que programar? No necesariamente. Se puede armar el prototipo con herramientas no-code o con ayuda de asistentes de código. Lo que importa es que funcione y que puedan explicar cómo.
+
+¿Puedo usar IA para escribir el documento? Pueden usarla como apoyo, pero el análisis, las decisiones y los aprendizajes tienen que ser del grupo. Si usaron IA en el proceso, cuéntenlo.
+
+¿Qué pasa si una herramienta gratuita se queda corta? Es un desafío válido y puede ir en el documento. Expliquen qué limitación encontraron y cómo la resolvieron o la sortearon.
+
+¿Qué pasa si no llegamos a presentar en clase? El documento y el video se evalúan igual. Por eso tienen que poder entenderse por sí solos.
+
+9. Fechas importantes
+Fecha de entrega: Lunes 16/11 a las 12:00pm (mediodía). Se valora cumpliento de la fecha límite establecida. Esto incluye la entrega completa del trabajo (descrita en el punto 4)
+
+Exposición grupal: Miércoles 18/11 en el horario habitual. El criterio de grupos que van a exponer aún está en definición, pero es requisito que todos estén presentes.

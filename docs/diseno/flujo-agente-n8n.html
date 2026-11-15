@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flujo del agente</title>
+<style>
+  :root {
+    --bg: #1b1b1e; --panel: #232327; --dot: #34343a; --bar: #2a2a2f;
+    --node: #2e2f34; --node-b: #55565e; --text: #ececee; --muted: #9a9aa3;
+    --line: #8e8f98;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1680px; margin: 0 auto; padding: 32px 16px 56px; }
+  header h1 { margin: 0 0 6px; font-size: 26px; font-weight: 650; letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-size: 14px; max-width: 760px; line-height: 1.5; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 18px 0 26px; font-size: 12.5px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { display: inline-block; width: 28px; height: 0; border-top: 2px solid var(--line); }
+  .legend i.d { border-top-style: dashed; }
+  .legend b { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+  .canvas { background: var(--panel); border: 1px solid #2f2f35; border-radius: 14px; overflow: hidden; }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 11px 16px; background: var(--bar);
+    border-bottom: 1px solid #34343a; font-size: 13.5px; }
+  .bar .name { font-weight: 600; }
+  .pill { font-size: 11px; padding: 2px 9px; border-radius: 999px; background: #1f3b2c; color: #6fd39b; }
+  .pill.g { background: #33333a; color: var(--muted); }
+  .bar .sp { flex: 1; }
+  .scroll { overflow-x: auto; background-image: radial-gradient(var(--dot) 1px, transparent 1px); background-size: 20px 20px; }
+  svg { display: block; width: 100%; min-width: 1100px; height: auto; }
+  .between { text-align: center; color: var(--muted); font-size: 13px; margin: 14px 0; }
+  .between em { font-style: normal; color: var(--text); }
+  .lbl { font-size: 13px; fill: var(--text); font-weight: 550; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .sub { font-size: 11px; fill: var(--muted); paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+  .src { font-size: 10.5px; fill: #c9c9cf; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; }
+  .port { font-size: 10px; fill: var(--muted); paint-order: stroke; stroke: var(--panel); stroke-width: 4px; }
+  .badge { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Cómo funciona el agente Radar Fintech</h1>
+    <p>Son dos flujos en n8n. El primero es el agente: junta y lee las noticias con IA, las compara con datos oficiales y calcula las brechas. El segundo le pasa el resultado al dashboard. Cada caja es un nodo real de n8n.</p>
+  </header>
+
+  <div class="legend">
+    <span><i></i> pasan los datos</span>
+    <span><i class="d"></i> de dónde lee o qué IA usa</span>
+    <span><b style="border-color:#4fc38a"></b> fuente de horizonte corto</span>
+    <span><b style="border-color:#f0b54a"></b> mediano</span>
+    <span><b style="border-color:#a98bff"></b> largo</span>
+    <span><b style="border-color:#5aa9ff"></b> dato oficial</span>
+  </div>
+
+  <section class="canvas">
+    <div class="bar"><span class="name">Radar · Agente · parte 1: recolectar y leer</span><span class="pill">Publicado</span><span class="sp"></span><span class="pill g">martes 8:00</span></div>
+    <div class="scroll"><svg id="f1" viewBox="0 0 1800 730" role="img" aria-label="Agente, parte 1: recolectar y leer"></svg></div>
+  </section>
+  <p class="between">↓ <em>En el mismo flujo</em>, sigue el cálculo de brechas</p>
+
+  <section class="canvas">
+    <div class="bar"><span class="name">Radar · Agente · parte 2: brechas y resumen</span><span class="pill">Publicado</span><span class="sp"></span><span class="pill g">mismo flujo</span></div>
+    <div class="scroll"><svg id="f2" viewBox="0 120 1800 440" role="img" aria-label="Agente, parte 2: brechas y resumen"></svg></div>
+  </section>
+  <p class="between">↓ El flujo de la API <em>lee la corrida</em> que guardó el agente</p>
+
+  <section class="canvas">
+    <div class="bar"><span class="name">Radar · 3 API de lectura</span><span class="pill">Publicado</span><span class="sp"></span><span class="pill g">responde al dashboard</span></div>
+    <div class="scroll"><svg id="f3" viewBox="0 0 1800 520" role="img" aria-label="Flujo 3 y dashboard"></svg></div>
+  </section>
+</div>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const C = { trig: '#ff6d5a', table: '#5aa9ff', rss: '#f0954a', search: '#fb542b', merge: '#7fd3c3',
+  filter: '#c6a6ff', code: '#ff9b5a', ai: '#b18cff', wait: '#e4c76b', flow: '#ff6d5a', dash: '#3fd5e8' };
+const HZ = { corto: '#4fc38a', mediano: '#f0b54a', largo: '#a98bff', oficial: '#5aa9ff' };
+
+const ICON = {
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  cursor: '<path d="M6 4l12 6-5 2-2 5z"/>',
+  table: '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 14.5h16M10 10v9"/>',
+  rss: '<path d="M5 5a14 14 0 0 1 14 14M5 11a8 8 0 0 1 8 8"/><circle cx="6" cy="18" r="1.6" fill="currentColor"/>',
+  search: '<circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/>',
+  merge: '<path d="M6 5v4a5 5 0 0 0 5 5h1M18 5v4a5 5 0 0 1-5 5M12 14v6"/>',
+  filter: '<path d="M4 5h16l-6 7v6l-4 2v-8z"/>',
+  code: '<path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/>',
+  robot: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4"/><circle cx="9.5" cy="13" r="1.3" fill="currentColor"/><circle cx="14.5" cy="13" r="1.3" fill="currentColor"/>',
+  wait: '<path d="M7 4h10M7 20h10M8 4c0 5 8 5 8 8s-8 3-8 8M16 4c0 5-8 5-8 8"/>',
+  flow: '<rect x="3" y="6" width="7" height="12" rx="2"/><rect x="14" y="6" width="7" height="12" rx="2"/><path d="M10 12h4"/>',
+  hook: '<path d="M9 8a3 3 0 1 1 3 3l-3 6M15 17a3 3 0 1 1-3-3"/>',
+  reply: '<path d="M10 7l-5 5 5 5M5 12h9a5 5 0 0 1 5 5"/>',
+  chart: '<path d="M5 19V11M10 19V6M15 19v-9M20 19v-5"/>',
+  braces: '<path d="M9 5c-2 0-2 1-2 3s-1 3-2 4c1 1 2 2 2 4s0 3 2 3M15 5c2 0 2 1 2 3s1 3 2 4c-1 1-2 2-2 4s0 3-2 3"/>',
+  spark: '<path d="M12 3c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8z" fill="currentColor" stroke="none"/>',
+  file: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/>',
+  bolt: '<path d="M13 2L5 13h6l-1 9 8-11h-6z" fill="currentColor" stroke="none"/>'
+};
+
+function el(parent, tag, attrs, html) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (html !== undefined) e.innerHTML = html;
+  parent.appendChild(e); return e;
+}
+function icon(g, name, cx, cy, size, color) {
+  const s = size / 24;
+  el(g, 'g', { transform: `translate(${cx - size / 2} ${cy - size / 2}) scale(${s})`, fill: 'none',
+    stroke: color, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', style: `color:${color}` }, ICON[name]);
+}
+function text(g, x, y, str, cls, anchor = 'middle') {
+  String(str).split('\n').forEach((l, i) =>
+    el(g, 'text', { x, y: y + i * (cls === 'lbl' ? 16 : 13), class: cls, 'text-anchor': anchor }, l.replace(/&/g, '&amp;')));
+}
+
+/* Nodo cuadrado, o disparador con el lado izquierdo redondo (como en n8n). */
+function node(svg, n) {
+  const s = 72, x = n.x - s / 2, y = n.y - s / 2;
+  const g = el(svg, 'g', {});
+  if (n.trigger) {
+    el(g, 'path', { d: `M${x + 36},${y} H${x + s - 10} a10,10 0 0 1 10,10 V${y + s - 10} a10,10 0 0 1 -10,10 H${x + 36} a36,36 0 0 1 0,-72 z`,
+      fill: 'var(--node)', stroke: 'var(--node-b)', 'stroke-width': 1.5 });
+    icon(g, 'bolt', x - 14, n.y, 16, C.trig);
+  } else {
+    el(g, 'rect', { x, y, width: s, height: s, rx: 10, fill: 'var(--node)', stroke: 'var(--node-b)', 'stroke-width': 1.5 });
+    el(g, 'rect', { x: x - 4, y: n.y - 6, width: 6, height: 12, rx: 2, fill: '#6b6c74' });
+  }
+  icon(g, n.icon, n.x + (n.trigger ? 3 : 0), n.y, 34, n.color);
+  el(g, 'circle', { cx: x + s, cy: n.y, r: 5, fill: '#6b6c74' });
+  text(g, n.x, y + s + 20, n.label, 'lbl');
+  if (n.sub) text(g, n.x, y + s + 21 + 16 * n.label.split('\n').length, n.sub, 'sub');
+  if (n.badge) {
+    const w = n.badge.length * 6.2 + 14;
+    el(g, 'rect', { x: n.x - w / 2, y: y - 25, width: w, height: 17, rx: 8.5, fill: '#4a2a26' });
+    el(g, 'text', { x: n.x, y: y - 13, 'text-anchor': 'middle', class: 'badge', fill: '#ff9a8a' }, n.badge);
+  }
+  n.l = x - 4; n.r = x + s; n.t = y; n.b = y + s;
+  return n;
+}
+
+/* Nodo ancho, como el "AI Agent" de n8n, con conectores abajo. */
+function wide(svg, n) {
+  const w = n.w || 210, h = n.h || 80, x = n.x - w / 2, y = n.y - h / 2;
+  const g = el(svg, 'g', {});
+  if (n.glow) el(g, 'rect', { x: x - 5, y: y - 5, width: w + 10, height: h + 10, rx: 15, fill: 'none', stroke: n.color, 'stroke-opacity': .25, 'stroke-width': 6 });
+  el(g, 'rect', { x, y, width: w, height: h, rx: 10, fill: 'var(--node)', stroke: n.glow ? n.color : 'var(--node-b)', 'stroke-width': n.glow ? 2 : 1.5 });
+  icon(g, n.icon, x + 32, n.y - 8, 30, n.color);
+  text(g, x + 58, n.y - 12, n.label, 'lbl', 'start');
+  if (n.sub) text(g, x + 58, n.y + 4, n.sub, 'sub', 'start');
+  el(g, 'rect', { x: x - 4, y: n.y - 6, width: 6, height: 12, rx: 2, fill: '#6b6c74' });
+  el(g, 'circle', { cx: x + w, cy: n.y, r: 5, fill: '#6b6c74' });
+  n.portXY = {};
+  (n.ports || []).forEach(p => {
+    el(g, 'rect', { x: p.x - 4.5, y: y + h - 4.5, width: 9, height: 9, fill: '#8b8c94', transform: `rotate(45 ${p.x} ${y + h})` });
+    el(g, 'text', { x: p.x, y: y + h - 11, 'text-anchor': 'middle', class: 'port', style: 'stroke:var(--node)' }, p.label);
+    n.portXY[p.id] = [p.x, y + h + 5];
+  });
+  n.l = x - 4; n.r = x + w; n.t = y; n.b = y + h;
+  return n;
+}
+
+/* Sub-nodo redondo: modelo de IA, formato o fuente de información. */
+function circle(svg, c) {
+  const g = el(svg, 'g', {}), r = c.r || 24;
+  el(g, 'circle', { cx: c.x, cy: c.y, r, fill: 'var(--node)', stroke: c.ring || 'var(--node-b)', 'stroke-width': c.ring ? 2.2 : 1.5 });
+  if (c.icon) icon(g, c.icon, c.x, c.y, 22, c.color || '#cfd0d6');
+  else el(g, 'text', { x: c.x, y: c.y + 4, 'text-anchor': 'middle', 'font-size': c.ini.length > 3 ? 10 : 12, 'font-weight': 700, fill: c.color || '#e3e3e8' }, c.ini);
+  if (c.above) text(g, c.x, c.y - r - 22, c.label, 'src');
+  else text(g, c.x, c.y + r + 15, c.label, 'src');
+  c.top = [c.x, c.y - r]; c.bot = [c.x, c.y + r];
+  return c;
+}
+
+function link(parent, a, b, opt = {}) {
+  const [x1, y1] = a, [x2, y2] = b;
+  let d;
+  if (opt.vertical) {
+    const m = (y2 - y1) / 2;
+    d = `M${x1},${y1} C${x1},${y1 + m} ${x2},${y2 - m} ${x2},${y2}`;
+  } else {
+    const dx = Math.max(40, Math.abs(x2 - x1) / 2);
+    d = `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+  }
+  const color = opt.color || 'var(--line)';
+  el(parent, 'path', { d, fill: 'none', stroke: color, 'stroke-width': opt.dashed ? 1.4 : 2,
+    'stroke-dasharray': opt.dashed ? '5 5' : 'none', 'stroke-opacity': opt.dashed ? .8 : 1 });
+  if (!opt.dashed) el(parent, 'path', { d: `M${x2 - 9},${y2 - 5} L${x2 - 1},${y2} L${x2 - 9},${y2 + 5}`, fill: 'none', stroke: color, 'stroke-width': 2 });
+  if (opt.label) el(parent, 'text', { x: (x1 + x2) / 2, y: (y1 + y2) / 2 + (opt.ldy || -10), 'text-anchor': 'middle', class: 'port', style: 'font-size:11px;fill:#c9c9cf' }, opt.label);
+}
+const R = n => [n.r, n.y], L = n => [n.l, n.y];
+/* Las líneas van en un grupo al fondo para quedar detrás de los nodos. */
+function setup(id) { const s = document.getElementById(id); return { s, back: el(s, 'g', {}) }; }
+
+/* ---------- Flujo 1 ---------- */
+(() => {
+  const { s, back } = setup('f1');
+  const feeds = [
+    ['iP', 'iProUP', 'corto'], ['FN', 'Fintech News\nLatAm', 'corto'], ['FN', 'Fintech News\nGlobal', 'corto'],
+    ['BL', 'Bloomberg\nLínea', 'corto'], ['LL', 'LatamList', 'corto'], ['FS', 'Finsiders\nBrasil', 'corto'],
+    ['CF', 'Cámara\nFintech', 'corto'], ['Fv', 'Finnovista', 'mediano'], ['a16z', 'a16z', 'mediano'],
+    ['BIS', 'BIS', 'largo'], ['arX', 'arXiv', 'largo'],
+  ].map(([ini, label, h], i) => circle(s, { x: 190 + i * 66, y: 108, ini, label, ring: HZ[h], above: true }));
+  const webSrc = [
+    ['AR', 'Argentina FF,\nFEBRABAN +2', 'corto'], ['PZ', 'Point Zero,\nSibos, Eurofi', 'mediano'], ['SFF', 'Singapore\nFinTech Fest.', 'largo'], ['WEF', 'WEF', 'largo'],
+  ].map(([ini, label, h], i) => circle(s, { x: 421 + i * 66, y: 655, ini, label, ring: HZ[h] }));
+
+  const t1 = node(s, { x: 70, y: 330, trigger: true, icon: 'clock', color: C.trig, label: 'Todos los\nmartes 8:00' });
+  const t2 = node(s, { x: 70, y: 470, trigger: true, icon: 'cursor', color: C.trig, label: 'Ejecutar\na mano' });
+  const prev = node(s, { x: 245, y: 400, icon: 'table', color: C.table, label: 'Leer fichas\nexistentes', sub: 'para no repetir notas' });
+  const rss = node(s, { x: 520, y: 270, icon: 'rss', color: C.rss, label: 'Leer feeds RSS', sub: '11 feeds' });
+  const web = node(s, { x: 520, y: 520, icon: 'rss', color: C.rss, label: 'Leer noticias\nde Google', sub: 'Google Noticias · gratis' });
+  const merge = node(s, { x: 700, y: 400, icon: 'merge', color: C.merge, label: 'Juntar noticias' });
+  const filt = node(s, { x: 865, y: 400, icon: 'filter', color: C.filter, label: 'Filtrar y quitar\nduplicados', sub: '4 temas · cuotas por horizonte' });
+  const ia = wide(s, { x: 1092, y: 400, w: 215, icon: 'robot', color: C.ai, label: 'Leer noticias con IA', sub: 'fichas de a 12 notas',
+    ports: [{ id: 'm', x: 1040, label: 'Modelo' }, { id: 'f', x: 1145, label: 'Formato' }] });
+  const save = node(s, { x: 1300, y: 400, icon: 'table', color: C.table, label: 'Guardar fichas', sub: 'radar_fichas' });
+  const reg = node(s, { x: 1440, y: 400, icon: 'table', color: C.table, label: 'Guardar registro', sub: 'radar_corridas · sigue abajo' });
+
+  const groq = circle(s, { x: 1040, y: 590, ini: 'groq', color: '#ff7a4f', label: 'Groq\ngpt-oss-120b' });
+  const fmt = circle(s, { x: 1145, y: 590, icon: 'braces', label: 'Formato\nde la ficha' });
+
+  feeds.forEach(f => link(back, f.bot, [rss.x, rss.t], { dashed: true, vertical: true }));
+  webSrc.forEach(f => link(back, [web.x, web.b], f.top, { dashed: true, vertical: true }));
+  link(back, R(t1), L(prev)); link(back, R(t2), L(prev));
+  link(back, R(prev), L(rss)); link(back, R(prev), L(web));
+  link(back, R(rss), L(merge)); link(back, R(web), L(merge));
+  link(back, R(merge), L(filt)); link(back, R(filt), L(ia), { label: 'notas elegidas' });
+  link(back, R(ia), L(save)); link(back, R(save), L(reg));
+  link(back, ia.portXY.m, groq.top, { dashed: true, vertical: true });
+  link(back, ia.portXY.f, fmt.top, { dashed: true, vertical: true });
+})();
+
+/* ---------- Flujo 2 ---------- */
+(() => {
+  const { s, back } = setup('f2');
+  const f = node(s, { x: 235, y: 260, icon: 'table', color: C.table, label: 'Leer fichas', sub: 'radar_fichas · 90 días' });
+  const ref = node(s, { x: 400, y: 260, icon: 'table', color: C.table, label: 'Leer datos\nde referencia', sub: 'radar_referencia · 17 datos' });
+  const reg = node(s, { x: 565, y: 260, icon: 'table', color: C.table, label: 'Leer registro\nde corridas', sub: 'radar_corridas' });
+  const bak = node(s, { x: 730, y: 260, icon: 'table', color: C.table, label: 'Leer resúmenes\nde respaldo', sub: 'por si falla la IA' });
+  const calc = node(s, { x: 895, y: 260, icon: 'code', color: C.code, label: 'Calcular celdas\ny brechas', sub: 'nivel AR − referente' });
+  const ia = wide(s, { x: 1122, y: 260, w: 215, icon: 'robot', color: C.ai, label: 'Resumir cada tema con IA', sub: 'tendencias y resumen',
+    ports: [{ id: 'm', x: 1070, label: 'Modelo' }, { id: 'f', x: 1175, label: 'Formato' }] });
+  const arm = node(s, { x: 1345, y: 260, icon: 'code', color: C.code, label: 'Armar la corrida', sub: 'si la IA falla, usa\nel respaldo (provisoria)' });
+  const save = node(s, { x: 1510, y: 260, icon: 'table', color: C.table, label: 'Guardar la corrida', sub: 'radar_resultado' });
+
+  const offs = [
+    ['BCRA', 'BCRA\n(Argentina)'], ['BCB', 'Banco Central\nde Brasil'], ['BCE', 'BCE y\nUnión Europea'], ['Fed', 'Reserva Federal\n(EE.UU.)'], ['Ch', 'Chainalysis'],
+  ].map(([ini, label], i) => circle(s, { x: 264 + i * 68, y: 470, ini, label, ring: HZ.oficial }));
+  const groq = circle(s, { x: 1070, y: 450, ini: 'groq', color: '#ff7a4f', label: 'Groq\ngpt-oss-120b' });
+  const fmt = circle(s, { x: 1175, y: 450, icon: 'braces', label: 'Formato\ndel resumen' });
+
+  link(back, R(f), L(ref)); link(back, R(ref), L(reg)); link(back, R(reg), L(bak)); link(back, R(bak), L(calc));
+  link(back, R(calc), L(ia), { label: 'celdas y brechas · espera 1 min' }); link(back, R(ia), L(arm)); link(back, R(arm), L(save));
+  offs.forEach(o => link(back, [ref.x, ref.b], o.top, { dashed: true, vertical: true, color: '#6f8fb5' }));
+  link(back, ia.portXY.m, groq.top, { dashed: true, vertical: true });
+  link(back, ia.portXY.f, fmt.top, { dashed: true, vertical: true });
+})();
+
+/* ---------- Flujo 3 y dashboard ---------- */
+(() => {
+  const { s, back } = setup('f3');
+  const hook = node(s, { x: 90, y: 230, trigger: true, icon: 'hook', color: C.trig, label: 'Pedido del\ndashboard', sub: 'GET /webhook/radar-fintech' });
+  const read = node(s, { x: 285, y: 230, icon: 'table', color: C.table, label: 'Leer la última\ncorrida', sub: 'radar_resultado' });
+  const arm = node(s, { x: 450, y: 230, icon: 'code', color: C.code, label: 'Armar respuesta' });
+  const resp = node(s, { x: 615, y: 230, icon: 'reply', color: C.trig, label: 'Responder JSON' });
+  const dash = wide(s, { x: 1000, y: 230, w: 270, h: 96, icon: 'chart', color: C.dash, glow: true,
+    label: 'Dashboard en Vercel', sub: 'agente-fintech.vercel.app',
+    ports: [{ id: 'e', x: 955, label: 'Ediciones' }, { id: 'c', x: 1055, label: 'Respaldo' }] });
+  const ed = circle(s, { x: 955, y: 420, icon: 'file', label: 'Ediciones guardadas\nediciones.json' });
+  const cp = circle(s, { x: 1055, y: 420, icon: 'file', label: 'Copia de respaldo\nultima-corrida.json' });
+
+  // Lo que ve el público.
+  [
+    ['Argentina hoy, frente al mundo', 'mapa de brechas por tema y región', 130],
+    ['Radar de tendencias', 'corto, mediano y largo plazo', 230],
+    ['Edición semanal', 'una edición por corrida, con historial', 330],
+  ].forEach(([t, d, y]) => {
+    const g = el(s, 'g', {});
+    el(g, 'rect', { x: 1300, y: y - 34, width: 360, height: 68, rx: 12, fill: '#1f3439', stroke: '#2f6670', 'stroke-width': 1.5 });
+    el(g, 'text', { x: 1324, y: y - 4, class: 'lbl', style: 'stroke:#1f3439' }, t);
+    el(g, 'text', { x: 1324, y: y + 15, class: 'sub', style: 'stroke:#1f3439' }, d);
+    link(back, R(dash), [1300, y]);
+  });
+
+  link(back, R(hook), L(read)); link(back, R(read), L(arm)); link(back, R(arm), L(resp));
+  link(back, R(resp), L(dash), { label: 'JSON · se renueva cada hora', ldy: -12 });
+  // El que hace el pedido es el dashboard: línea de vuelta por arriba.
+  el(back, 'path', { d: `M${dash.x},${dash.t - 5} C${dash.x},40 ${hook.x},40 ${hook.x},${hook.t}`, fill: 'none', stroke: C.dash, 'stroke-width': 1.5, 'stroke-dasharray': '5 5', 'stroke-opacity': .85 });
+  el(back, 'path', { d: `M${hook.x - 5},${hook.t - 9} L${hook.x},${hook.t - 1} L${hook.x + 5},${hook.t - 9}`, fill: 'none', stroke: C.dash, 'stroke-width': 1.8 });
+  el(s, 'text', { x: (dash.x + hook.x) / 2, y: 70, 'text-anchor': 'middle', class: 'port', style: 'font-size:11.5px;fill:#9fe6ef' }, 'el dashboard pide los datos');
+  link(back, dash.portXY.e, ed.top, { dashed: true, vertical: true });
+  link(back, dash.portXY.c, cp.top, { dashed: true, vertical: true });
+})();
+</script>
+</body>
+</html>

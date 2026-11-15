@@ -460,7 +460,8 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   flex-direction: column;
   gap: 12px;
   min-height: 176px;
-  padding: 18px;
+  padding: 0 0 16px;
+  overflow: hidden;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -483,15 +484,45 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
   background: linear-gradient(160deg, rgba(59, 130, 246, 0.14), rgba(124, 58, 237, 0.12));
   border-color: rgba(147, 197, 253, 0.38);
 }
-.tarjeta-tendencia__cabeza { display: flex; justify-content: space-between; gap: 10px; }
+/* Portada de la nota arriba de la tarjeta, con el tema y el número encima */
+.tarjeta-tendencia__foto {
+  position: relative;
+  display: block;
+  height: 132px;
+  flex: none;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(124, 58, 237, 0.35));
+}
+.tarjeta-tendencia__foto[data-tema='pagos_instantaneos'] { background: linear-gradient(135deg, #1d4ed8, #6366f1); }
+.tarjeta-tendencia__foto[data-tema='open_finance'] { background: linear-gradient(135deg, #0e7490, #3b82f6); }
+.tarjeta-tendencia__foto[data-tema='stablecoins'] { background: linear-gradient(135deg, #7c3aed, #db2777); }
+.tarjeta-tendencia__foto[data-tema='ia_aplicada'] { background: linear-gradient(135deg, #059669, #0e7490); }
+.tarjeta-tendencia__foto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9, 9, 11, 0.55) 0%, rgba(9, 9, 11, 0) 45%, rgba(9, 9, 11, 0.5) 100%);
+  pointer-events: none;
+}
+.tarjeta-tendencia__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; transition: transform 500ms var(--ease-out); }
+.portada--vacia { background: none; }
+@media (hover: hover) and (pointer: fine) {
+  .tarjeta-tendencia:hover .tarjeta-tendencia__img { transform: scale(1.05); }
+}
+.tarjeta-tendencia > :not(.tarjeta-tendencia__foto) { margin-inline: 18px; }
+.tarjeta-tendencia__cabeza { position: absolute; z-index: 1; inset: 12px 14px auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 .tarjeta-tendencia__tema {
-  font-size: 11.5px;
+  padding: 4px 9px;
+  border-radius: 9999px;
+  background: rgba(9, 9, 11, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--violeta-claro);
+  color: #fff;
 }
-.tarjeta-tendencia__numero { font-size: 12px; color: var(--texto-3); font-variant-numeric: tabular-nums; }
+.tarjeta-tendencia__numero { font-size: 12px; color: rgba(255, 255, 255, 0.85); font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
 .tarjeta-tendencia__nombre {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -673,6 +704,18 @@ html.cursor-propio .cursor[data-visible='true'] { opacity: 1; }
 .fuentes a:active { transform: scale(0.98); }
 @media (hover: hover) and (pointer: fine) {
   .fuentes a:hover { background-color: rgba(255, 255, 255, 0.06); border-color: rgba(147, 197, 253, 0.3); transform: translateX(2px); }
+}
+.fuentes__texto { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fuentes a.fuentes__con-foto { flex-direction: row; align-items: stretch; gap: 12px; }
+.fuentes__foto { flex: none; width: 84px; min-height: 64px; border-radius: 10px; object-fit: cover; background: rgba(255, 255, 255, 0.06); }
+.detalle__portada {
+  display: block;
+  width: 100%;
+  height: 190px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.05);
 }
 .fuentes__cabeza { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
 .fuentes__cabeza b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
