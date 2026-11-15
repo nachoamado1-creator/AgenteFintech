@@ -83,30 +83,6 @@ img { display: block; max-width: 100%; }
 .barra__anclas a.es-activo { color: #fff; border-color: var(--violeta); background: var(--violeta); }
 .barra__controles { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 
-.pildora {
-  position: relative; display: grid; grid-template-columns: repeat(3, 1fr);
-  padding: 3px; border: 1px solid var(--linea); border-radius: 999px; background: var(--superficie);
-}
-.pildora__fondo {
-  position: absolute; top: 3px; bottom: 3px; left: 3px;
-  width: calc((100% - 6px) / 3); border-radius: 999px; background: var(--violeta);
-  transform: translateX(calc(var(--i) * 100%)); transition: transform 0.4s var(--ease);
-}
-.pildora button {
-  position: relative; z-index: 1; padding: 7px 12px; white-space: nowrap;
-  font-family: var(--mono); font-size: 11px; color: var(--texto-2); transition: color 0.3s;
-}
-.pildora button[aria-checked='true'] { color: #fff; font-weight: 700; }
-.horizonte { position: relative; }
-.horizonte__nota {
-  position: absolute; top: calc(100% + 10px); left: 50%; z-index: 2; width: max-content; max-width: 320px;
-  margin: 0; padding: 10px 14px; border: 1px solid var(--linea-fuerte); border-radius: 12px;
-  background: var(--superficie-2); box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.8);
-  font-size: 13px; line-height: 1.4; color: var(--texto-2);
-  opacity: 0; transform: translate(-50%, -6px); pointer-events: none; transition: opacity 0.25s, transform 0.25s var(--ease);
-}
-.horizonte__nota b { display: block; margin-bottom: 2px; font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--acento); }
-.horizonte__nota.es-visible, .horizonte:hover .horizonte__nota { opacity: 1; transform: translate(-50%, 0); }
 
 .edicion select {
   appearance: none; padding: 8px 28px 8px 12px; border: 1px solid var(--linea); border-radius: 999px;
@@ -430,7 +406,6 @@ img { display: block; max-width: 100%; }
 .ticket__total > div { display: flex; justify-content: space-between; gap: 8px; padding: 4px 6px; font-size: 10px; color: var(--texto-2); }
 .ticket__total > .ticket__total-final { margin-top: 6px; padding: 9px 6px; border-top: 1px solid var(--linea-fuerte); border-bottom: 1px solid var(--linea-fuerte); font-size: 11px; color: var(--texto); }
 .ticket__total-final span { font-weight: 700; }
-.ticket__gracias { margin: 14px 0 0; text-align: center; font-size: 8px; color: var(--texto-3); }
 
 /* ── Panel de detalle ── */
 .panel-fondo { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.55); animation: aparecer 0.25s ease both; }
@@ -480,14 +455,6 @@ img { display: block; max-width: 100%; }
 
 .portada--vacia { display: block; width: 100%; height: 100%; background: linear-gradient(135deg, var(--superficie-2), var(--fondo)); }
 
-/* ── Pie ── */
-.pie {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
-  max-width: 1240px; margin: clamp(80px, 10vw, 140px) auto 0; padding: 24px clamp(16px, 4vw, 40px) 40px;
-  border-top: 1px solid var(--linea); font-family: var(--mono); font-size: 10px; color: var(--texto-3);
-}
-.pie a { color: var(--texto-2); }
-
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .tickets { grid-template-columns: repeat(2, 1fr); }
@@ -498,7 +465,6 @@ img { display: block; max-width: 100%; }
 @media (max-width: 760px) {
   .barra { height: auto; flex-wrap: wrap; gap: 8px; padding-top: 10px; padding-bottom: 10px; }
   .barra__controles { width: 100%; margin-left: 0; flex-wrap: wrap; gap: 8px; }
-  .pildora button { padding: 6px 8px; font-size: 10px; }
   .estado-datos { margin-left: auto; }
   html { scroll-padding-top: 120px; }
   .portada { padding-top: 150px; }
@@ -539,3 +505,48 @@ img { display: block; max-width: 100%; }
 .cursor-visor.es-sobre i { border-color: #fff; }
 .cursor-visor.es-click { width: 24px; height: 24px; margin: -12px 0 0 -12px; }
 .cursor-fuera .cursor-punto, .cursor-fuera .cursor-visor { opacity: 0; }
+
+/* ── Selección de texto ── */
+::selection { background: var(--violeta); color: #fff; -webkit-text-fill-color: #fff; }
+
+/* ── Cierre de página (antes lo daba el pie) ── */
+.pagina { padding-bottom: clamp(60px, 8vw, 110px); }
+
+/* ── Barra de scroll Finn: riel con escala + ficha ── */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+.barra-scroll {
+  position: fixed; top: 84px; right: 10px; bottom: 24px; z-index: 40; width: 34px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.barra-scroll[data-visible='true'] { opacity: 1; pointer-events: auto; }
+.barra-scroll__riel {
+  position: absolute; inset: 0 0 0 auto; width: 34px; cursor: grab; touch-action: none;
+}
+.barra-scroll[data-arrastre='true'] .barra-scroll__riel { cursor: grabbing; }
+/* eje: línea central + marcas de escala (cada 5 % cortas, cada 25 % largas) */
+.barra-scroll__riel::before {
+  content: ''; position: absolute; top: 17px; bottom: 17px; right: 16px; width: 1px;
+  background: var(--linea-fuerte);
+}
+.barra-scroll__riel::after {
+  content: ''; position: absolute; top: 17px; bottom: 17px; right: 8px; width: 17px;
+  background:
+    repeating-linear-gradient(to bottom, rgba(124, 140, 255, 0.55) 0 1px, transparent 1px 25%) right / 17px 100% no-repeat,
+    repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0 1px, transparent 1px 5%) right / 8px 100% no-repeat;
+  pointer-events: none;
+}
+.barra-scroll__ficha {
+  position: absolute; top: 0; right: 0; width: 34px; height: 34px; will-change: transform;
+}
+.barra-scroll__moneda { display: block; width: 34px; height: 34px; filter: drop-shadow(0 4px 14px rgba(119, 102, 248, 0.55)); }
+.barra-scroll__disco { fill: #120e33; stroke: var(--violeta); stroke-width: 3; }
+.barra-scroll__ficha:hover .barra-scroll__disco,
+.barra-scroll[data-arrastre='true'] .barra-scroll__disco { fill: #1d1650; stroke: var(--acento-2); }
+.barra-scroll__pct {
+  position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+  padding: 3px 8px; border: 1px solid var(--linea-fuerte); border-radius: 999px;
+  background: var(--superficie-2); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--acento);
+  white-space: nowrap; pointer-events: none;
+}
+@media (pointer: coarse), (max-width: 760px) { .barra-scroll { display: none; } }

@@ -53,7 +53,6 @@ export default function Ticket({ tema, datos, referencia, numero }: { tema: Tema
       <footer className="ticket__total">
         <div><span>VS BRASIL / MÉXICO</span><Estado estado={datos?.estado_regional ?? null} brecha={datos?.brecha_regional ?? null} /></div>
         <div className="ticket__total-final"><span>TOTAL BRECHA · VS MUNDO</span><Estado estado={datos?.estado_global ?? null} brecha={datos?.brecha_global ?? null} /></div>
-        <p className="ticket__gracias">*** brecha = nivel de Argentina − nivel de la región ***</p>
       </footer>
     </article>
   );

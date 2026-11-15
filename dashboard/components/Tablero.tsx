@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Corrida, Horizonte, Tendencia } from '@/lib/tipos';
 import type { Origen } from '@/lib/datos';
 import type { Portadas } from '@/lib/portadas';
-import { CREDITOS_UNSPLASH, DESCRIPCION_HORIZONTE } from '@/lib/fintech';
 import { HORIZONTES, TEMAS, celdaDe, fechaCorta, fechaLarga, tendenciasDe } from '@/lib/vista';
 import Logo, { MarcaTrazo } from './Logo';
 import Lluvia from './Lluvia';
@@ -13,6 +12,7 @@ import RadarFinn from './RadarFinn';
 import TarjetaTema from './TarjetaTema';
 import Cadena from './Cadena';
 import Ticket from './Ticket';
+import BarraScroll from './BarraScroll';
 import PanelTendencia from './PanelTendencia';
 
 const CAPITULOS = [
@@ -36,7 +36,6 @@ function Encabezado({ n, titulo, bajada }: { n: string; titulo: string; bajada: 
 export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} }: { ediciones: Corrida[]; origen?: Origen; portadas?: Portadas }) {
   const [edicion, setEdicion] = useState(0);
   const [horizonte, setHorizonte] = useState<Horizonte>('corto');
-  const [aviso, setAviso] = useState(0);
   const [panel, setPanel] = useState<{ lista: Tendencia[]; indice: number } | null>(null);
   const [visible, setVisible] = useState<string>('');
   const opener = useRef<HTMLElement | Element | null>(null);
@@ -45,14 +44,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
   const lista = tendenciasDe(corrida, horizonte);
   const hz = HORIZONTES.find((h) => h.id === horizonte)!;
 
-  const elegirHorizonte = (h: Horizonte) => { setHorizonte(h); setAviso((n) => n + 1); };
-
-  // La explicación del horizonte se muestra unos segundos después de elegirlo.
-  useEffect(() => {
-    if (!aviso) return;
-    const t = setTimeout(() => setAviso(0), 3200);
-    return () => clearTimeout(t);
-  }, [aviso]);
+  const elegirHorizonte = (h: Horizonte) => setHorizonte(h);
 
   const abrir = (l: Tendencia[], indice: number, el?: Element | null) => {
     opener.current = el ?? document.activeElement;
@@ -91,19 +83,6 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
           ))}
         </ul>
         <div className="barra__controles">
-          <div className="horizonte">
-            <div className="pildora" role="radiogroup" aria-label="Horizonte temporal" style={{ '--i': HORIZONTES.findIndex((h) => h.id === horizonte) } as React.CSSProperties}>
-              <span className="pildora__fondo" aria-hidden="true" />
-              {HORIZONTES.map((h) => (
-                <button key={h.id} type="button" role="radio" aria-checked={h.id === horizonte} onClick={() => elegirHorizonte(h.id)} title={`${h.largo}: ${h.etiqueta}`}>
-                  {h.largo}
-                </button>
-              ))}
-            </div>
-            <p className={`horizonte__nota${aviso ? ' es-visible' : ''}`} role="status">
-              <b>{hz.largo} · {hz.etiqueta}</b> {DESCRIPCION_HORIZONTE[horizonte]}
-            </p>
-          </div>
           <label className="edicion">
             <span className="sr">Edición semanal</span>
             <select value={edicion} onChange={(e) => cambiarEdicion(Number(e.target.value))}>
@@ -137,8 +116,6 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
           </div>
           <RadarFinn
             tendencias={corrida.tendencias}
-            horizonte={horizonte}
-            onHorizonte={elegirHorizonte}
             onAbrir={(t, el) => {
               const l = tendenciasDe(corrida, t.horizonte_ar);
               if (t.horizonte_ar !== horizonte) elegirHorizonte(t.horizonte_ar);
@@ -220,18 +197,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
         </div>
       </section>
 
-      <footer className="pie">
-        <span>Finn · Trabajo práctico · Generado el {fechaLarga(corrida.generado)}</span>
-        <span>
-          Fotos de Unsplash:{' '}
-          {CREDITOS_UNSPLASH.map((c, i) => (
-            <span key={c.url}>
-              {i > 0 && ', '}
-              <a href={c.url} target="_blank" rel="noopener noreferrer">{c.autor}</a>
-            </span>
-          ))}
-        </span>
-      </footer>
+      <BarraScroll />
 
       {panel && (
         <PanelTendencia

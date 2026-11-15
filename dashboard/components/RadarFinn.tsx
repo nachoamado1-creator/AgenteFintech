@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { Horizonte, Tendencia } from '@/lib/tipos';
+import type { Tendencia } from '@/lib/tipos';
 import { COLOR_TEMA } from '@/lib/fintech';
 import { BORDE_HORIZONTE, HORIZONTES, NOMBRE_TEMA, TEMAS, puntosRadar } from '@/lib/vista';
 
@@ -29,11 +29,9 @@ const sector = (desde: number, hasta: number, radio: number) => {
  * cuadrante un tema. Los puntos del horizonte elegido se encienden y se pueden tocar.
  */
 export default function RadarFinn({
-  tendencias, horizonte, onHorizonte, onAbrir,
+  tendencias, onAbrir,
 }: {
   tendencias: Tendencia[];
-  horizonte: Horizonte;
-  onHorizonte: (h: Horizonte) => void;
   onAbrir: (t: Tendencia, el: Element) => void;
 }) {
   const puntos = useMemo(() => puntosRadar(tendencias, C, C), [tendencias]);
@@ -65,8 +63,7 @@ export default function RadarFinn({
             cy={C}
             r={BORDE_HORIZONTE[h.id]}
             className="radar__anillo"
-            data-activo={h.id === horizonte}
-            onClick={() => onHorizonte(h.id)}
+            data-activo="true"
           />
         ))}
         <path d={`M${C} ${C - 172}V${C + 172}M${C - 172} ${C}H${C + 172}`} className="radar__eje" />
@@ -74,7 +71,7 @@ export default function RadarFinn({
           <path d={`M${C} ${C} L${C} ${C - 172} A172 172 0 0 1 ${C + 121.6} ${C - 121.6} Z`} fill="url(#radar-barrido)" />
         </g>
         {HORIZONTES.map((h) => (
-          <text key={h.id} x={C + 6} y={C - BORDE_HORIZONTE[h.id] + 12} className="radar__franja" data-activo={h.id === horizonte}>
+          <text key={h.id} x={C + 6} y={C - BORDE_HORIZONTE[h.id] + 12} className="radar__franja" data-activo="true">
             {h.largo.toUpperCase()}
           </text>
         ))}
@@ -95,16 +92,15 @@ export default function RadarFinn({
         <text x={C} y={C + 18} textAnchor="middle" className="radar__hoy">AR · HOY</text>
 
         {puntos.map((p) => {
-          const activo = p.tendencia.horizonte_ar === horizonte;
           return (
             <g
               key={p.clave}
               className="radar__punto"
-              data-activo={activo}
+              data-activo="true"
               style={{ '--c': COLOR_TEMA[p.tendencia.tema] } as React.CSSProperties}
               transform={`translate(${p.x} ${p.y})`}
               role="button"
-              tabIndex={activo ? 0 : -1}
+              tabIndex={0}
               aria-label={p.tendencia.nombre}
               onMouseEnter={() => setSobre(p.clave)}
               onMouseLeave={() => setSobre(null)}
@@ -120,11 +116,7 @@ export default function RadarFinn({
         })}
       </svg>
       <figcaption className="radar__leyenda" aria-live="polite">
-        {senalado ? (
-          <><b style={{ color: COLOR_TEMA[senalado.tendencia.tema] }}>●</b> {senalado.tendencia.nombre}</>
-        ) : (
-          <>Centro = Argentina hoy · cada anillo, un horizonte · tocá un punto</>
-        )}
+        {senalado && <><b style={{ color: COLOR_TEMA[senalado.tendencia.tema] }}>●</b> {senalado.tendencia.nombre}</>}
       </figcaption>
     </figure>
   );
