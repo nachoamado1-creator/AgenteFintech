@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Tendencia } from '@/lib/tipos';
-import { COLOR_TEMA } from '@/lib/fintech';
+import { COLOR_TEMA, IMAGEN_TEMA, portadaDeTendencia } from '@/lib/fintech';
 import { BORDE_HORIZONTE, HORIZONTES, NOMBRE_TEMA, TEMAS, puntosRadar } from '@/lib/vista';
+import Portada from './Portada';
 
 const C = 200;
 /** Esquina de cada cuadrante, en el orden de TEMAS (reloj desde arriba a la derecha). */
@@ -29,17 +30,36 @@ const sector = (desde: number, hasta: number, radio: number) => {
  * cuadrante un tema. Los puntos del horizonte elegido se encienden y se pueden tocar.
  */
 export default function RadarFinn({
-  tendencias, onAbrir,
+  tendencias, onAbrir, portadas = {},
 }: {
   tendencias: Tendencia[];
   onAbrir: (t: Tendencia, el: Element) => void;
+  portadas?: Record<string, string>;
 }) {
   const puntos = useMemo(() => puntosRadar(tendencias, C, C), [tendencias]);
   const [sobre, setSobre] = useState<string | null>(null);
+  const lienzo = useRef<HTMLDivElement>(null);
   const senalado = puntos.find((p) => p.clave === sobre);
+
+  // En pantallas táctiles, tocar afuera de un punto cierra la tarjetita.
+  useEffect(() => {
+    const afuera = (e: PointerEvent) => {
+      if (!(e.target as Element).closest?.('.radar__punto')) setSobre(null);
+    };
+    document.addEventListener('pointerdown', afuera);
+    return () => document.removeEventListener('pointerdown', afuera);
+  }, []);
+
+  // Con dedo: el primer toque muestra la tarjetita y el segundo abre el panel.
+  const alTocar = (clave: string, t: Tendencia, el: Element) => {
+    const tactil = window.matchMedia('(pointer: coarse)').matches;
+    if (tactil && sobre !== clave) { setSobre(clave); return; }
+    onAbrir(t, el);
+  };
 
   return (
     <figure className="radar" aria-label="Radar de tendencias">
+      <div className="radar__lienzo" ref={lienzo}>
       <svg viewBox="0 0 400 400" className="radar__svg">
         <defs>
           <radialGradient id="radar-fondo">
@@ -70,11 +90,6 @@ export default function RadarFinn({
         <g className="radar__barrido">
           <path d={`M${C} ${C} L${C} ${C - 172} A172 172 0 0 1 ${C + 121.6} ${C - 121.6} Z`} fill="url(#radar-barrido)" />
         </g>
-        {HORIZONTES.map((h) => (
-          <text key={h.id} x={C + 6} y={C - BORDE_HORIZONTE[h.id] + 12} className="radar__franja" data-activo="true">
-            {h.largo.toUpperCase()}
-          </text>
-        ))}
         {TEMAS.map((t, i) => {
           const nombre = NOMBRE_TEMA[t].toUpperCase();
           const ancho = nombre.length * 6.6 + 22;
@@ -106,7 +121,7 @@ export default function RadarFinn({
               onMouseLeave={() => setSobre(null)}
               onFocus={() => setSobre(p.clave)}
               onBlur={() => setSobre(null)}
-              onClick={(e) => onAbrir(p.tendencia, e.currentTarget)}
+              onClick={(e) => alTocar(p.clave, p.tendencia, e.currentTarget)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onAbrir(p.tendencia, e.currentTarget); } }}
             >
               <circle r={p.tam + 6} className="radar__halo" />
@@ -115,8 +130,32 @@ export default function RadarFinn({
           );
         })}
       </svg>
-      <figcaption className="radar__leyenda" aria-live="polite">
-        {senalado && <><b style={{ color: COLOR_TEMA[senalado.tendencia.tema] }}>●</b> {senalado.tendencia.nombre}</>}
+      {senalado && (
+        <div
+          className="radar__tarjeta"
+          role="status"
+          data-lado={senalado.y < 150 ? 'abajo' : 'arriba'}
+          data-borde={senalado.x < 110 ? 'izq' : senalado.x > 290 ? 'der' : 'centro'}
+          style={{
+            left: `${(senalado.x / 400) * 100}%`,
+            top: `${(senalado.y / 400) * 100}%`,
+            '--c': COLOR_TEMA[senalado.tendencia.tema],
+            '--sep': `${senalado.tam + 10}px`,
+          } as React.CSSProperties}
+        >
+          <Portada src={portadaDeTendencia(senalado.tendencia, portadas)} respaldo={IMAGEN_TEMA[senalado.tendencia.tema]} clase="radar__foto" />
+          <span className="radar__tema-chip">{NOMBRE_TEMA[senalado.tendencia.tema]}</span>
+          <b className="radar__titulo">{senalado.tendencia.nombre}</b>
+        </div>
+      )}
+      </div>
+      <figcaption className="radar__leyenda">
+        <span className="radar__clave"><i aria-hidden="true" /> Cada punto = una noticia clave · pasá el mouse para ver cuál</span>
+        <ul className="radar__escala" aria-label="Anillos del radar">
+          {HORIZONTES.map((h, n) => (
+            <li key={h.id}><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r={4 + n * 3} /></svg>{h.largo}</li>
+          ))}
+        </ul>
       </figcaption>
     </figure>
   );

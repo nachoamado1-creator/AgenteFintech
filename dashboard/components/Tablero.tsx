@@ -8,6 +8,7 @@ import { HORIZONTES, TEMAS, celdaDe, fechaCorta, fechaLarga, tendenciasDe } from
 import Logo, { MarcaTrazo } from './Logo';
 import Lluvia from './Lluvia';
 import Nodos from './Nodos';
+import MapaLaser from './MapaLaser';
 import RadarFinn from './RadarFinn';
 import TarjetaTema from './TarjetaTema';
 import Cadena from './Cadena';
@@ -43,6 +44,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
   const corrida = ediciones[edicion] ?? ediciones[0];
   const lista = tendenciasDe(corrida, horizonte);
   const hz = HORIZONTES.find((h) => h.id === horizonte)!;
+  const regionesComparadas = [...new Set(corrida.referencia.map((r) => r.region))].filter((r) => r !== 'AR');
 
   const elegirHorizonte = (h: Horizonte) => setHorizonte(h);
 
@@ -53,6 +55,19 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
   const cerrar = useCallback(() => {
     setPanel(null);
     requestAnimationFrame(() => (opener.current as HTMLElement | null)?.focus?.());
+  }, []);
+
+  // Mientras el título está seleccionado, los puntos cambian de color para no fundirse con el resaltado violeta.
+  useEffect(() => {
+    const alCambiar = () => {
+      const titulo = document.querySelector<HTMLElement>('.portada__titulo');
+      const sel = document.getSelection();
+      if (!titulo) return;
+      const dentro = !!sel && !sel.isCollapsed && sel.containsNode(titulo, true);
+      titulo.toggleAttribute('data-seleccionado', dentro);
+    };
+    document.addEventListener('selectionchange', alCambiar);
+    return () => document.removeEventListener('selectionchange', alCambiar);
   }, []);
 
   useEffect(() => {
@@ -116,6 +131,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
           </div>
           <RadarFinn
             tendencias={corrida.tendencias}
+            portadas={portadas}
             onAbrir={(t, el) => {
               const l = tendenciasDe(corrida, t.horizonte_ar);
               if (t.horizonte_ar !== horizonte) elegirHorizonte(t.horizonte_ar);
@@ -177,6 +193,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
 
       {/* ── 03 Brechas ── */}
       <section id="brechas" className="seccion seccion--brechas">
+        <MapaLaser regiones={regionesComparadas} />
         <div className="capitulo">
           <Encabezado
             n="03"

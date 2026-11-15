@@ -2,15 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const FICHA = 34;
+const MARGEN = 6;
 
 /**
- * Barra de scroll de Finn: un riel con marcas de escala, como el eje de una cotización,
- * y una ficha con la F que se desliza por él mostrando el % de página recorrido.
+ * Barra de scroll de Finn: una barra de carga fina, como la de un pago en proceso.
+ * Se llena con el scroll mostrando el % y el estado; al llegar al final queda "Aprobado".
  */
 export default function BarraScroll() {
   const riel = useRef<HTMLDivElement>(null);
-  const ficha = useRef<HTMLDivElement>(null);
+  const relleno = useRef<HTMLDivElement>(null);
+  const cabeza = useRef<HTMLDivElement>(null);
   const [pct, setPct] = useState(0);
   const [hayScroll, setHayScroll] = useState(false);
   const [arrastrando, setArrastrando] = useState(false);
@@ -23,8 +24,9 @@ export default function BarraScroll() {
       const max = el.scrollHeight - el.clientHeight;
       setHayScroll(max > 8);
       const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      const alto = riel.current?.clientHeight ?? 0;
-      if (ficha.current) ficha.current.style.transform = `translateY(${p * Math.max(0, alto - FICHA)}px)`;
+      const alto = Math.max(0, (riel.current?.clientHeight ?? 0) - MARGEN * 2);
+      if (relleno.current) relleno.current.style.transform = `scaleY(${p})`;
+      if (cabeza.current) cabeza.current.style.transform = `translateY(${p * alto}px)`;
       setPct(Math.round(p * 100));
     };
     const pedir = () => { if (!raf) raf = requestAnimationFrame(medir); };
@@ -45,14 +47,16 @@ export default function BarraScroll() {
     const r = riel.current;
     if (!r) return;
     const caja = r.getBoundingClientRect();
-    const util = Math.max(1, caja.height - FICHA);
-    const p = Math.min(1, Math.max(0, (clientY - caja.top - FICHA / 2) / util));
+    const util = Math.max(1, caja.height - MARGEN * 2);
+    const p = Math.min(1, Math.max(0, (clientY - caja.top - MARGEN) / util));
     const el = document.documentElement;
     window.scrollTo({ top: p * (el.scrollHeight - el.clientHeight), behavior: 'instant' });
   };
 
+  const aprobado = pct >= 99;
+
   return (
-    <div className="barra-scroll" data-visible={hayScroll} data-arrastre={arrastrando} aria-hidden="true">
+    <div className="barra-scroll" data-visible={hayScroll} data-arrastre={arrastrando} data-aprobado={aprobado} aria-hidden="true">
       <div
         ref={riel}
         className="barra-scroll__riel"
@@ -61,16 +65,21 @@ export default function BarraScroll() {
         onPointerUp={() => setArrastrando(false)}
         onPointerCancel={() => setArrastrando(false)}
       >
-        <div ref={ficha} className="barra-scroll__ficha">
-          <span className="barra-scroll__pct">{pct}%</span>
-          <svg viewBox="0 0 64 64" className="barra-scroll__moneda">
-            <circle cx="32" cy="32" r="29" className="barra-scroll__disco" />
-            <path
-              d="M18.5 17.9a1.2 1.2 0 0 1 1.2-1.2h24.2a1.2 1.2 0 0 1 1.2 1.2v5.4a1.2 1.2 0 0 1-1.2 1.2H27.9v5.2h9.1a1.2 1.2 0 0 1 1.2 1.2v5.1a1.2 1.2 0 0 1-1.2 1.2h-9.1v10.3a1.2 1.2 0 0 1-1.2 1.2h-7a1.2 1.2 0 0 1-1.2-1.2Z"
-              fill="#fff"
-            />
-            <circle cx="43.5" cy="45" r="4.2" fill="#d2ccfb" />
-          </svg>
+        <div className="barra-scroll__pista">
+          <div ref={relleno} className="barra-scroll__relleno" />
+        </div>
+        <div ref={cabeza} className="barra-scroll__cabeza">
+          <span className="barra-scroll__punta" />
+          <span className="barra-scroll__estado">
+            {aprobado ? (
+              <>
+                <svg viewBox="0 0 16 16" className="barra-scroll__check"><path d="M3.5 8.5l3 3 6-7" /></svg>
+                Aprobado
+              </>
+            ) : (
+              <>{pct}% · Procesando…</>
+            )}
+          </span>
         </div>
       </div>
     </div>
