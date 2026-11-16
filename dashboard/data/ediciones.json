@@ -878,12 +878,12 @@
       {
         "tema": "pagos_instantaneos",
         "region": "US",
-        "valor": "8.413.402",
-        "que_mide": "Cantidad de pagos liquidados por FedNow en todo el año",
+        "valor": "100 millones",
+        "que_mide": "Cuentas que usaron Zelle (transferencias en minutos) en diciembre, cerca del 38% de los adultos",
         "anio": 2025,
-        "nivel": 1,
-        "justificacion": "Sistema operativo pero con uso marginal (menos de un pago por adulto por año, muy por debajo del 15%): Pilotos (1).",
-        "url": "https://www.frbservices.org/resources/financial-services/fednow-service-resources/fednow-service-volume-value-statistics/"
+        "nivel": 2,
+        "justificacion": "Entre 15% y 50% de los adultos usa pagos instantáneos: Adopción temprana (2). FedNow solo, en cambio, es marginal.",
+        "url": "https://www.zelle.com/press-releases/zelle-posts-20-growth-12-trillion-sent-far-outpacing-consumer-spending-and-cementing"
       },
       {
         "tema": "open_finance",
@@ -1800,12 +1800,12 @@
       {
         "tema": "pagos_instantaneos",
         "region": "US",
-        "valor": "8.413.402",
-        "que_mide": "Cantidad de pagos liquidados por FedNow en todo el año",
+        "valor": "100 millones",
+        "que_mide": "Cuentas que usaron Zelle (transferencias en minutos) en diciembre, cerca del 38% de los adultos",
         "anio": 2025,
-        "nivel": 1,
-        "justificacion": "Sistema operativo pero con uso marginal (menos de un pago por adulto por año, muy por debajo del 15%): Pilotos (1).",
-        "url": "https://www.frbservices.org/resources/financial-services/fednow-service-resources/fednow-service-volume-value-statistics/"
+        "nivel": 2,
+        "justificacion": "Entre 15% y 50% de los adultos usa pagos instantáneos: Adopción temprana (2). FedNow solo, en cambio, es marginal.",
+        "url": "https://www.zelle.com/press-releases/zelle-posts-20-growth-12-trillion-sent-far-outpacing-consumer-spending-and-cementing"
       },
       {
         "tema": "open_finance",
