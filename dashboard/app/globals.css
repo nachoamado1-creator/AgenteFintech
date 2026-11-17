@@ -360,6 +360,16 @@ img { display: block; max-width: 100%; }
 .linea-tiempo__nodo.es-activo { color: var(--texto); }
 .linea-tiempo__nodo.es-activo .linea-tiempo__punto { background: var(--acento); border-color: var(--acento); box-shadow: 0 0 0 5px rgba(124, 140, 255, 0.18); }
 
+.carpetas { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px clamp(24px, 4vw, 56px); margin: 0 0 40px; }
+.carrusel__cabeza { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 16px; }
+.carrusel__titulo { font-size: clamp(1rem, 1.8vw, 1.5rem); font-weight: 700; letter-spacing: -0.04em; }
+.carrusel__flechas { display: flex; gap: 8px; }
+.carrusel__flecha {
+  display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--linea-fuerte); border-radius: 10px;
+  color: var(--texto); font-size: 18px; transition: border-color 0.2s, background 0.2s;
+}
+.carrusel__flecha:hover { border-color: var(--acento); background: rgba(124, 140, 255, 0.12); }
+
 .cadena__bloques {
   display: flex; gap: 44px; margin: 0 calc(-1 * clamp(16px, 4vw, 40px)); padding: 6px clamp(16px, 4vw, 40px) 28px;
   list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--linea-fuerte) transparent;
@@ -500,11 +510,10 @@ img { display: block; max-width: 100%; }
   .portada { padding-top: 150px; }
   .tarjetas, .tickets { grid-template-columns: 1fr; }
   .capitulo__cabeza { grid-template-columns: 1fr; gap: 6px; }
-  .cadena__bloques { flex-direction: column; gap: 32px; margin: 0; padding: 0; overflow: visible; }
-  .cadena__eslabon { flex: none; }
-  .cadena__eslabon + .cadena__eslabon::before { top: -32px; left: 50%; width: 2px; height: 32px; background: repeating-linear-gradient(180deg, var(--linea-fuerte) 0 6px, transparent 6px 10px); }
-  .cadena__eslabon + .cadena__eslabon::after { top: -20px; left: calc(50% - 3px); }
-  .linea-tiempo__nodo b { font-size: 0.95rem; }
+  .cadena__bloques { gap: 24px; }
+  .cadena__eslabon { flex-basis: 82%; }
+  .cadena__eslabon + .cadena__eslabon::before { left: -24px; width: 24px; }
+  .cadena__eslabon + .cadena__eslabon::after { left: -16px; }
   .panel { width: 100vw; border-left: 0; }
 }
 

@@ -37,16 +37,19 @@ function Encabezado({ n, titulo, bajada }: { n: string; titulo: string; bajada: 
 export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} }: { ediciones: Corrida[]; origen?: Origen; portadas?: Portadas }) {
   const [edicion, setEdicion] = useState(0);
   const [horizonte, setHorizonte] = useState<Horizonte>('corto');
+  const [abierta, setAbierta] = useState<Horizonte | null>(null);
   const [panel, setPanel] = useState<{ lista: Tendencia[]; indice: number } | null>(null);
   const [visible, setVisible] = useState<string>('');
   const opener = useRef<HTMLElement | Element | null>(null);
 
   const corrida = ediciones[edicion] ?? ediciones[0];
   const lista = tendenciasDe(corrida, horizonte);
-  const hz = HORIZONTES.find((h) => h.id === horizonte)!;
   const regionesComparadas = [...new Set(corrida.referencia.map((r) => r.region))].filter((r) => r !== 'AR');
 
   const elegirHorizonte = (h: Horizonte) => setHorizonte(h);
+  const abrirCarpeta = (h: Horizonte | null) => { setAbierta(h); if (h) setHorizonte(h); };
+  const listas = { corto: tendenciasDe(corrida, 'corto'), mediano: tendenciasDe(corrida, 'mediano'), largo: tendenciasDe(corrida, 'largo') };
+  const hzAbierta = HORIZONTES.find((h) => h.id === abierta);
 
   const abrir = (l: Tendencia[], indice: number, el?: Element | null) => {
     opener.current = el ?? document.activeElement;
@@ -135,6 +138,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
             onAbrir={(t, el) => {
               const l = tendenciasDe(corrida, t.horizonte_ar);
               if (t.horizonte_ar !== horizonte) elegirHorizonte(t.horizonte_ar);
+              setAbierta(t.horizonte_ar);
               abrir(l, l.indexOf(t), el);
             }}
           />
@@ -179,14 +183,17 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
           <Encabezado
             n="02"
             titulo="¿Qué puede venir?"
-            bajada={<>Cada tendencia es un bloque de la cadena. Estás viendo el <b className="res res--acento">{hz.largo.toLowerCase()}</b> ({hz.etiqueta}): <b className="res res--dato">{lista.length}</b> {lista.length === 1 ? 'bloque' : 'bloques'}. Tocá uno para ver el resumen y la noticia original.</>}
+            bajada={hzAbierta
+              ? <>Estás viendo el <b className="res res--acento">{hzAbierta.largo.toLowerCase()}</b> ({hzAbierta.etiqueta}): <b className="res res--dato">{listas[hzAbierta.id].length}</b> {listas[hzAbierta.id].length === 1 ? 'noticia' : 'noticias'}. Tocá una para ver el resumen y la noticia original.</>
+              : <>Cada plazo guarda sus tendencias en una carpeta. Abrí una carpeta para ver sus noticias. Tocá una para ver el resumen y la noticia original.</>}
           />
           <Cadena
-            lista={lista}
-            horizonte={horizonte}
-            onHorizonte={elegirHorizonte}
-            onAbrir={(t, el) => abrir(lista, lista.indexOf(t), el)}
+            listas={listas}
+            abierta={abierta}
+            onAbierta={abrirCarpeta}
+            onAbrir={(l, i, el) => abrir(l, i, el)}
             portadas={portadas}
+            edicion={corrida.corrida}
           />
         </div>
       </section>
