@@ -81,7 +81,11 @@ import { fuentesDelTema } from './vista';
 describe('fuentes de la tarjeta', () => {
   it('each topic card has an Argentine, a regional and a global source', () => {
     for (const c of guardadas as unknown as Corrida[]) for (const t of TEMAS) {
-      expect(fuentesDelTema(c, t).map((f) => f.alcance), `${c.corrida} · ${t}`).toEqual(['AR', 'region', 'mundo']);
+      const fs = fuentesDelTema(c, t);
+      expect(fs.slice(0, 3).map((f) => f.alcance), `${c.corrida} · ${t}`).toEqual(['AR', 'region', 'mundo']);
+      expect(fs.length).toBeGreaterThan(3);
+      expect(fs.length).toBeLessThanOrEqual(7);
+      expect(new Set(fs.map((f) => f.url)).size).toBe(fs.length);
     }
   });
 });

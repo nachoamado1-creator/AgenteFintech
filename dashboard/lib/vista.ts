@@ -174,7 +174,7 @@ export function conFuentesPorAlcance(corrida: Corrida): Corrida {
  * Primero usa el dato de referencia de ese alcance (el que sostiene el nivel y la comparación);
  * si no hay, una noticia del tema de ese alcance.
  */
-export function fuentesDelTema(corrida: Corrida, tema: TemaId): Fuente[] {
+export function fuentesDelTema(corrida: Corrida, tema: TemaId, max = 7): Fuente[] {
   const salida: Fuente[] = [];
   for (const a of ALCANCES) {
     const ref = REGION_REFERENCIA[a]
@@ -189,6 +189,19 @@ export function fuentesDelTema(corrida: Corrida, tema: TemaId): Fuente[] {
       .flatMap((t) => t.fuentes)
       .find((f) => alcanceDe(f) === a && !salida.some((s) => s.url === f.url));
     if (nota) salida.push({ ...nota, alcance: a });
+  }
+  // Después, las noticias más relevantes del tema: primero las de las tendencias con más respaldo,
+  // y dentro de cada una la más reciente. Un solo enlace por medio para que haya variedad.
+  const medios = new Set(salida.map((f) => f.fuente));
+  const notas = corrida.tendencias
+    .filter((t) => t.tema === tema)
+    .sort((x, y) => y.fuentes.length - x.fuentes.length)
+    .flatMap((t) => [...t.fuentes].sort((x, y) => (x.fecha < y.fecha ? 1 : -1)));
+  for (const f of notas) {
+    if (salida.length >= max) break;
+    if (medios.has(f.fuente) || salida.some((s) => s.url === f.url)) continue;
+    salida.push({ ...f, alcance: alcanceDe(f) });
+    medios.add(f.fuente);
   }
   return salida;
 }
