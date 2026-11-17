@@ -4,7 +4,8 @@ export type Horizonte = 'corto' | 'mediano' | 'largo';
 export type Capacidad = 'grande' | 'chica' | 'ambas';
 export type Estado = 'atrasada' | 'pareja' | 'adelantada' | null;
 
-export interface Fuente { url: string; fuente: string; fecha: string; cita?: string }
+export type Alcance = 'AR' | 'region' | 'mundo';
+export interface Fuente { url: string; fuente: string; fecha: string; cita?: string; alcance?: Alcance; contexto?: boolean }
 export interface Celda { tema: TemaId; region: RegionCelda; adopcion: 0 | 1 | 2 | 3 | null; origen: 'dato_duro' | 'estimado' | 'sin_datos'; urls: string[] }
 export interface Tema {
   tema: TemaId; brecha_regional: number | null; brecha_global: number | null;

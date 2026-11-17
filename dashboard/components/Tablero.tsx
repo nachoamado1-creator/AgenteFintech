@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Corrida, Horizonte, Tendencia } from '@/lib/tipos';
 import type { Origen } from '@/lib/datos';
 import type { Portadas } from '@/lib/portadas';
-import { HORIZONTES, TEMAS, celdaDe, fechaCorta, fechaLarga, tendenciasDe } from '@/lib/vista';
+import { HORIZONTES, TEMAS, celdaDe, conFuentesPorAlcance, fechaCorta, fechaLarga, tendenciasDe } from '@/lib/vista';
 import Logo, { MarcaTrazo } from './Logo';
 import Lluvia from './Lluvia';
 import Nodos from './Nodos';
@@ -42,7 +42,8 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
   const [visible, setVisible] = useState<string>('');
   const opener = useRef<HTMLElement | Element | null>(null);
 
-  const corrida = ediciones[edicion] ?? ediciones[0];
+  const original = ediciones[edicion] ?? ediciones[0];
+  const corrida = useMemo(() => conFuentesPorAlcance(original), [original]);
   const lista = tendenciasDe(corrida, horizonte);
   const regionesComparadas = [...new Set(corrida.referencia.map((r) => r.region))].filter((r) => r !== 'AR');
 

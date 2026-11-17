@@ -55,3 +55,24 @@ describe('vista', () => {
     expect(claveTendencia({ tema: 'stablecoins', nombre: 'X' })).toBe('stablecoins|X');
   });
 });
+
+import guardadas from '../data/ediciones.json';
+import { conFuentesPorAlcance, alcanceDe } from './vista';
+
+describe('fuentes por alcance', () => {
+  it('classifies sources by scope', () => {
+    expect(alcanceDe({ url: 'https://www.iproup.com/x', fuente: 'iProUP' })).toBe('AR');
+    expect(alcanceDe({ url: 'https://finsidersbrasil.com.br/x', fuente: 'Finsiders Brasil' })).toBe('region');
+    expect(alcanceDe({ url: 'https://www.bis.org/x', fuente: 'BIS' })).toBe('mundo');
+  });
+
+  it('gives every trend at least one Argentine, one regional and one global source', () => {
+    for (const c of guardadas as unknown as Corrida[]) {
+      for (const t of conFuentesPorAlcance(c).tendencias) {
+        const alcances = new Set(t.fuentes.map((f) => f.alcance));
+        expect([...alcances].sort(), `${c.corrida} · ${t.nombre}`).toEqual(['AR', 'mundo', 'region']);
+        expect(new Set(t.fuentes.map((f) => f.url)).size).toBe(t.fuentes.length);
+      }
+    }
+  });
+});

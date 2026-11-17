@@ -1,4 +1,4 @@
-import type { Celda, Corrida, Estado, Horizonte, RegionCelda, TemaId, Tendencia } from './tipos';
+import type { Alcance, Celda, Corrida, Estado, Fuente, Horizonte, RegionCelda, TemaId, Tendencia } from './tipos';
 
 export const NOMBRE_TEMA: Record<TemaId, string> = {
   pagos_instantaneos: 'Pagos instantáneos',
@@ -118,4 +118,53 @@ export function puntoArco(nivel: number, radio: number, cx: number, cy: number) 
   // Redondeo a 2 decimales: el servidor y el navegador calculan el seno con distinta precisión.
   const r2 = (v: number) => Math.round(v * 100) / 100;
   return { x: r2(cx + radio * Math.cos(angulo)), y: r2(cy - radio * Math.sin(angulo)) };
+}
+
+export const NOMBRE_ALCANCE: Record<Alcance, string> = { AR: 'Argentina', region: 'Región', mundo: 'Mundo' };
+const ALCANCES: Alcance[] = ['AR', 'region', 'mundo'];
+const SITIOS_AR = ['iproup.com', 'infobae.com', 'rosario3.com', 'frecuenciamoney.com', 'jfcattorneys.com', 'itsitio.com', 'lanacion.com', 'clarin.com', 'ambito.com', 'cronista.com'];
+const SITIOS_REGION = ['latamlist.com', 'bloomberglinea.com', 'fintechnews.am', 'ciberlatam.com', 'ecosistemastartup.com', 'latamfintech.co', 'bancadelmanana.com', 'riotimesonline.com', 'contxto.com'];
+
+/** De dónde es una fuente: Argentina, la región (Latinoamérica) o el mundo. */
+export function alcanceDe(f: Pick<Fuente, 'url' | 'fuente'>): Alcance {
+  const host = dominio(f.url);
+  const nombre = f.fuente.toLowerCase();
+  const es = (lista: string[]) => lista.some((d) => host === d || host.endsWith(`.${d}`));
+  if (host.endsWith('.ar') || es(SITIOS_AR) || nombre.includes('argentina')) return 'AR';
+  if (/\.(br|mx|cl|co|pe|uy)$/.test(host) || es(SITIOS_REGION) || /brasil|latam|méxico|mexico|américas/.test(nombre)) return 'region';
+  return 'mundo';
+}
+
+const REGION_REFERENCIA: Record<Alcance, string[]> = { AR: ['AR'], region: ['BR', 'MX'], mundo: ['US', 'EU'] };
+
+/**
+ * Asegura que cada tendencia tenga al menos una fuente de Argentina, una de la región y una del mundo.
+ * Si a la tendencia le falta alguna, la completa con otra noticia del mismo tema en la misma edición
+ * y, si no hay, con el dato de referencia de ese tema (informe oficial o estudio). Las agregadas quedan marcadas como contexto.
+ */
+export function conFuentesPorAlcance(corrida: Corrida): Corrida {
+  const tendencias = corrida.tendencias.map((t) => {
+    const propias = t.fuentes.map((f) => ({ ...f, alcance: alcanceDe(f) }));
+    const usadas = new Set(propias.map((f) => f.url));
+    const extra: Fuente[] = [];
+    for (const a of ALCANCES) {
+      if (propias.some((f) => f.alcance === a)) continue;
+      const delTema = corrida.tendencias
+        .filter((o) => o !== t && o.tema === t.tema)
+        .flatMap((o) => o.fuentes)
+        .find((f) => !usadas.has(f.url) && alcanceDe(f) === a);
+      if (delTema) {
+        extra.push({ ...delTema, alcance: a, contexto: true });
+        usadas.add(delTema.url);
+        continue;
+      }
+      const ref = corrida.referencia.find((r) => r.tema === t.tema && REGION_REFERENCIA[a].includes(r.region) && !usadas.has(r.url));
+      if (ref) {
+        extra.push({ url: ref.url, fuente: dominio(ref.url), fecha: '', cita: `${ref.valor} · ${ref.que_mide} (${ref.anio})`, alcance: a, contexto: true });
+        usadas.add(ref.url);
+      }
+    }
+    return { ...t, fuentes: [...propias, ...extra] };
+  });
+  return { ...corrida, tendencias };
 }

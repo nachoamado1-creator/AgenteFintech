@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import type { Tendencia } from '@/lib/tipos';
 import { COLOR_TEMA, IMAGEN_TEMA, hashCorto, portadaDeTendencia, resaltar } from '@/lib/fintech';
-import { HORIZONTES, NOMBRE_TEMA, fechaCorta } from '@/lib/vista';
+import { HORIZONTES, NOMBRE_ALCANCE, NOMBRE_TEMA, fechaCorta } from '@/lib/vista';
 import Portada from './Portada';
 import Texto from './Texto';
 
@@ -89,11 +89,14 @@ export default function PanelTendencia({
                   <li key={f.url}>
                     <div className="panel__fuente-cabeza">
                       <b>{f.fuente}</b>
-                      <time dateTime={f.fecha}>{fechaCorta(f.fecha)}</time>
+                      <span className="panel__fuente-meta">
+                        {f.alcance && <span className={`panel__alcance panel__alcance--${f.alcance}`}>{NOMBRE_ALCANCE[f.alcance]}{f.contexto ? ' · contexto' : ''}</span>}
+                        {f.fecha && <time dateTime={f.fecha}>{fechaCorta(f.fecha)}</time>}
+                      </span>
                     </div>
                     {f.cita && <q>{f.cita}</q>}
                     <a href={f.url} target="_blank" rel="noopener noreferrer" className="boton-fuente">
-                      Leer la noticia original <span aria-hidden="true">↗</span>
+                      {f.contexto && !f.fecha ? 'Ver el dato' : 'Leer la noticia original'} <span aria-hidden="true">↗</span>
                     </a>
                   </li>
                 ))}
