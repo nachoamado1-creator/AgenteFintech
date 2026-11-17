@@ -1,5 +1,996 @@
 [
   {
+    "corrida": "2026-11-17",
+    "generado": "2026-11-17T14:08:53.788Z",
+    "totales": {
+      "noticias": 132,
+      "fuentes": 49,
+      "fuentes_fallidas": []
+    },
+    "celdas": [
+      {
+        "tema": "pagos_instantaneos",
+        "region": "AR",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/informes/Financial-Inclusion-Report-2026-04.pdf",
+          "https://www.rosario3.com/ecos365/noticias/adios-a-las-barreras-entre-bancos-y-billeteras-como-funcionara-el-nuevo-sistema-de-transferencias-20261113-0003.html",
+          "https://elnacionaldematanza.com.ar/2026/11/13/el-bcra-reconfigura-el-sistema-de-transferencias-y-obliga-a-la-interoperabilidad-total-entre-bancos-y-billeteras/",
+          "https://www.iproup.com/finanzas/73088-mercado-pago-lanza-un-fal-gratis-para-pelear-un-negocio-de-us5-000-m"
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "region": "LATAM",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.bcb.gov.br/content/estabilidadefinanceira/pix/relatorio_de_gestao_pix/relatorio_gestao_pix_2026.pdf",
+          "https://www.bcb.gov.br/en",
+          "https://arxiv.org/abs/2611.08859v1",
+          "https://mindconsulting.com.br/2026/07/fintech-brasil-open-finance-pix-drex-2026/"
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "region": "GLOBAL",
+        "adopcion": 2,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.ecb.europa.eu/press/stats/paysec/html/ecb.pis2025h2~23986fb4a6.en.html",
+          "https://www.zelle.com/press-releases/zelle-posts-20-growth-12-trillion-sent-far-outpacing-consumer-spending-and-cementing",
+          "https://www.iproup.com/finanzas/73049-google-wallet-prueba-funcion-para-pagar-mas-rapido-sin-desbloquear-el-telefono",
+          "https://www.bis.org/publications/paper-177-gig-economy-and-digital-payments",
+          "https://fintechnews.ch/latin-america-fintech/ebanx-eneba-partnership-latin-america-payments/87069/"
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "region": "AR",
+        "adopcion": 1,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.boletinoficial.gob.ar/detalleAviso/primera/325767/20250523",
+          "https://jfcattorneys.com/en/guides/fintech-regulation-argentina",
+          "https://www.iproup.com/finanzas/72734-licencias-bancarias-credito-y-cripto-los-pedidos-fintech-al-bcra",
+          "https://frecuenciamoney.com/open-finance-en-argentina-el-plan-2027/"
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "region": "LATAM",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.letsmoney.com.br/noticias/open-finance-208-milhoes-consentimentos-governanca/",
+          "https://www.revistaabogacia.com/el-open-finance-y-la-recuperacion-del-poder-de-los-usuarios-sobre-su-informacion-financiera/",
+          "https://mundocoop.com.br/economia-negocios/novas-regras-reforcam-seguranca-e-ampliam-uso-do-open-finance-por-clientes-pessoas-juridicas/",
+          "https://www.cfobrew.com/stories/brazils-open-finance-model-helps-fintechs-like-picpay-compete",
+          "https://ciberlatam.com/en/news/brazil-tightens-open-finance-rules"
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "region": "GLOBAL",
+        "adopcion": 2,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.eca.europa.eu/ECAHTMLNews/NEWS-SR-2025-01/en/body.html",
+          "https://www.cozen.com/news-resources/publications/2026/section-1033-compliance-date-open-banking-rule-enjoined-and-under-reconsideration",
+          "https://arxiv.org/abs/2610.30055v2",
+          "https://news.google.com/rss/articles/CBMikgFBVV95cUxQUkk4VGdPTU9Nc3F2YmVWcEF5a2JWVVpaQTFPeml0X1B1NEFnV1hUQkdMUWFsMnpMZGd0cEdwUjE2SW9HaWxqZFV3enNoR0cyT2M3cEpPZmxwVmVnM0Vrdl9iWllXWXZBSjkwWnBJWFRDR1JZdUNlbThjRkR3TDFfQjF1VTZqXzNtVXlVTURpT2tOZw?oc=5",
+          "https://arxiv.org/abs/2609.39310v1"
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "region": "AR",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/",
+          "https://estudionunes.com.ar/cripto-en-argentina-lo-que-cambia-desde-el-16-de-octubre-para-exchanges-y-billeteras/",
+          "https://www.iproup.com/finanzas/72979-reforma-financiera-lanzan-mercado-paralelo-acciones-y-bonos-cripto",
+          "https://achivx.org/regulation/argentina/"
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "region": "LATAM",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/",
+          "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+          "https://finsidersbrasil.com.br/regulamentacao/bc-admite-que-ainda-nao-tem-estrutura-pronta-para-fiscalizar-empresas-de-cripto/",
+          "https://latamlist.com/yellow-card-acquires-gomoney/",
+          "https://finsidersbrasil.com.br/criptoativos/depois-dos-ataques-bilionarios-ainda-e-seguro-deixar-criptomoedas-nas-corretoras/"
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "region": "GLOBAL",
+        "adopcion": 2,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.congress.gov/bill/119th-congress/senate-bill/1582",
+          "https://eur-lex.europa.eu/eli/reg/2023/1114/oj",
+          "https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/",
+          "https://www.iproup.com/finanzas/73132-tether-diversifica-su-fortuna-en-13-empresas-y-2-son-argentinas",
+          "https://www.iproup.com/finanzas/73142-p"
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "AR",
+        "adopcion": 2,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.itsitio.com/ar/fintech/fintech-e-ia-en-argentina-hay-fuerte-adopcion-pero-persisten-desafios-internos/",
+          "https://www.bloomberglinea.com/economia/argentina-podria-sumar-us5000-millones-a-su-pbi-segun-un-experto-en-ia/",
+          "https://www.infobae.com/economia/2026/10/28/argentina-fintech-forum-reunira-a-mas-de-5000-participantes-para-debatir-la-digitalizacion-financiera/",
+          "https://news.google.com/rss/articles/CBMijgJBVV95cUxQNkVqR1BxeVlTeVNQSktxaWt4VzliNUFHVW5FZkNuLWFSZ1FZMFJaTTB4ckVZTmY4YmczMXVFRkJzR3BfQmFYZDg4bXNOOWlKQVl4ckRYNHdXT3JtcVQyQVI2c2EyMmRaUDBHSnI2NXBobk40aHBnTnVNcHFQZE5xOFl5eWU1OEdLTWY3cVhSNGRjbUlldGFWVEhUOVQ2R0pZYlEzRGVCZDY1TWQtUjMxZGdZRFlPdHJpeEdDN3ptZWV0QkFjNnJKMVRxb1k4X05fVHl3M3QwWkN6eUtrbW56dnV3eUNsRjFON1B3eC10VFZ1MnNVSXZpRVE5dTZEMktVNVRnbFg5YU9PWkhMN0HSAY4CQVVfeXFMUDZFakdQcXlZU3lTUEpLcWlreFc5YjVBR1VuRWZDbi1hUmdRWTBSWk0weHJFWU5mOGJnMzF1RUZCc0dwX0JhWGQ4OG1zTjlpSkFZeHJEWDR3V09ybXFUMkFSNnNhMjJkWlAwR0pyNjVwaG5ONGhwZ051TXBxUGROcThZeXllNThHS01mN3FYUjRkY21JZXRhVlRIVDlUNkdKWWJRM0RlQmQ2NU1kLVIzMWRnWURZT3RyaXhHQzd6bWVldEJBYzZySjFUcW9ZOF9OX1R5dzN0MFpDenlLa21uenZ1d3lDbEYxTjdQd3gtdFRWdTJzVUl2aUVROXU2RDJLVTVUZ2xYOWFPT1pITDdB?oc=5"
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "LATAM",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.infomoney.com.br/?p=3073490",
+          "https://ecosistemastartup.com/clara-levanta-us105m-para-su-fintech-con-ia-en-latam/",
+          "https://www.ebankingnews.com/2026/10/28/solo-21-de-consumidores-permitiria-compras-con-ia-sin-supervision/",
+          "https://brasilinovador.com.br/visor-finance-anuncia-integracao-do-pix-a-chat-de-inteligencia-artificial-via-open-finance/"
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "GLOBAL",
+        "adopcion": 3,
+        "origen": "dato_duro",
+        "urls": [
+          "https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf",
+          "https://www.iproup.com/finanzas/73108-la-compra-deja-de-empezar-en-la-tienda-la-ia-ya-entra-en-la-decision-y-el-pago",
+          "https://ecosistemastartup.com/agentes-de-ia-64-millones-de-pagos-por-solo-us119-947/",
+          "https://yousuariofinal.com/archivos/5779/2026/11/05/"
+        ]
+      }
+    ],
+    "temas": [
+      {
+        "tema": "pagos_instantaneos",
+        "brecha_regional": 0,
+        "brecha_global": 1,
+        "estado_regional": "pareja",
+        "estado_global": "adelantada",
+        "resumen": "Argentina tiene un nivel de adopción de pagos instantáneos igual al de Brasil y México (3) y está adelantada respecto a EE.UU. y Europa (2). La brecha indica que Argentina está a la par con la región latinoamericana y supera a los mercados desarrollados en este tema.",
+        "horizonte_ar": "corto",
+        "proveedores": "Prex, Mercado Pago, Depay, Visa, Finastra, Pix, Swap, EBANX, HSBC, Stripe",
+        "inversion": "La adopción de pagos instantáneos requiere inversión en infraestructura tecnológica, integración de APIs y cumplimiento regulatorio; tanto fintechs chicas como grandes corporaciones pueden participar, aunque los proyectos de interoperabilidad total y apertura de competencia suelen demandar mayor capacidad financiera.",
+        "indicadores": [
+          "Volumen de transacciones instantáneas",
+          "Tiempo medio de liquidación",
+          "Número de usuarios activos en cuentas instantáneas"
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "brecha_regional": -2,
+        "brecha_global": -1,
+        "estado_regional": "atrasada",
+        "estado_global": "atrasada",
+        "resumen": "Argentina está rezagada respecto a Brasil y México, que ya alcanzan una adopción mayoritaria, y también detrás de EE.UU. y Europa que se encuentran en adopción temprana. La causa es que en Argentina el Open Finance se encuentra en fase piloto y su marco regulatorio aún no es operativo ni cuenta con incentivos claros.",
+        "horizonte_ar": "mediano",
+        "proveedores": "Mercado Pago, BIND, Supervielle, Finaya, BMP, PicPay, Nu, R3 Corda",
+        "inversion": "La adopción de Open Finance exige inversiones sustanciales en licencias bancarias, desarrollo de plataformas BaaS y cumplimiento regulatorio, lo que la hace accesible principalmente a grandes instituciones, aunque fintechs más pequeñas pueden participar mediante soluciones de terceros.",
+        "indicadores": [
+          "Número de instituciones financieras que comparten datos bajo Open Finance",
+          "Volumen de crédito otorgado a través de datos compartidos",
+          "Reducción del costo de adquisición de clientes para fintechs"
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "brecha_regional": 0,
+        "brecha_global": 1,
+        "estado_regional": "pareja",
+        "estado_global": "adelantada",
+        "resumen": "Argentina está al mismo nivel de adopción que Brasil y México (nivel 3) y supera a EE.UU. y Europa (nivel 2), gracias a un marco regulatorio avanzado y a la integración de stablecoins en negocios locales.",
+        "horizonte_ar": "mediano",
+        "proveedores": "Wealthsimple, Tetra, Griffin, Yellow Card, GoMoney, Anchorage Digital, Visa, Monad, Tether",
+        "inversion": "Adoptar stablecoins implica inversiones considerables en infraestructura tecnológica y cumplimiento regulatorio, con requisitos de capital mínimo para los PSAV, por lo que generalmente solo empresas grandes pueden asumirlo, aunque con alianzas pequeñas pueden participar.",
+        "indicadores": [
+          "Volumen mensual de transacciones en stablecoins",
+          "Número de PSAV registrados con capacidad para stablecoins",
+          "Valor total de pagos en stablecoins procesados por comercios argentinos"
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "brecha_regional": -1,
+        "brecha_global": -1,
+        "estado_regional": "atrasada",
+        "estado_global": "atrasada",
+        "resumen": "Argentina se encuentra en una fase de adopción temprana (nivel 2) de IA aplicada, mientras Brasil, México, EE.UU. y Europa ya alcanzan una adopción mayoritaria (nivel 3). Esto indica que el país está rezagado tanto respecto a sus vecinos latinoamericanos como a los mercados desarrollados, pese a la creciente actividad local en foros y pruebas piloto.",
+        "horizonte_ar": "mediano",
+        "proveedores": "Beex, Clara, Itaú Ventures, Nomad",
+        "inversion": "La adopción de IA en pagos requiere inversiones significativas, típicamente de varios cientos de millones de dólares y estructuras de financiamiento a largo plazo, por lo que es factible principalmente para grandes empresas o aquellas con fuerte respaldo de capital; las fintech pequeñas podrían participar solo en proyectos piloto limitados.",
+        "indicadores": [
+          "Reducción porcentual de fraudes detectados",
+          "Volumen de pagos ejecutados por agentes de IA",
+          "Contribución al PIB atribuida a la IA en el sector financiero"
+        ]
+      }
+    ],
+    "tendencias": [
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Cuentas instantáneas en dólares",
+        "horizonte_ar": "corto",
+        "capacidad": "chica",
+        "resumen": "Prex lanza una cuenta en dólares con acreditación instantánea para usuarios argentinos.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73177-prex-lanzo-una-cuenta-con-cbu-en-dolares-gratuita",
+            "fuente": "iProUP",
+            "fecha": "2026-11-16",
+            "cita": "Prex lanza una cuenta con CBU en dólares gratuita y así podés activarla en pocos segundos"
+          }
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Regulación, interoperabilidad y apertura de competencia",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "El BCRA impone interoperabilidad total y abre la competencia en transferencias inmediatas, afectando a billeteras y grandes redes como Visa.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73149-billetera-digital-fue-dada-de-baja-por-investigacion-de-la-afa",
+            "fuente": "iProUP",
+            "fecha": "2026-11-14",
+            "cita": "Una billetera virtual fue dada de baja en medio de la causa que involucra a la AFA"
+          },
+          {
+            "url": "https://elnacionaldematanza.com.ar/2026/11/13/el-bcra-reconfigura-el-sistema-de-transferencias-y-obliga-a-la-interoperabilidad-total-entre-bancos-y-billeteras/",
+            "fuente": "elnacionaldematanza.com.ar",
+            "fecha": "2026-11-13",
+            "cita": "El BCRA reconfigura el sistema de transferencias y obliga a la interoperabilidad total entre bancos y billeteras"
+          },
+          {
+            "url": "https://www.rosario3.com/ecos365/noticias/adios-a-las-barreras-entre-bancos-y-billeteras-como-funcionara-el-nuevo-sistema-de-transferencias-20261113-0003.html",
+            "fuente": "rosario3.com",
+            "fecha": "2026-11-13",
+            "cita": "la nueva normativa no crea un PIX argentino ni habilita automáticamente las transferencias internacionales o un sistema de pagos QR regional"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73080-cambian-las-transferencias-y-pagos-qr-tras-nueva-normativa-del-bcra",
+            "fuente": "iProUP",
+            "fecha": "2026-11-12",
+            "cita": "La nueva norma del Banco Central cambia las reglas de las transferencias inmediatas y abre la competencia entre las principales redes del sistema"
+          }
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Soluciones para PyMEs y QR en pesos",
+        "horizonte_ar": "corto",
+        "capacidad": "chica",
+        "resumen": "Mercado Pago ofrece FAL gratuito a PyMEs y una fintech permite pagos QR en pesos para compras en el exterior.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73088-mercado-pago-lanza-un-fal-gratis-para-pelear-un-negocio-de-us5-000-m",
+            "fuente": "iProUP",
+            "fecha": "2026-11-13",
+            "cita": "la empresa de Galperin apunta a masificar el sistema entre las PyMEs y obliga a los bancos a recalibrar sus propuestas"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73105-depay-permitira-pagar-en-el-exterior-con-pesos-y-qr-desde-las-apps-bancarias",
+            "fuente": "iProUP",
+            "fecha": "2026-11-12",
+            "cita": "La startup conecta entidades financieras de cinco países y permite realizar compras con QR desde aplicaciones compatibles, sin comprar divisas"
+          }
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Billeteras internacionales y rutas de pago",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Se desarrolla una billetera en dólares con SWIFT y se buscan rutas alternativas para evitar pérdidas en pagos transfronterizos.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/economia-digital/73199-cobrar-dolares-desde-argentina-fintech-levanto-us6-millones-y-suma-cuentas-pyme",
+            "fuente": "iProUP",
+            "fecha": "2026-11-17",
+            "cita": "La billetera en dólares que usan miles de freelancers argentinos levantó u$s6 millones"
+          },
+          {
+            "url": "https://www.iproup.com/economia-digital/73196-la-batalla-detras-de-cada-cobro-como-las-empresas-evitan-perder-ventas",
+            "fuente": "iProUP",
+            "fecha": "2026-11-17",
+            "cita": "La batalla detrás de cada cobro: cómo las empresas evitan perder ventas"
+          }
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Estandarización y adopción de infraestructuras globales",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Pix sigue creciendo en Brasil, se estandarizan terminales POS y bancos de EE.UU. adoptan plataformas cloud, mientras HSBC lanza pagos sin lector.",
+        "fuentes": [
+          {
+            "url": "https://fintechnews.ch/fintechusa/beacon-bank-finastra-payments-consolidation/87153/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-17",
+            "cita": "Beacon Bank Taps Finastra to Simplify Payments After Its Merger"
+          },
+          {
+            "url": "https://finsidersbrasil.com.br/pix-6-anos/pix-completa-seis-anos-movimenta-r-354-tri-e-muda-a-disputa-entre-bancos-e-fintechs/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-16",
+            "cita": "Pix completa seis anos, movimenta R$ 35,4 tri e muda a disputa entre bancos e fintechs"
+          },
+          {
+            "url": "https://finsidersbrasil.com.br/giro-noticias/informacao-no-pdv-e-a-chave-para-o-sucesso-da-interoperabilidade-do-pat-aponta-swap/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-16",
+            "cita": "Informação no PDV é a chave para o sucesso da interoperabilidade do PAT, aponta Swap"
+          },
+          {
+            "url": "https://fintechnews.ch/latin-america-fintech/ebanx-eneba-partnership-latin-america-payments/87069/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-13",
+            "cita": "EBANX and Eneba See Payment Volume Rise 138% in Latin America"
+          },
+          {
+            "url": "https://fintechnews.ch/london/stripe-hsbc-tap-to-pay-uk-small-business/87034/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-12",
+            "cita": "HSBC UK Launches Stripe-Powered Tap to Pay for Small Businesses"
+          }
+        ]
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "nombre": "Impacto de la economía gig y cambios regulatorios",
+        "horizonte_ar": "largo",
+        "capacidad": "ambas",
+        "resumen": "El crecimiento de la gig economy impulsa la necesidad de pagos más eficientes y la prohibición de apuestas en Brasil reduce el uso de Pix.",
+        "fuentes": [
+          {
+            "url": "https://www.bis.org/publications/paper-177-gig-economy-and-digital-payments",
+            "fuente": "BIS",
+            "fecha": "2026-11-12",
+            "cita": "The growth of the “gig” economy could have far-reaching implications for payment systems."
+          },
+          {
+            "url": "https://arxiv.org/abs/2611.08859v1",
+            "fuente": "arXiv",
+            "fecha": "2026-11-06",
+            "cita": "cumulative transaction counts over 37 days were approximately 8.37% below forecast, while settlement values were 10.83% lower"
+          }
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "nombre": "Licencias y BaaS emergentes",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "Mercado Pago busca licencia bancaria y Supervielle lanza una plataforma BaaS, mientras BIND exporta su modelo de finanzas embebidas, impulsando la infraestructura financiera en Argentina.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73133-cambia-el-banco-de-mercado-pago-a-que-segmento-apostara",
+            "fuente": "iProUP",
+            "fecha": "2026-11-16",
+            "cita": "El FAL de Mercado Pago es una muestra del gran negocio que prepara para cuando sea banco"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73050-bind-busca-expandir-su-infraestructura-de-pagos-en-latinoamerica",
+            "fuente": "iProUP",
+            "fecha": "2026-11-16",
+            "cita": "BIND busca exportar a la región su modelo de servicios financieros para billeteras"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73099-supervielle-lanza-pollenx-su-plataforma-de-banco-como-servicio",
+            "fuente": "iProUP",
+            "fecha": "2026-11-17",
+            "cita": "Supervielle lanza PollenX para que las empresas crezcan sumando servicios financieros"
+          }
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "nombre": "Marco regulatorio Open Finance",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Se avanza en la normativa que permite compartir información financiera con consentimiento, aunque el marco aún carece de operatividad e incentivos.",
+        "fuentes": [
+          {
+            "url": "https://jfcattorneys.com/en/guides/fintech-regulation-argentina",
+            "fuente": "jfcattorneys.com",
+            "fecha": "2026-11-01",
+            "cita": "let individuals and companies share their financial information, with express consent, with entities registered before the BCRA"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/72734-licencias-bancarias-credito-y-cripto-los-pedidos-fintech-al-bcra",
+            "fuente": "iProUP",
+            "fecha": "2026-10-29",
+            "cita": "Las fintech le piden al Banco Central más licencias bancarias, Open Finance y cripto"
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73032-finanzas-abiertas-open-finance-argentina-que-falta-incentivos-banco-central-noviembre-2026",
+            "fuente": "iProUP",
+            "fecha": "2026-11-17",
+            "cita": "Open Finance existe \"por decreto\" pero aún no funciona: qué falta y qué promete el BCRA"
+          }
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "nombre": "Finanzas embebidas Brasil",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "Brasil revisa reglas de duplicatas escriturais y atrae inversión para impulsar modelos de finanzas embebidas en diversos sectores.",
+        "fuentes": [
+          {
+            "url": "https://finsidersbrasil.com.br/regulamentacao/bc-mira-ampliar-agentes-das-duplicatas-escriturais/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-13",
+            "cita": "Duplicatas escriturais: BC revê regras e prevê novas funções para fintechs"
+          },
+          {
+            "url": "https://finsidersbrasil.com.br/giro-noticias/finaya-atrai-crescera-e-gs1-brasil-para-avancar-em-embedded-finance/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-13",
+            "cita": "Finaya atrai Crescera e GS1 Brasil para avançar em ‘embedded finance’"
+          }
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "nombre": "Competencia fintech Brasil",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Nuevas reglas y salvaguardas de Open Finance y Pix permiten que fintechs como PicPay y Nu compitan con bancos tradicionales.",
+        "fuentes": [
+          {
+            "url": "https://mundocoop.com.br/economia-negocios/novas-regras-reforcam-seguranca-e-ampliam-uso-do-open-finance-por-clientes-pessoas-juridicas/",
+            "fuente": "mundocoop.com.br",
+            "fecha": "2026-11-12",
+            "cita": "novas regras para os contratos de parceria no Open Finance e mudanças voltadas a facilitar o compartilhamento de dados por clientes pessoas jurídicas"
+          },
+          {
+            "url": "https://www.cfobrew.com/stories/brazils-open-finance-model-helps-fintechs-like-picpay-compete",
+            "fuente": "cfobrew.com",
+            "fecha": "2026-11-05",
+            "cita": "Brazil’s open finance framework has helped fintechs like PicPay and Nu compete against the biggest traditional banks"
+          },
+          {
+            "url": "https://ciberlatam.com/en/news/brazil-tightens-open-finance-rules",
+            "fuente": "ciberlatam.com",
+            "fecha": "2026-10-28",
+            "cita": "Brazil’s central bank is revising open finance rules and speeding up Pix safeguards with AI, standard alerts and bank-to-bank sharing."
+          }
+        ]
+      },
+      {
+        "tema": "open_finance",
+        "nombre": "DLT y protocolos interledger",
+        "horizonte_ar": "largo",
+        "capacidad": "grande",
+        "resumen": "Se propone arquitectura basada en DLT y protocolos interledger para automatizar pagos y mensajería entre dominios heterogéneos.",
+        "fuentes": [
+          {
+            "url": "https://arxiv.org/abs/2610.30055v2",
+            "fuente": "arXiv",
+            "fecha": "2026-10-21",
+            "cita": "MTS-OB, a proof-of-concept application built on R3 Corda, facilitates automated, real-time VAT split payments (VSP) without disrupting current payment infrastructure"
+          },
+          {
+            "url": "https://arxiv.org/abs/2609.39310v1",
+            "fuente": "arXiv",
+            "fecha": "2026-09-30",
+            "cita": "XIM: The XDC Interledger Messaging Protocol"
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Regulación PSAV y stablecoins",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "La CNV establece requisitos, capital mínimo y registro para proveedores de servicios de activos virtuales y productos de pago con stablecoins.",
+        "fuentes": [
+          {
+            "url": "https://estudionunes.com.ar/cripto-en-argentina-lo-que-cambia-desde-el-16-de-octubre-para-exchanges-y-billeteras/",
+            "fuente": "estudionunes.com.ar",
+            "fecha": "2026-11-13",
+            "cita": "La CNV reordenó el régimen de los Proveedores de Servicios de Activos Virtuales (PSAV). Estatuto, capital y reportes pasan a ser parte del negocio."
+          },
+          {
+            "url": "https://jfcattorneys.com/en/guides/argentina-crypto-license",
+            "fuente": "jfcattorneys.com",
+            "fecha": "2026-11-01",
+            "cita": "A stablecoin payment product may perform exchange and transfer functions."
+          },
+          {
+            "url": "https://economis.com.ar/por-que-los-negocios-en-argentina-integran-procesamiento-de-pagos-con-criptomonedas/",
+            "fuente": "economis.com.ar",
+            "fecha": "2026-10-27",
+            "cita": "La Ley 27.739, sancionada en 2024, incorporó la figura del Proveedor de Servicios de Activos Virtuales (PSAV) y creó un registro a cargo de la Comisión Nacional de Valores (CNV)."
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Promoción y adopción local",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "Eventos como el Argentina Fintech Forum impulsan la tokenización y el uso de stablecoins en la industria fintech del país.",
+        "fuentes": [
+          {
+            "url": "https://frecuenciamoney.com/argentina-fintech-forum-2026-la-agenda-de-los-activos-virtuales/",
+            "fuente": "frecuenciamoney.com",
+            "fecha": "2026-11-04",
+            "cita": "tokenización y activos virtuales"
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Infraestructura stablecoin",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "Proveedores internacionales como Wealthsimple, Griffin, Yellow Card, Visa y Anchorage Digital amplían su infraestructura para pagos con stablecoins.",
+        "fuentes": [
+          {
+            "url": "https://fintechnews.ch/canada/wealthsimple-tetra-cad-stablecoin-cadd/87107/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-16",
+            "cita": "Wealthsimple Offers Tetra’s CADD to Beta Clients"
+          },
+          {
+            "url": "https://fintechnews.ch/london/griffin-series-b-cards-stablecoins/87076/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-13",
+            "cita": "Griffin Raises US$20M to Add Card and Stablecoin Services"
+          },
+          {
+            "url": "https://latamlist.com/yellow-card-acquires-gomoney/",
+            "fuente": "LatamList",
+            "fecha": "2026-11-10",
+            "cita": "Yellow Card, a stablecoin payment infrastructure provider, acquired Brazilian virtual asset service provider GoMoney in October 2026"
+          },
+          {
+            "url": "https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-13",
+            "cita": "Anchorage Digital is working with Visa to let some of its stablecoins settle on the card network."
+          },
+          {
+            "url": "https://www.iproup.com/finanzas/73036-visa-suma-una-nueva-blockchain-para-stablecoins-y-amplia-su-negocio-cripto",
+            "fuente": "iProUP",
+            "fecha": "2026-11-10",
+            "cita": "Su piloto ya admite nueve redes y alcanza un volumen anualizado de u$s7.000 millones."
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Crecimiento pagos stablecoin",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "El volumen global de pagos con stablecoins supera los mil millones de operaciones mensuales, indicando una rápida expansión.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73142-p",
+            "fuente": "iProUP",
+            "fecha": "2026-11-13",
+            "cita": "Pagos con stablecoins crecen 71% en octubre y superan los 1.000 millones de operaciones"
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Inversión de grandes actores",
+        "horizonte_ar": "mediano",
+        "capacidad": "grande",
+        "resumen": "Empresas como Tether, Visa y Anchorage Digital invierten y desarrollan soluciones de liquidación con stablecoins.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73132-tether-diversifica-su-fortuna-en-13-empresas-y-2-son-argentinas",
+            "fuente": "iProUP",
+            "fecha": "2026-11-13",
+            "cita": "Tether juega fuerte en Wall Street y hay 2 empresas argentinas entre sus inversiones millonarias"
+          },
+          {
+            "url": "https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-13",
+            "cita": "Anchorage Digital is working with Visa to let some of its stablecoins settle on the card network."
+          }
+        ]
+      },
+      {
+        "tema": "stablecoins",
+        "nombre": "Desafíos y futuro stablecoins",
+        "horizonte_ar": "largo",
+        "capacidad": "grande",
+        "resumen": "Se discuten regulaciones, seguridad, mecanismos de bloqueo y el potencial de stablecoins como riel de pagos transfronterizos.",
+        "fuentes": [
+          {
+            "url": "https://fintechnews.ch/blockchain_bitcoin/swiss-banking-trade-association-calls-for-regulatory-push-on-domestic-stablecoins/87099/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-17",
+            "cita": "Swiss Banking Trade Association Calls for Regulatory Push on Domestic Stablecoins"
+          },
+          {
+            "url": "https://finsidersbrasil.com.br/criptoativos/depois-dos-ataques-bilionarios-ainda-e-seguro-deixar-criptomoedas-nas-corretoras/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-16",
+            "cita": "Depois dos ataques bilionários, ainda é seguro deixar criptomoedas nas corretoras?"
+          },
+          {
+            "url": "https://arxiv.org/abs/2610.41207v1",
+            "fuente": "arXiv",
+            "fecha": "2026-10-30",
+            "cita": "Stablecoin payments routinely need balances that several accounts debit: treasuries, merchant pools, allowances and subscriptions."
+          },
+          {
+            "url": "https://arxiv.org/abs/2610.34930v1",
+            "fuente": "arXiv",
+            "fecha": "2026-10-26",
+            "cita": "Nuestro análisis revela una transición estructural del mercado hacia dinámicas dominadas por stablecoins “flight-to-quality”."
+          },
+          {
+            "url": "https://www.bis.org/publications/working-paper-1385-competing-rails-crossborder-payments-banks-fintechs-and-stablecoins",
+            "fuente": "BIS",
+            "fecha": "2026-10-19",
+            "cita": "Cross-border payments remain slow and expensive despite significant improvements in digital financial infrastructure over the past several decades."
+          },
+          {
+            "url": "https://www.crowdfundinsider.com/2026/10/317446-argentinas-central-bank-rules-out-near-term-crypto-integration-into-banking-platforms/",
+            "fuente": "crowdfundinsider.com",
+            "fecha": "2026-10-15",
+            "cita": "That measure barred financial institutions from offering or facilitating client operations with digital assets—including cryptoassets—that had not been authorized"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "IA contra fraude financiero",
+        "horizonte_ar": "corto",
+        "capacidad": "grande",
+        "resumen": "Bancos y billeteras adoptan IA para detectar y prevenir fraudes, con iniciativas de gran escala.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73158-bancos-y-billeteras-ya-no-pueden-frenar-solos-el-fraude-con-ia",
+            "fuente": "iProUP",
+            "fecha": "2026-11-16",
+            "cita": "Cómo se preparan bancos y billeteras argentinas ante un fraude potenciado por la IA"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "IA integral en procesos fintech",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Fintech como Beex incorporan IA para mejorar procesos internos, atención al cliente y lanzar nuevos servicios financieros.",
+        "fuentes": [
+          {
+            "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPdl9SVWdYYUdWY3B3Q0VsS0dRR1NCcWl2UGIxQ0drWThNT1RTWDBmU0pRdmZzU2gyaU9CbmMtV3hRMFRBOXNSUGZ2a2VrX1Y3Q0lGV1Qyb2U3NjAzeDV0eFhJOWhpOGprVGF1UTFaZ1ZIaF9qclVMX2pDUmVCTEp1bEZMemNaaGo0SHRKcW9nSnNoMDg4bnJuTG55X0dOV0pOSkVGdTRpaGZ6LUJTQnYxSHlPM0M2UGx0V01TSE01ZlZiLV9PeTE5QWFhZzBtdkY5VlVZUlVKSjEtaGNNMTZvNWk5VFJITjVhdlczWjlESnU3cURoN0lRaEpaWlNHNnPSAY4CQVVfeXFMUDZFakdQcXlZU3lTUEpLcWlreFc5YjVBR1VuRWZDbi1hUmdRWTBSWk0weHJFWU5mOGJnMzF1RUZCc0dwX0JhWGQ4OG1zTjlpSkFZeHJEWDR3V09ybXFUMkFSNnNhMjJkWlAwR0pyNjVwaG5ONGhwZ051TXBxUGROcThZeXllNThHS01mN3FYUjRkY21JZXRhVlRIVDlUNkdKWWJRM0RlQmQ2NU1kLVIzMWRnWURZT3RyaXhHQzd6bWVldEJBYzZySjFUcW9ZOF9OX1R5dzN0MFpDenlLa21uenZ1d3lDbEYxTjdQd3gtdFRWdTJzVUl2aUVROXU2RDJLVTVUZ2xYOWFPT1pITDdB?oc=5",
+            "fuente": "Argentina Fintech Forum",
+            "fecha": "2026-11-12",
+            "cita": "De Funes al Argentina Fintech Forum 2026: Beex consolida su crecimiento y apuesta a la inteligencia artificial - InfoFunes"
+          },
+          {
+            "url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxQNkVqR1BxeVlTeVNQSktxaWt4VzliNUFHVW5FZkNuLWFSZ1FZMFJaTTB4ckVZTmY4YmczMXVFRkJzR3BfQmFYZDg4bXNOOWlKQVl4ckRYNHdXT3JtcVQyQVI2c2EyMmRaUDBHSnI2NXBobk40aHBnTnVNcHFQZE5xOFl5eWU1OEdLTWY3cVhSNGRjbUlldGFWVEhUOVQ2R0pZYlEzRGVCZDY1TWQtUjMxZGdZRFlPdHJpeEdDN3ptZWV0QkFjNnJKMVRxb1k4X05fVHl3M3QwWkN6eUtrbW56dnV3eUNsRjFON1B3eC10VFZ1MnNVSXZpRVE5dTZEMktVNVRnbFg5YU9PWkhMN0HSAY4CQVVfeXFMUDZFakdQcXlZU3lTUEpLcWlreFc5YjVBR1VuRWZDbi1hUmdRWTBSWk0weHJFWU5mOGJnMzF1RUZCc0dwX0JhWGQ4OG1zTjlpSkFZeHJEWDR3V09ybXFUMkFSNnNhMjJkWlAwR0pyNjVwaG5ONGhwZ051TXBxUGROcThZeXllNThHS01mN3FYUjRkY21JZXRhVlRIVDlUNkdKWWJRM0RlQmQ2NU1kLVIzMWRnWURZT3RyaXhHQzd6bWVldEJBYzZySjFUcW9ZOF9OX1R5dzN0MFpDenlLa21uenZ1d3lDbEYxTjdQd3gtdFRWdTJzVUl2aUVROXU2RDJLVTVUZ2xYOWFPT1pITDdB?oc=5",
+            "fuente": "Argentina Fintech Forum",
+            "fecha": "2026-11-12",
+            "cita": "De Funes al Argentina Fintech Forum 2026: Beex consolida su crecimiento y apuesta a la inteligencia artificial - InfoFunes"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "IA conversacional y pagos autónomos",
+        "horizonte_ar": "mediano",
+        "capacidad": "ambas",
+        "resumen": "Agentes de IA conversacionales empiezan a ejecutar pagos autorizados y a influir en la intención de compra.",
+        "fuentes": [
+          {
+            "url": "https://www.iproup.com/finanzas/73108-la-compra-deja-de-empezar-en-la-tienda-la-ia-ya-entra-en-la-decision-y-el-pago",
+            "fuente": "iProUP",
+            "fecha": "2026-11-12",
+            "cita": "la confianza deja de depender solo de verificar una tarjeta o identidad; también requerirá verificar la intención"
+          },
+          {
+            "url": "https://ecosistemastartup.com/clara-levanta-us105m-para-su-fintech-con-ia-en-latam/",
+            "fuente": "ecosistemastartup.com",
+            "fecha": "2026-11-12",
+            "cita": "agentes de IA que ejecutan transacciones, siempre que cuenten con las autorizaciones correspondientes"
+          },
+          {
+            "url": "https://ecosistemastartup.com/agentes-de-ia-64-millones-de-pagos-por-solo-us119-947/",
+            "fuente": "ecosistemastartup.com",
+            "fecha": "2026-11-09",
+            "cita": "6,4 millones de pagos ejecutados por agentes de IA movieron apenas USD 119.947 en 35 días"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "Impacto macroeconómico de IA",
+        "horizonte_ar": "largo",
+        "capacidad": "grande",
+        "resumen": "La IA genera importantes inversiones, potenciales aumentos del PIB y se financia mediante deuda a largo plazo, con bancos centrales adoptando agentes de IA.",
+        "fuentes": [
+          {
+            "url": "https://www.bloomberglinea.com/mercados/el-dividendo-de-silicon-valley-profundiza-las-diferencias-en-america-latina-por-el-auge-de-la-ia/",
+            "fuente": "Bloomberg Línea",
+            "fecha": "2026-11-09",
+            "cita": "El dividendo de Silicon Valley profundiza las diferencias en América Latina por el auge de la IA"
+          },
+          {
+            "url": "https://www.bloomberglinea.com/economia/argentina-podria-sumar-us5000-millones-a-su-pbi-segun-un-experto-en-ia/",
+            "fuente": "Bloomberg Línea",
+            "fecha": "2026-11-08",
+            "cita": "Argentina podría sumar US$5.000 millones a su PBI, según un experto en IA"
+          },
+          {
+            "url": "https://fintechnews.ch/aifintech/fintech-marketers-adapt-as-ai-powered-search-reshapes-brand-discovery/87055/",
+            "fuente": "Fintech News Global",
+            "fecha": "2026-11-17",
+            "cita": "Fintech Marketers Adapt As AI-Powered Search Reshapes Brand Discovery"
+          },
+          {
+            "url": "https://www.bis.org/publications/working-paper-1395-marcobis-ai-agentic-econometric-analysis-central-bankers",
+            "fuente": "BIS",
+            "fecha": "2026-11-12",
+            "cita": "MaRCo@BIS: AI-agentic econometric analysis for central bankers"
+          },
+          {
+            "url": "https://www.bis.org/publications/bulletin-140-building-ai-credit--structures-and-spillovers",
+            "fuente": "BIS",
+            "fecha": "2026-10-27",
+            "cita": "Capital expenditure to build artificial intelligence (AI) infrastructure is growing fast, and a rising share is financed with long-term debt"
+          },
+          {
+            "url": "https://fintechnews.am/aifintech/55678/annual-ai-spending-in-the-us-projected-to-reach-up-to-us1-4t-by-2030/",
+            "fuente": "Fintech News Américas",
+            "fecha": "2026-10-21",
+            "cita": "Annual AI Spending in the US Projected to Reach up to US$1.4T by 2030"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "Inversión y apoyo institucional a IA",
+        "horizonte_ar": "largo",
+        "capacidad": "grande",
+        "resumen": "Grandes fondos y eventos internacionales, como Itaú Ventures, Nomad y el Singapore FinTech Festival, impulsan soluciones de pagos con IA en la región.",
+        "fuentes": [
+          {
+            "url": "https://finsidersbrasil.com.br/giro-noticias/itau-aposta-na-akua-para-ampliar-negocios-de-pagamentos-com-ia/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-16",
+            "cita": "Itaú Ventures aposta na Akua para ampliar negócios de pagamentos com IA"
+          },
+          {
+            "url": "https://finsidersbrasil.com.br/giro-noticias/nomad-capta-r-172-milhoes-em-serie-c-liderada-pela-tether/",
+            "fuente": "Finsiders Brasil",
+            "fecha": "2026-11-16",
+            "cita": "Nomad recebe aporte de R$ 172 milhões e chega a R$ 4 bi"
+          },
+          {
+            "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQeWN0OUdtYU05Q1pOdVZfRFpjdHlaWlBLbDh6NXktZ1Jzc1l5cVBYRWJWQ1J3WEk5REI1LWU4Rjh1bnI5NC1ZZkhoTzlvekJYRkZlcEp6UVItXzN6ZGpPOUt3MTB5ejg5Nms2WlBXZVZrd25ZdFhReDhwc21HWjBuZGRWVURTbmpBMnFtLUFRU0pPdUQ4NEJ4RHN3STA4dw?oc=5",
+            "fuente": "Singapore FinTech Festival",
+            "fecha": "2026-11-16",
+            "cita": "Singapore Fintech Festival 2026 Returns With AI, Digital Assets on Show - Fintech Singapore"
+          }
+        ]
+      },
+      {
+        "tema": "ia_aplicada",
+        "nombre": "Debate y regulación de IA fintech",
+        "horizonte_ar": "corto",
+        "capacidad": "ambas",
+        "resumen": "Foros y debates locales destacan la IA como eje regulatorio y de futuro del sistema financiero.",
+        "fuentes": [
+          {
+            "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNUlNaMzItNmFqLWNVM0NsRTh6WmhhVldUSkFHdkJyZ2lkT1ZyaUwzSm1nbjFfaTZtbGxGQjRzQmpsUkx5cXZtX2NoRllnNTFwRmdvNWZVSzdGNm1LMWd2aGpLVFhBRjUySk9ZZG43NkVESnRnTG9OcFo3bWlnSWpLTTlaak9xNWM2TlRVODZxVDNRWWtleXptY1liUThnQjVsZnhvWldXRmRtWl9SMVVTQklRVGtIVXg2Wm81Wk42SHd1NlExVGdXR2RXWXZGYWVBQjA4Z2JCb1ZwbDFoQ0ktWmhCTGxMRWJUQXRR?oc=5",
+            "fuente": "Argentina Fintech Forum",
+            "fecha": "2026-10-30",
+            "cita": "El Argentina Fintech Forum 2026 cerró con foco en inteligencia artificial, regulación y el futuro del sistema financier - Revista Mercado"
+          },
+          {
+            "url": "https://www.infobae.com/economia/2026/10/28/argentina-fintech-forum-reunira-a-mas-de-5000-participantes-para-debatir-la-digitalizacion-financiera/",
+            "fuente": "infobae.com",
+            "fecha": "2026-10-28",
+            "cita": "Inteligencia Artificial aplicada a servicios financieros: casos reales"
+          }
+        ]
+      }
+    ],
+    "referencia": [
+      {
+        "tema": "pagos_instantaneos",
+        "region": "AR",
+        "valor": "60%",
+        "que_mide": "Proporción de los pagos electrónicos hechos con pagos inmediatos (transferencias y pagos con transferencia/QR) (\"seis de cada diez\")",
+        "anio": 2025,
+        "nivel": 3,
+        "justificacion": "Los pagos inmediatos superan el 50% de los pagos electrónicos: corte de Mayoría (3).",
+        "url": "https://www.bcra.gob.ar/archivos/Pdfs/publicacionesestadisticas/informes/Financial-Inclusion-Report-2026-04.pdf"
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "region": "BR",
+        "valor": "86%",
+        "que_mide": "Porcentaje de la población adulta que usó Pix (personas humanas) en diciembre de 2025",
+        "anio": 2025,
+        "nivel": 3,
+        "justificacion": "Más del 50% de los adultos usa el sistema de pagos instantáneos: Mayoría (3).",
+        "url": "https://www.bcb.gov.br/content/estabilidadefinanceira/pix/relatorio_de_gestao_pix/relatorio_gestao_pix_2026.pdf"
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "region": "EU",
+        "valor": "25%",
+        "que_mide": "Participación de las transferencias instantáneas en la cantidad total de transferencias procesadas por los sistemas de pago minoristas de la zona euro (2.º semestre)",
+        "anio": 2025,
+        "nivel": 2,
+        "justificacion": "Entre 15% y 50% del total de transferencias: Adopción temprana (2).",
+        "url": "https://www.ecb.europa.eu/press/stats/paysec/html/ecb.pis2025h2~23986fb4a6.en.html"
+      },
+      {
+        "tema": "pagos_instantaneos",
+        "region": "US",
+        "valor": "100 millones",
+        "que_mide": "Cuentas que usaron Zelle (transferencias en minutos) en diciembre, cerca del 38% de los adultos",
+        "anio": 2025,
+        "nivel": 2,
+        "justificacion": "Entre 15% y 50% de los adultos usa pagos instantáneos: Adopción temprana (2). FedNow solo, en cambio, es marginal.",
+        "url": "https://www.zelle.com/press-releases/zelle-posts-20-growth-12-trillion-sent-far-outpacing-consumer-spending-and-cementing"
+      },
+      {
+        "tema": "open_finance",
+        "region": "AR",
+        "valor": "Marco creado (Decreto 353/2025), sin normas técnicas del BCRA",
+        "que_mide": "Estado de la regulación de finanzas abiertas (intercambio de datos con consentimiento)",
+        "anio": 2025,
+        "nivel": 1,
+        "justificacion": "Hay norma que crea el sistema pero no está operativo: Pilotos (1).",
+        "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/325767/20250523"
+      },
+      {
+        "tema": "open_finance",
+        "region": "BR",
+        "valor": "208,79 millones",
+        "que_mide": "Consentimientos activos en Open Finance Brasil al 31/07/2026 (129,78 millones de personas humanas únicas en transmisión)",
+        "anio": 2026,
+        "nivel": 3,
+        "justificacion": "Sistema obligatorio y operativo; 129,78 millones de personas con consentimiento superan el 50% de los adultos: Mayoría (3).",
+        "url": "https://www.letsmoney.com.br/noticias/open-finance-208-milhoes-consentimentos-governanca/"
+      },
+      {
+        "tema": "open_finance",
+        "region": "MX",
+        "valor": "Solo vigente la capa de datos abiertos; datos transaccionales sin reglamentar",
+        "que_mide": "Estado de la regulación secundaria del artículo 76 de la Ley Fintech",
+        "anio": 2026,
+        "nivel": 1,
+        "justificacion": "Ley aprobada pero el intercambio de datos de clientes no está operativo: Pilotos (1).",
+        "url": "https://www.revistaabogacia.com/el-open-finance-y-la-recuperacion-del-poder-de-los-usuarios-sobre-su-informacion-financiera/"
+      },
+      {
+        "tema": "open_finance",
+        "region": "EU",
+        "valor": "PSD2 vigente desde 2019; sin datos de uso consolidados",
+        "que_mide": "Estado de la regulación de acceso a cuentas (open banking) y disponibilidad de datos de uso en la UE",
+        "anio": 2025,
+        "nivel": 2,
+        "justificacion": "Norma operativa con APIs obligatorias, sin evidencia de uso mayoritario: Adopción temprana (2).",
+        "url": "https://www.eca.europa.eu/ECAHTMLNews/NEWS-SR-2025-01/en/body.html"
+      },
+      {
+        "tema": "open_finance",
+        "region": "US",
+        "valor": "Regla 1033 suspendida judicialmente y en reconsideración",
+        "que_mide": "Estado de la regla de derechos sobre datos financieros personales (CFPB sección 1033)",
+        "anio": 2026,
+        "nivel": 1,
+        "justificacion": "Norma dictada pero sin aplicación obligatoria: Pilotos (1).",
+        "url": "https://www.cozen.com/news-resources/publications/2026/section-1033-compliance-date-open-banking-rule-enjoined-and-under-reconsideration"
+      },
+      {
+        "tema": "stablecoins",
+        "region": "AR",
+        "valor": "61,8%",
+        "que_mide": "Participación de las stablecoins en el volumen de transacciones cripto (julio 2023 a junio 2024)",
+        "anio": 2024,
+        "nivel": 3,
+        "justificacion": "Las stablecoins superan el 50% del volumen cripto: Mayoría (3).",
+        "url": "https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/"
+      },
+      {
+        "tema": "stablecoins",
+        "region": "BR",
+        "valor": "59,8%",
+        "que_mide": "Participación de las stablecoins en el volumen de transacciones cripto (julio 2023 a junio 2024)",
+        "anio": 2024,
+        "nivel": 3,
+        "justificacion": "Las stablecoins superan el 50% del volumen cripto: Mayoría (3).",
+        "url": "https://www.chainalysis.com/blog/2024-latin-america-crypto-adoption/"
+      },
+      {
+        "tema": "stablecoins",
+        "region": "MX",
+        "valor": "61%",
+        "que_mide": "Participación de las stablecoins en la actividad cripto total (más de USD 47.000 millones sobre USD 77.600 millones; julio 2025 a junio 2026)",
+        "anio": 2026,
+        "nivel": 3,
+        "justificacion": "Las stablecoins superan el 50% de la actividad cripto: Mayoría (3).",
+        "url": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/"
+      },
+      {
+        "tema": "stablecoins",
+        "region": "US",
+        "valor": "Ley GENIUS sancionada (julio 2025)",
+        "que_mide": "Existencia de un marco federal específico para emisores de stablecoins de pago",
+        "anio": 2025,
+        "nivel": 2,
+        "justificacion": "Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).",
+        "url": "https://www.congress.gov/bill/119th-congress/senate-bill/1582"
+      },
+      {
+        "tema": "stablecoins",
+        "region": "EU",
+        "valor": "MiCA aplicable a stablecoins desde junio 2024",
+        "que_mide": "Existencia de un marco específico para emisores de stablecoins (fichas de dinero electrónico y referenciadas a activos)",
+        "anio": 2024,
+        "nivel": 2,
+        "justificacion": "Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).",
+        "url": "https://eur-lex.europa.eu/eli/reg/2023/1114/oj"
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "AR",
+        "valor": "45% de las empresas de la industria (n=1.027); 79% entre socias de la Cámara (n=112)",
+        "que_mide": "Porcentaje de fintech argentinas que usan soluciones de IA, según el informe general de la industria 2025 y según una muestra de socias de la Cámara Argentina Fintech",
+        "anio": 2025,
+        "nivel": 2,
+        "justificacion": "El promedio de la industria (45%) queda entre 15% y 50%: Adopción temprana (2). El 79% sale de una muestra de socias de la Cámara y no representa a toda la industria.",
+        "url": "https://www.itsitio.com/ar/fintech/fintech-e-ia-en-argentina-hay-fuerte-adopcion-pero-persisten-desafios-internos/"
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "BR",
+        "valor": "82%",
+        "que_mide": "Porcentaje de bancos que usan IA generativa en sus operaciones (Pesquisa Febraban de Tecnologia Bancária 2025; 20 bancos con 85% de los activos)",
+        "anio": 2025,
+        "nivel": 3,
+        "justificacion": "Más del 50% de las entidades usa IA en producción: Mayoría (3).",
+        "url": "https://www.infomoney.com.br/?p=3073490"
+      },
+      {
+        "tema": "ia_aplicada",
+        "region": "EU",
+        "valor": "92%",
+        "que_mide": "Porcentaje de bancos de la UE que ya despliegan IA (otro 8% en pruebas piloto)",
+        "anio": 2025,
+        "nivel": 3,
+        "justificacion": "Más del 50% de las entidades usa IA en producción: Mayoría (3).",
+        "url": "https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf"
+      }
+    ]
+  },
+  {
     "corrida": "2026-11-14",
     "generado": "2026-11-14T01:01:43.319Z",
     "totales": {
