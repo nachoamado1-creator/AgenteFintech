@@ -89,3 +89,13 @@ describe('fuentes de la tarjeta', () => {
     }
   });
 });
+
+import { fuenteRadar, ALCANCE_HORIZONTE } from './vista';
+describe('radar centrado en Argentina', () => {
+  const corrida = conFuentesPorAlcance(respaldo as unknown as Corrida);
+  it('cada punto muestra una fuente del alcance de su anillo', () => {
+    for (const t of corrida.tendencias) {
+      expect(fuenteRadar(t)?.alcance).toBe(ALCANCE_HORIZONTE[t.horizonte_ar]);
+    }
+  });
+});

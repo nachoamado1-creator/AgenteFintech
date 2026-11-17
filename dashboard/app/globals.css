@@ -197,6 +197,7 @@ img { display: block; max-width: 100%; }
 .radar__foto { display: block; width: 100%; height: 76px; object-fit: cover; border-radius: 8px; }
 .radar__tema-chip { padding: 0 4px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--c); }
 .radar__titulo { padding: 0 4px; font-size: 12px; font-weight: 600; line-height: 1.25; color: #fff; }
+.radar__fuente { padding: 0 4px 2px; font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.55); }
 @keyframes aparece-tarjeta { from { opacity: 0; } }
 
 /* ── Capítulos ── */

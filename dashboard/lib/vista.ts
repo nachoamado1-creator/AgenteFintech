@@ -135,6 +135,25 @@ export function alcanceDe(f: Pick<Fuente, 'url' | 'fuente'>): Alcance {
   return 'mundo';
 }
 
+/**
+ * En el radar, la distancia al centro (Argentina) cuenta tiempo y geografía a la vez:
+ * lo de corto plazo ya pasa acá, lo de mediano se ve en la región y lo de largo en el mundo.
+ */
+export const ALCANCE_HORIZONTE: Record<Horizonte, Alcance> = { corto: 'AR', mediano: 'region', largo: 'mundo' };
+
+/**
+ * Fuente que muestra el punto del radar: la del alcance que corresponde a su anillo
+ * (propia antes que de contexto); si no hay, la primera propia.
+ */
+export function fuenteRadar(t: Tendencia): Fuente | undefined {
+  const buscado = ALCANCE_HORIZONTE[t.horizonte_ar];
+  const conAlcance = t.fuentes.map((f) => ({ ...f, alcance: f.alcance ?? alcanceDe(f) }));
+  return conAlcance.find((f) => f.alcance === buscado && !f.contexto)
+    ?? conAlcance.find((f) => f.alcance === buscado)
+    ?? conAlcance.find((f) => !f.contexto)
+    ?? conAlcance[0];
+}
+
 const REGION_REFERENCIA: Record<Alcance, string[]> = { AR: ['AR'], region: ['BR', 'MX'], mundo: ['US', 'EU'] };
 
 /**

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Tendencia } from '@/lib/tipos';
 import { COLOR_TEMA, IMAGEN_TEMA, portadaDeTendencia } from '@/lib/fintech';
-import { BORDE_HORIZONTE, HORIZONTES, NOMBRE_TEMA, TEMAS, puntosRadar } from '@/lib/vista';
+import { ALCANCE_HORIZONTE, BORDE_HORIZONTE, HORIZONTES, NOMBRE_ALCANCE, NOMBRE_TEMA, TEMAS, dominio, fuenteRadar, puntosRadar } from '@/lib/vista';
 import Portada from './Portada';
 
 const C = 200;
@@ -146,14 +146,18 @@ export default function RadarFinn({
           <Portada src={portadaDeTendencia(senalado.tendencia, portadas)} respaldo={IMAGEN_TEMA[senalado.tendencia.tema]} clase="radar__foto" />
           <span className="radar__tema-chip">{NOMBRE_TEMA[senalado.tendencia.tema]}</span>
           <b className="radar__titulo">{senalado.tendencia.nombre}</b>
+          {(() => {
+            const f = fuenteRadar(senalado.tendencia);
+            return f ? <span className="radar__fuente">{NOMBRE_ALCANCE[f.alcance ?? 'mundo']} · {dominio(f.url)}</span> : null;
+          })()}
         </div>
       )}
       </div>
       <figcaption className="radar__leyenda">
-        <span className="radar__clave"><i aria-hidden="true" /> Cada punto = una noticia clave · pasá el mouse para ver cuál</span>
+        <span className="radar__clave"><i aria-hidden="true" /> El centro es Argentina: cuanto más lejos, más tarda en llegar · pasá el mouse por un punto</span>
         <ul className="radar__escala" aria-label="Anillos del radar">
           {HORIZONTES.map((h, n) => (
-            <li key={h.id}><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r={4 + n * 3} /></svg>{h.largo}</li>
+            <li key={h.id}><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r={4 + n * 3} /></svg>{h.largo} · {NOMBRE_ALCANCE[ALCANCE_HORIZONTE[h.id]]}</li>
           ))}
         </ul>
       </figcaption>
