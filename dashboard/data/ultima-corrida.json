@@ -212,7 +212,7 @@
       "brecha_global": -1,
       "estado_regional": "atrasada",
       "estado_global": "atrasada",
-      "resumen": "Argentina aparece atrasada (nivel 2): el 45% de las fintech usa IA, frente al 82% de los grandes bancos de Brasil y el 92% de los bancos europeos (nivel 3). La comparación no es pareja: en Argentina se mide a todas las fintech, incluidas las chicas, y afuera a los bancos grandes. Entre las socias de la Cámara Fintech el uso llega al 79%. No hay datos comparables de México ni de EE.UU.",
+      "resumen": "Argentina está atrasada (nivel 2): el 45% de sus fintech usa IA, frente al 77% de las fintech de México (nivel 3). Fuera de la región también va detrás: la usa el 65% de las instituciones financieras de EE.UU., el 92% de los bancos europeos y el 82% de los grandes bancos de Brasil (nivel 3). Entre las socias de la Cámara Fintech argentina el uso llega al 79%.",
       "horizonte_ar": "mediano",
       "proveedores": "Beex, Clara, Itaú Ventures, Nomad",
       "inversion": "La adopción de IA en pagos requiere inversiones significativas, típicamente de varios cientos de millones de dólares y estructuras de financiamiento a largo plazo, por lo que es factible principalmente para grandes empresas o aquellas con fuerte respaldo de capital; las fintech pequeñas podrían participar solo en proyectos piloto limitados.",
@@ -986,6 +986,36 @@
       "nivel": 3,
       "justificacion": "Más del 50% de las entidades usa IA en producción: Mayoría (3).",
       "url": "https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf"
+    },
+    {
+      "tema": "pagos_instantaneos",
+      "region": "MX",
+      "valor": "75%",
+      "que_mide": "Porcentaje de adultos que hicieron al menos una transferencia por SPEI (pagos instantáneos 24/7) en 2025",
+      "anio": 2025,
+      "nivel": 3,
+      "justificacion": "Más del 50% de los adultos usa el sistema de pagos instantáneos: Mayoría (3). Cifra publicada por Expansión en la cobertura de Banxico en la Convención Bancaria; el artículo no nombra la encuesta de origen.",
+      "url": "https://expansion.mx/economia/2026/03/19/banxico-preve-que-transferencias-con-spei-superen-pagos-con-tarjetas-en-2026"
+    },
+    {
+      "tema": "ia_aplicada",
+      "region": "MX",
+      "valor": "77%",
+      "que_mide": "Porcentaje de fintech mexicanas que usan IA (Finnovista Fintech Radar México 2026; un año antes era 60%)",
+      "anio": 2025,
+      "nivel": 3,
+      "justificacion": "Más del 50% de las fintech usa IA: Mayoría (3). Mide fintech, igual que el dato de Argentina, así que es comparable.",
+      "url": "https://idconline.mx/finanzas/2026/02/25/fintech-radar-mexico-2026-impacto-de-la-ia-y-crecimiento-de-la-tecnologia-financiera"
+    },
+    {
+      "tema": "ia_aplicada",
+      "region": "US",
+      "valor": "65%",
+      "que_mide": "Porcentaje de instituciones financieras de EE.UU. con IA en despliegue activo (Finastra Financial Services State of the Nation 2026; encuesta de Savanta, noviembre 2025, unos 1.500 ejecutivos en 11 países)",
+      "anio": 2025,
+      "nivel": 3,
+      "justificacion": "Más del 50% de las instituciones usa IA en producción: Mayoría (3). Encuesta de un proveedor de software.",
+      "url": "https://www.finastra.com/press-media/finastra-research-reveals-us-financial-institutions-outpace-global-peers-ai-adoption"
     }
   ]
 }
