@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Corrida, Horizonte, Tendencia } from '@/lib/tipos';
 import type { Origen } from '@/lib/datos';
 import type { Portadas } from '@/lib/portadas';
-import { HORIZONTES, TEMAS, celdaDe, conFuentesPorAlcance, fechaCorta, fechaLarga, tendenciasDe } from '@/lib/vista';
+import { HORIZONTES, TEMAS, celdaDe, conFuentesPorAlcance, fuentesDelTema, fechaCorta, fechaLarga, tendenciasDe } from '@/lib/vista';
 import Logo, { MarcaTrazo } from './Logo';
 import Lluvia from './Lluvia';
 import Nodos from './Nodos';
@@ -170,6 +170,7 @@ export default function Tablero({ ediciones, origen = 'respaldo', portadas = {} 
                   indice={i}
                   hayTendencias={delTema.length > 0}
                   onVerTendencias={() => abrir(lista, lista.indexOf(delTema[0]))}
+                  fuentes={fuentesDelTema(corrida, t)}
                 />
               );
             })}

@@ -168,3 +168,27 @@ export function conFuentesPorAlcance(corrida: Corrida): Corrida {
   });
   return { ...corrida, tendencias };
 }
+
+/**
+ * Fuentes de la tarjeta de un tema: una de Argentina, una de la región y una del mundo.
+ * Primero usa el dato de referencia de ese alcance (el que sostiene el nivel y la comparación);
+ * si no hay, una noticia del tema de ese alcance.
+ */
+export function fuentesDelTema(corrida: Corrida, tema: TemaId): Fuente[] {
+  const salida: Fuente[] = [];
+  for (const a of ALCANCES) {
+    const ref = REGION_REFERENCIA[a]
+      .map((reg) => corrida.referencia.find((r) => r.tema === tema && r.region === reg))
+      .find((r) => r && !salida.some((f) => f.url === r.url));
+    if (ref) {
+      salida.push({ url: ref.url, fuente: dominio(ref.url), fecha: '', cita: `${ref.valor} · ${ref.que_mide} (${ref.anio})`, alcance: a });
+      continue;
+    }
+    const nota = corrida.tendencias
+      .filter((t) => t.tema === tema)
+      .flatMap((t) => t.fuentes)
+      .find((f) => alcanceDe(f) === a && !salida.some((s) => s.url === f.url));
+    if (nota) salida.push({ ...nota, alcance: a });
+  }
+  return salida;
+}

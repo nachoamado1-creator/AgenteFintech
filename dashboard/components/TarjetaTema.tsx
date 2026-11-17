@@ -1,16 +1,16 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import type { Tema, TemaId } from '@/lib/tipos';
+import type { Fuente, Tema, TemaId } from '@/lib/tipos';
 import { COLOR_TEMA, IMAGEN_TEMA, resaltar } from '@/lib/fintech';
-import { NOMBRE_NIVEL, NOMBRE_TEMA } from '@/lib/vista';
+import { NOMBRE_ALCANCE, NOMBRE_NIVEL, NOMBRE_TEMA } from '@/lib/vista';
 import Texto from './Texto';
 
 const ESTADO_TXT = { atrasada: 'ATRASADA', pareja: 'PAREJA', adelantada: 'ADELANTADA' } as const;
 
 /** Tarjeta de crédito de un tema: frente con nivel de Argentina, dorso con el resumen. */
 export default function TarjetaTema({
-  tema, datos, nivelAR, indice, hayTendencias, onVerTendencias,
+  tema, datos, nivelAR, indice, hayTendencias, onVerTendencias, fuentes = [],
 }: {
   tema: TemaId;
   datos?: Tema;
@@ -18,6 +18,7 @@ export default function TarjetaTema({
   indice: number;
   hayTendencias: boolean;
   onVerTendencias: () => void;
+  fuentes?: Fuente[];
 }) {
   const [vuelta, setVuelta] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -99,6 +100,22 @@ export default function TarjetaTema({
               {datos ? <Texto trozos={resaltar(datos.resumen)} /> : 'Sin resumen en esta edición.'}
             </p>
             {datos?.proveedores && <p className="tarjeta-cc__dato"><span>Quiénes</span> {datos.proveedores}</p>}
+            {fuentes.length > 0 && (
+              <div className="tarjeta-cc__fuentes">
+                <span className="tarjeta-cc__fuentes-titulo">Fuentes · {fuentes.length}</span>
+                <ul>
+                  {fuentes.map((f) => (
+                    <li key={f.url}>
+                      <a href={f.url} target="_blank" rel="noopener noreferrer" tabIndex={vuelta ? 0 : -1} title={f.cita ?? f.fuente}>
+                        {f.alcance && <span className={`panel__alcance panel__alcance--${f.alcance}`}>{NOMBRE_ALCANCE[f.alcance]}</span>}
+                        <b>{f.fuente}</b>
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="tarjeta-cc__acciones">
             <button type="button" className="boton-mini" onClick={volver} tabIndex={vuelta ? 0 : -1}>↺ Frente</button>
