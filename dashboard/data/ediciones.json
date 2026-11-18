@@ -111,15 +111,9 @@
       {
         "tema": "stablecoins",
         "region": "GLOBAL",
-        "adopcion": 2,
-        "origen": "dato_duro",
-        "urls": [
-          "https://www.congress.gov/bill/119th-congress/senate-bill/1582",
-          "https://eur-lex.europa.eu/eli/reg/2023/1114/oj",
-          "https://fintechnews.ch/fintechusa/anchorage-digital-visa-stablecoin-settlement-usdpt/87085/",
-          "https://www.iproup.com/finanzas/73132-tether-diversifica-su-fortuna-en-13-empresas-y-2-son-argentinas",
-          "https://www.iproup.com/finanzas/73142-p"
-        ]
+        "adopcion": null,
+        "origen": "sin_datos",
+        "urls": []
       },
       {
         "tema": "ia_aplicada",
@@ -194,10 +188,10 @@
       {
         "tema": "stablecoins",
         "brecha_regional": 0,
-        "brecha_global": 1,
+        "brecha_global": null,
         "estado_regional": "pareja",
-        "estado_global": "adelantada",
-        "resumen": "Argentina está al mismo nivel de adopción que Brasil y México (nivel 3) y supera a EE.UU. y Europa (nivel 2) en uso cotidiano: la inflación y las restricciones al dólar llevaron a muchas personas a ahorrar y pagar en stablecoins, mientras que en los mercados desarrollados el uso es mayormente institucional.",
+        "estado_global": null,
+        "resumen": "Argentina está al mismo nivel de adopción que Brasil y México (nivel 3): la inflación y las restricciones al dólar llevaron a muchas personas a ahorrar y pagar en stablecoins. Contra EE.UU. y Europa no hay un dato comparable de uso (solo existen sus marcos legales), por eso no se calcula la brecha global.",
         "horizonte_ar": "mediano",
         "proveedores": "Wealthsimple, Tetra, Griffin, Yellow Card, GoMoney, Anchorage Digital, Visa, Monad, Tether",
         "inversion": "Adoptar stablecoins implica inversiones considerables en infraestructura tecnológica y cumplimiento regulatorio, con requisitos de capital mínimo para los PSAV, por lo que generalmente solo empresas grandes pueden asumirlo, aunque con alianzas pequeñas pueden participar.",
@@ -937,26 +931,6 @@
         "nivel": 3,
         "justificacion": "Las stablecoins superan el 50% de la actividad cripto: Mayoría (3).",
         "url": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/"
-      },
-      {
-        "tema": "stablecoins",
-        "region": "US",
-        "valor": "Ley GENIUS sancionada (julio 2025)",
-        "que_mide": "Existencia de un marco federal específico para emisores de stablecoins de pago",
-        "anio": 2025,
-        "nivel": 2,
-        "justificacion": "Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).",
-        "url": "https://www.congress.gov/bill/119th-congress/senate-bill/1582"
-      },
-      {
-        "tema": "stablecoins",
-        "region": "EU",
-        "valor": "MiCA aplicable a stablecoins desde junio 2024",
-        "que_mide": "Existencia de un marco específico para emisores de stablecoins (fichas de dinero electrónico y referenciadas a activos)",
-        "anio": 2024,
-        "nivel": 2,
-        "justificacion": "Marco regulatorio específico vigente, sin dato de que sean mayoría del volumen: Adopción temprana (2).",
-        "url": "https://eur-lex.europa.eu/eli/reg/2023/1114/oj"
       },
       {
         "tema": "ia_aplicada",

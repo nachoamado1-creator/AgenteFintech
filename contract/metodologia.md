@@ -22,7 +22,7 @@ Este radar compara qué tan avanzada está Argentina en cuatro temas de finanzas
 
 - **Pagos instantáneos:** 3 si lo usa al menos 50% de los adultos o representa al menos 50% de los pagos electrónicos o transferencias. 2 si está entre 15% y 50%. 1 si funciona con uso menor al 15% o marginal (menos de un pago por adulto por año). 0 si no hay sistema.
 - **Open finance:** 3 si la norma es obligatoria, operativa y las personas con consentimiento activo superan el 50% de los adultos. 2 si está operativa con APIs obligatorias pero sin uso mayoritario comprobado. 1 si la norma existe pero no se aplica (sin reglas técnicas, frenada por la justicia o en revisión). 0 si no hay norma.
-- **Stablecoins:** 3 si son al menos 50% del volumen cripto del país. 2 si representan entre 20% y 50%, o si hay un marco legal específico vigente sin datos de que sean mayoría. 1 si son menos del 20% o solo hay pruebas. 0 si están prohibidas o no hay datos de uso.
+- **Stablecoins:** 3 si son al menos 50% del volumen cripto del país. 2 si representan entre 20% y 50%. 1 si son menos del 20% o solo hay pruebas. 0 si están prohibidas. Si no hay un dato de uso comparable, la celda queda **sin datos** y no se calcula la brecha: un marco legal (como la Ley GENIUS en EE.UU. o MiCA en la UE) no se toma como nivel de adopción. Por eso, hoy EE.UU./UE quedan sin datos en este tema y Argentina se compara solo con Brasil/México.
 - **IA aplicada:** 3 si al menos 50% de las entidades financieras encuestadas usa IA en producción. 2 si está entre 20% y 50%. 1 si es menos del 20% o solo hay pilotos. 0 si no hay evidencia de uso.
 
 ## Horizontes
